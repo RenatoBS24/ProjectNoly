@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Menu</title>
+    <link rel="stylesheet" href="../static/css/styleMenu.css">
+    <link rel="stylesheet" th:href="@{/css/styleMenu.css}">
+    <link rel="stylesheet" th:href="@{/css/styleSidebar.css}">
+    <link rel="stylesheet" th:href="@{/css/styleLogOut.css}">
+    <link rel="shortcut icon" th:href="@{/img/logo.ico}" type="image/x-icon">
+
+</head>
+<body>
+<div class="sidebar">
+    <h1>Noly</h1>
+    <ul>
+        <li>
+            <a href="/">
+                <span>
+                    <i>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
+                          <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z"/>
+                        </svg>
+                    </i>
+                </span>
+                <span>
+                    Inicio
+                </span>
+            </a>
+        </li>
+        <li>
+            <a href="/sales">
+                <span>
+                    <i>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bag-check" viewBox="0 0 16 16">
+                          <path fill-rule="evenodd" d="M10.854 8.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 10.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
+                          <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/>
+                        </svg>
+                    </i>
+                </span>
+                Ventas
+            </a>
+        </li>
+        <li>
+            <a href="/newSale">
+                <span>
+                    <i>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-square" viewBox="0 0 16 16">
+                          <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
+                          <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+                        </svg>
+                    </i>
+                </span>
+                Nueva venta
+            </a>
+        </li>
+        <li>
+            <a href="/menu" style="color:#333;">
+                <span>
+                    <i>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list-task" viewBox="0 0 16 16">
+                          <path fill-rule="evenodd" d="M2 2.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5V3a.5.5 0 0 0-.5-.5zM3 3H2v1h1z"/>
+                          <path d="M5 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5M5.5 7a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1zm0 4a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1z"/>
+                          <path fill-rule="evenodd" d="M1.5 7a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5zM2 7h1v1H2zm0 3.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm1 .5H2v1h1z"/>
+                        </svg>
+                    </i>
+                </span>
+                Menu
+            </a>
+        </li>
+        <li>
+            <a href="/ingredients">
+                <span>
+                    <i>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list-task" viewBox="0 0 16 16">
+                          <path fill-rule="evenodd" d="M2 2.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5V3a.5.5 0 0 0-.5-.5zM3 3H2v1h1z"/>
+                          <path d="M5 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5M5.5 7a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1zm0 4a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1z"/>
+                          <path fill-rule="evenodd" d="M1.5 7a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5zM2 7h1v1H2zm0 3.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm1 .5H2v1h1z"/>
+                        </svg>
+                    </i>
+                </span>
+                Ingredientes
+            </a>
+        </li>
+        <li>
+            <a href="/employees">
+                <span>
+                    <i>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                          <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+                        </svg>
+                    </i>
+                </span>
+                Trabajadores
+            </a>
+        </li>
+        <li class="exit">
+            <button onclick="showModalExit()">
+                <span>
+                    <i>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                          <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+                        </svg>
+                    </i>
+                </span>
+                Salir
+            </button>
+        </li>
+    </ul>
+</div>
+<div class="main">
+    <!-- Header -->
+    <div class="flex-header">
+        <div class="search">
+            <input id="search" type="text" placeholder="Search Here" class="p-2 border border-gray-300 rounded-lg focus:outline-none w-full lg:w-96">
+            <span class="icon-search">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#e5b322" class="bi bi-search custom-icon" viewBox="0 0 16 16">
+                          <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                        </svg>
+            </span>
+        </div>
+        <div class="right">
+            <button class="addButton">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+                    <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+                </svg>
+                <a href="/cart">Ver carrito</a>
+            </button>
+            <button class="addButton" onclick="showAddModal()" >+ Agregar producto</button>
+            <div class="notifications">
+                <a href="notificaciones.html">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bell" viewBox="0 0 16 16">
+                        <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2M8 1.918l-.797.161A4 4 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4 4 0 0 0-3.203-3.92zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5 5 0 0 1 13 6c0 .88.32 4.2 1.22 6"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Category Menu -->
+    <div class="category">
+        <button th:data-category="${'todos'}" id="" class="" onclick="showCategory(this)">Todos</button>
+        <button th:each="category:${categories}" th:id="${category.name_category}+'-btn'" class="" th:data-category="${category.name_category}" onclick="showCategory(this)" th:text="${category.name_category}">Todos</button>
+    </div>
+
+    <!-- Products Section -->
+    <div id="todos" class="container-product">
+        <!-- Product Item -->
+        <div class="product" th:each="menu_item: ${menuList}">
+            <img th:src="@{/{imageName} (imageName=${menu_item.route_image})}" class="img-custom" alt="Imagen del producto">
+            <h3 class="title-product" th:text="${menu_item.name_item}"></h3>
+            <p class="price-product" th:text="'Precio: S/ ' +${#numbers.formatDecimal(menu_item.price,1,2,'POINT')}">S/</p>
+            <div th:if="${user.role == 'admin' || user.role == 'superadmin'}" >
+                <button class="delete" th:data-id-menu="${menu_item.id_menu}" onclick="showDeleteModal(this)">Eliminar</button>
+                <button class="edit" th:data-ingredients="${menu_item.menu_ingredients}" th:data-id-menu="${menu_item.id_menu}"  th:data-nameProduct="${menu_item.name_item}" th:data-price="${menu_item.price}" th:data-description="${menu_item.description}" th:data-category="${menu_item.category.id}" onclick="showEditModal(this)">Editar</button>
+            </div>
+        </div>
+    </div>
+    <div th:each="category : ${categories}" th:id="${category.name_category}" class="hidden" >
+        <!-- Product Item -->
+        <div class="product" th:each="menu_item: ${menuList}" th:if="${menu_item.category.name_category} == ${category.name_category}">
+            <img th:src="@{/{imageName} (imageName=${menu_item.route_image})}" class="img-custom" alt="Imagen del producto">
+            <h3 class="title-product" th:text="${menu_item.name_item}"></h3>
+            <p class="price-product" th:text="'Precio: S/ ' +${#numbers.formatDecimal(menu_item.price,1,2,'POINT')}">S/</p>
+            <div th:if="${user.role == 'admin' || user.role == 'superadmin'}" >
+                <button class="delete" th:data-id-menu="${menu_item.id_menu}" onclick="showDeleteModal(this)">Eliminar</button>
+                <button class="edit" th:data-ingredients="${menu_item.menu_ingredients}" th:data-id-menu="${menu_item.id_menu}" th:data-nameProduct="${menu_item.name_item}" th:data-price="${menu_item.price}" th:data-description="${menu_item.description}" th:data-category="${menu_item.category.id}" onclick="showEditModal(this)">Editar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="hidden" id="editModal">
+    <div class="container-modal">
+        <h2>Editar la informacion del producto</h2>
+        <form th:action="@{/edit-menu}" th:method="POST" enctype="multipart/form-data">
+            <input type="hidden" id="id_menu" name="id_menu">
+            <div class="container-info">
+                <div>
+                    <label  for="nameProduct">Nombre del Producto</label>
+                    <input type="text" name="name_item" id="nameProduct">
+                </div>
+                <div>
+                    <label for="price">Precio</label>
+                    <input type="text"  name="price" id="price">
+                </div>
+            </div>
+            <div class="container-info">
+                <div>
+                    <label  for="new-image">Imagen</label>
+                    <input type="file" name="image" id="new-image" accept=".jpg, .jpeg, .png">
+                </div>
+            </div>
+            <div class="container-info">
+                <div>
+                    <label  for="category">Categoria</label>
+                    <select name="category" id="category">
+                        <option value="0">Todos</option>
+                        <option th:each="category :${categories}" th:value="${category.id}" th:text="${category.name_category}"></option>
+                    </select>
+                </div>
+                <div>
+                    <label for="description">Descripcion</label>
+                    <textarea placeholder="Descripcion" id="description" name="description"></textarea>
+                </div>
+                <div class="container-list">
+                    <label for="listIngredient">Ingredientes del Producto</label>
+                    <br>
+                    <div th:each="ingredient :${ingredients}">
+                        <input  type="checkbox" name="listIngredient" id="listIngredient" th:value="${ingredient.id_ingredient}">
+                        <label for="listIngredient" th:text="${ingredient.name_ingredient}"></label>
+                    </div>
+                </div>
+            </div>
+            <div class="container-buttons">
+                <button type="button" class="cancel" onclick="closeEditModal()">Cancelar</button>
+                <button type="submit" class="save">Guardar</button>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+<div class="hidden" id="deleteModal">
+    <div class="container-modal-delete">
+        <h2>Eliminar Producto</h2>
+        <form th:action="@{/delete-menu}" th:method="POST">
+            <input type="hidden" id="id" name="id_menu">
+            <div class="mb-4">
+                <label>Token digital: </label>
+                <input type="text" name="code_entered" id="code" required >
+            </div>
+            <div class="container-buttons">
+                <button type="button" class="cancel" onclick="closeDeleteModal()">Cancelar</button>
+                <button type="submit" class="save">Eliminar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class = "hidden" id="addModal" >
+    <div class="container-modal">
+        <h2>Agregar producto al menu</h2>
+        <form th:action="@{/add-menu}" th:method="POST" enctype="multipart/form-data">
+            <div class="container-info">
+                <div>
+                    <label  for="nameProduct">Nombre del Producto</label>
+                    <input type="text" name="name_item" id="name_item" required>
+                </div>
+                <div>
+                    <label for="new_price">Precio</label>
+                    <input type="text"  name="price" id="new_price" required>
+                </div>
+            </div>
+            <div class="container-info">
+                <div>
+                    <label  for="image">Imagen</label>
+                    <input type="file" name="image" id="image" accept=".jpg, .jpeg, .png">
+                </div>
+            </div>
+            <div class="container-info">
+                <div>
+                    <label  for="new_category">Categoria</label>
+                    <select name="category" id="new_category">
+                        <option th:each="category :${categories}" th:value="${category.id}" th:text="${category.name_category}"></option>
+                    </select>
+                </div>
+                <div>
+                    <label for="new_description">Descripcion</label>
+                    <textarea placeholder="Descripcion" id="new_description" name="description" required></textarea>
+                </div>
+                <div class="container-list">
+                    <label for="new-listIngredient">Ingredientes del Producto</label>
+                    <br>
+                    <div th:each="ingredient :${ingredients}">
+                        <input  type="checkbox" name="listIngredient" id="new-listIngredient" th:value="${ingredient.id_ingredient}">
+                        <label for="listIngredient" th:text="${ingredient.name_ingredient}"></label>
+                    </div>
+                </div>
+            </div>
+            <div class="container-buttons">
+                <button type="button" class="cancel" onclick="closeAddModal()">Cancelar</button>
+                <button type="submit" class="save">Guardar</button>
+            </div>
+        </form>
+    </div>
+
+</div>
+<div class="hidden" id="LogOutModal">
+    <div class="container-exit">
+        <h2>Esta seguro de cerrrar sesion</h2>
+        <form th:action="@{/logOut}" th:method="POST">
+            <div class="container-buttons">
+                <button type="button" class="cancel" onclick="closeModalExit()">No</button>
+                <button type="submit" class="save">Si</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script th:src="@{/js/menuJS.js}"></script>
+<script th:src="@{/js/LogOut.js}"></script>
+<script th:src="@{/js/search.js}"></script>
+</body>
+</html>

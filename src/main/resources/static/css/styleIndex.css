@@ -1,0 +1,113 @@
+.container{
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+.table-ingredients {
+    padding: 10px;
+    flex: 1;
+    max-width: 70%;
+    background: whitesmoke;
+    border-radius: 25px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.06);
+
+    h2 {
+        color: #e5b322;
+        font-size: 28px
+    }
+}
+table{
+    border-radius: 20px;
+    table-layout: auto;
+    width: 100%;
+    text-align: center;
+    border: 1px solid #e5e7eb;
+    thead{
+        background: #e5b322;
+        th{
+            font-size: 18px;
+            font-family: "Times New Roman", serif;
+            position: sticky; /* sticky */
+            top: 0;
+            padding: 1rem 0.5rem;
+        }
+    }
+    tbody{
+        td{
+            border: 1px solid #e5e7eb; /* border */
+            padding: 0.5rem 1rem;
+            text-transform: uppercase;
+        }
+    }
+}
+.total-sales{
+    background: #e5b322;
+    width: 300px;
+    height: 100px;
+    padding: 10px;
+    border-radius: 25px;
+    h3{
+        color: white;
+    }
+    span{
+        color: white;
+        font-size: 24px;
+    }
+}
+.info-sales{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.title{
+    color: #e5b322;
+    font-size: 28px;
+}
+.pay-methods {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 10px;
+    margin: 5px;
+    gap: 20px;
+}
+
+.method {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.color-box {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    border-radius: 3px;
+}
+
+.sales-pay-methods {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: conic-gradient(
+            #ff0000 0% 25%,
+            #00ff00 25% 50%,
+            #0000ff 50% 75%,
+            #ffff00 75% 100%
+    );
+    position: relative;
+    margin-top: 20px;
+}
+
+.sales-pay-methods::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100px;
+    height: 100px;
+    background: white;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+}

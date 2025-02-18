@@ -1,0 +1,95 @@
+body {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+.separador{
+    display: flex;
+    height:100vh;
+}
+
+
+.left {
+    background-image: url('../img/login.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding: 20px;
+    align-items:center;
+    display:flex;
+    flex: 1;
+}
+
+.right {
+    background: whitesmoke;
+    padding: 20px;
+    flex: 1;
+}
+.login {
+    margin-top: 90px;
+    padding: 10px;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    display:flex;
+}
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+.user{
+    width:400px;
+    height: auto;
+    padding:10px;
+}
+#user :focus{
+    border: 2px solid #e5b322;
+}
+.password{
+    width:400px;
+    height: auto;
+    padding:10px;
+}
+.button{
+    padding:10px;
+    background-color: #e5b322;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    width:200px;
+    height: auto;
+    justify-content: center;
+    margin-left: 100px;
+    border-radius: 15px;
+    border: none;
+}
+
+input[type="submit"]:hover {
+    cursor: pointer;
+}
+
+label {
+    font-size: 20px;
+    font-family: Arial, sans-serif;
+    color: #e5b322;
+}
+
+a[target="_self"] {
+    margin-top: 20px;
+    color: #e5b322;
+    text-decoration: none;
+    font-weight: bold;
+    display: inline-block;
+    margin-right: 10px;
+    padding:10px;
+}
+
+a[target="_self"]:hover {
+    color: darkblue;
+}
+.register{
+    margin-left: 150px;
+}

@@ -1,0 +1,88 @@
+body {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+.divisor{
+    display: flex;
+    height:100vh;
+}
+
+.container-img{
+    display: flex;
+    align-content: end;
+    align-items: center;
+    justify-content: center;
+}
+.left {
+    background-image: url('../img/login.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding: 20px;
+    align-items:center;
+    display:flex;
+    flex: 1;
+}
+
+.right {
+    background: whitesmoke;
+    padding: 20px;
+    flex: 1;
+}
+.form {
+    margin-top: 20px;
+    padding: 10px;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    display:flex;
+}
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+.data{
+    width:400px;
+    height: auto;
+    padding:10px;
+    label {
+        font-size: 20px;
+        font-family: Arial, sans-serif;
+        color: #e5b322;
+    }
+    select{
+        width: 400px;
+        padding: 0.5rem;
+        border: 1px solid #d1d5db;
+        border-radius: 0.5rem;
+        outline: none;
+    }
+}
+#data :focus{
+    border: 2px solid #e5b322;
+}
+
+.button{
+    padding:10px;
+    background-color: #e5b322;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    width:200px;
+    height: auto;
+    justify-content: center;
+    margin-left: 100px;
+    border-radius: 15px;
+    border: none;
+}
+.button:hover{
+    cursor: pointer;
+    color: black;
+}
+.register{
+    margin-left: 150px;
+}

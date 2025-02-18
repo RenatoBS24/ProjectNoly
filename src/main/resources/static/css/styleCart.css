@@ -1,0 +1,305 @@
+
+.container-cart{
+    h2{
+        text-align: center;
+        color: #e5b322;
+        font-size: 2rem;
+    }
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 232px;
+}
+.container-filter{
+    padding-right: 5px;
+    display: flex;
+    justify-content: end;
+    flex-wrap: wrap;
+    gap: 10px;
+    label{
+        color: #e5b322;
+        font-size: 24px;
+    }
+    select{
+        width: 200px;
+        padding: 0.5rem;
+        border: 1px solid #d1d5db;
+        border-radius: 0.5rem;
+        outline: none;
+    }
+}
+.container-product {
+    position: relative;
+    background: whitesmoke;
+    padding: 20px;
+    border-radius: 25px;
+    margin: 10px;
+    display: flex;
+    gap: 20px;
+    max-height: 100px;
+    width: 700px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.container-product img {
+    border-radius: 100px;
+    height: 100px;
+    cursor: pointer;
+}
+
+.info-product {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.title-product {
+    font-size: 24px;
+    font-weight: bold;
+    width: 100%;
+    word-wrap: break-word;
+}
+
+.price-product {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #e5b322;
+    align-self: flex-start;
+}
+
+.more {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    border-radius: 25px;
+    border: 1px solid #e5b322;
+    height: 30px;
+    width: 120px;
+    display: flex;
+    justify-content: center;
+}
+
+.more button {
+    border-radius: 25px;
+    height: 30px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #e5b322;
+}
+
+.more span {
+    height: 30px;
+    font-size: 24px;
+    font-family: "Times New Roman", serif;
+    line-height: 30px;
+}
+.more{
+    border-radius: 25px;
+    border: 1px solid #e5b322;
+    height: 30px;
+    width: 120px;
+    display: flex;
+    justify-content: center;
+    margin-left: 120px;
+    margin-top: 50px;
+    button{
+        border-radius: 25px;
+        height: 30px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: #e5b322;
+    }
+    span{
+        height: 30px;
+        font-size: 24px;
+        font-family: "Times New Roman", serif;
+        line-height: 30px;
+
+    }
+}
+
+.container-resume{
+    position: fixed;
+    bottom: 0;
+    border: 2px solid whitesmoke;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.06);
+    background: white;
+    padding: 5px;
+    z-index: 1000;
+    h2{
+        color: #e5b322;
+        font-size: 2rem;
+        font-family: "Times New Roman", serif;
+    }
+    .resume{
+        form{
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr ;
+            gap: 10px;
+            padding: 10px;
+            height: 120px;
+        }
+
+        .employee{
+            display: flex;
+            align-items: center;
+            label{
+                color: #e5b322;
+                font-size: 20px;
+            }
+            p{
+                width: 200px;
+                padding: 0.5rem;
+                border: 1px solid #d1d5db;
+                border-radius: 0.5rem;
+                outline: none;
+            }
+        }
+        .pay-method{
+            display: flex;
+            align-items: center;
+            label{
+                color: #e5b322;
+                font-size: 20px;
+            }
+            select{
+                width: 200px;
+                padding: 0.5rem;
+                border: 1px solid #d1d5db;
+                border-radius: 0.5rem;
+                outline: none;
+            }
+            p{
+                width: 200px;
+                padding: 0.5rem;
+                border: 1px solid #d1d5db;
+                border-radius: 0.5rem;
+                outline: none;
+            }
+        }
+        .total{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            span{
+                font-size: 18px;
+                padding: 8px;
+                color: #e5b322;
+            }
+            #total{
+                color :black
+            }
+        }
+        .valid-sale{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .button{
+            display: flex;
+            align-items: flex-end;
+            flex-direction: column;
+            justify-content: center;
+            align-content: center;
+            gap: 15px;
+        }
+        button{
+            border-radius: 25px;
+            border: none;
+            background: #e5b322;
+            color: white;
+            padding: 10px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 20px;
+            width: 150px;
+            height: 40px
+        }
+
+    }
+}
+.remove {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.remove button {
+    border-radius: 25px;
+    border: none;
+    background: #e5b322;
+    color: white;
+    padding: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    width: 150px;
+    height: 40px;
+}
+
+.remove button:hover {
+    background: #d4a017;
+}
+.valid-sale {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 34px;
+    height: 20px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 14px;
+    width: 14px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #e5b322;
+}
+
+input:checked + .slider:before {
+    transform: translateX(14px);
+}
+.warning{
+    color: #e5b322;
+}
+.hidden{
+    display: none;
+}
