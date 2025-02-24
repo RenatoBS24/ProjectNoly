@@ -24,8 +24,18 @@ public class SaleProductService {
         return saleProductMDB.findAll();
     }
     public SaleProduct getSaleById(int id_sale){
-        return saleProductMDB.findById(id_sale).orElse(null);
+        SaleProduct saleProduct = saleProductMDB.findById(id_sale).orElse(null);
+        if(saleProduct != null){
+            for(Product product :saleProduct.getProducts()){
+                if(product.getRoute() == null){
+                    product.setRoute("hamburguesa.jpg");
+                }
+            }
+            return saleProduct;
+        }
+        return  new SaleProduct(0,0, LocalDateTime.now(),0,"",null);
     }
+
     public void addSaleProduct(int id_sale, int id_employee, double total,String pay_method, List<Product> productList){
         if (pay_method.equalsIgnoreCase("Tarjeta")) {
             total = total * 1.05;

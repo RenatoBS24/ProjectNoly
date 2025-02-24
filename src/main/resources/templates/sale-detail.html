@@ -129,7 +129,7 @@
     <div class="container-cart">
         <div>
             <div class="container-product" th:each="item : ${product}">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSap3EFjLtAGwTNCH6E8ks6OR3s5sDMrHgsg&s" alt="">
+                <img th:src="@{/{imageName} (imageName=${item.route})}" alt="">
                 <div class="info-product">
                     <h3 class="title-product" th:text="${item.name}"></h3>
                     <span class="price-product"  th:if="${item.subtotal != null}" th:text="'S/'+${#numbers.formatDecimal(item.subtotal,1,2,'POINT')}"></span>
