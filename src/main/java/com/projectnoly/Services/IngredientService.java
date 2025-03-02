@@ -47,15 +47,15 @@ public class IngredientService {
 
 
     public void editIngredient(Integer id, String name, Double price, Integer stock, MultipartFile image){
-        String route = saveImage(image);
+        String route = saveImage(id,image);
         ingredientRepo.editIngredient(id,name,price,stock,route);
     }
     public void addIngredient(String name, Double price, MultipartFile image, Integer stock){
-        String route = saveImage(image);
+        String route = saveImage(0,image);
         ingredientRepo.addIngredient(name,price,route,stock);
     }
 
-    private String saveImage(MultipartFile img){
+    private String saveImage(int id,MultipartFile img){
         if(img != null && !img.isEmpty()){
             try{
                 String so = System.getProperty("os.name").toLowerCase();
@@ -76,9 +76,10 @@ public class IngredientService {
             }catch (IOException e){
                 log.warn(e.getMessage());
             }
+        }else if (id >0){
+            return getIngredientById(id).getRoute_image();
         }
-        return "";
-
+        return "hamburguesa.jpg";
     }
     public void editStockByAdd(List<Product> products){
         List<Menu> menuList = menuService.getAllMenu();

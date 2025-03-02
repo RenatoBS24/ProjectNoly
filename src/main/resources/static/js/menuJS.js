@@ -22,7 +22,8 @@ function showEditModal(button){
     document.getElementById('editModal').classList.remove('hidden');
     document.getElementById('editModal').classList.add('editModal');
     document.getElementById('nameProduct').value = button.getAttribute('data-nameProduct');
-    document.getElementById('price').value = button.getAttribute('data-price');
+    let price = Number(button.getAttribute('data-price'));
+    document.getElementById('price').value = price.toFixed(2);
     document.getElementById('description').textContent = button.getAttribute('data-description');
     document.getElementById('category').value = button.getAttribute('data-category');
     document.getElementById('id_menu').value = button.getAttribute('data-id-menu');
