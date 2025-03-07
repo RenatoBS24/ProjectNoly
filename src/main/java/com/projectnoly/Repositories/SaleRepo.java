@@ -13,6 +13,11 @@ public interface SaleRepo extends JpaRepository<Sale,Integer> {
 
     @Procedure(name = "getAllSales")
     List<Sale> getAllSales();
+    @Procedure(name = "getAllSalesLimit")
+    List<Sale> getAllSalesPage(
+            @Param("p_page") int page,
+            @Param("p_size") int size
+    );
     @Procedure(name = "addSale")
     int addSale(
             @Param("p_total") double total,

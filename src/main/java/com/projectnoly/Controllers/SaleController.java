@@ -1,10 +1,14 @@
 package com.projectnoly.Controllers;
 
 import com.projectnoly.Model.MongoDB.Product;
+import com.projectnoly.Model.MySql.Sale;
 import com.projectnoly.Model.MySql.User;
 import com.projectnoly.Services.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,10 +39,15 @@ public class SaleController {
     }
 
     @GetMapping("/sales")
-    public String getAllSales(Model model, HttpSession httpSession) {
+    public String getAllSales(Model model, HttpSession httpSession,@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size){
         if (httpSession.getAttribute("user") != null) {
             User user = (User) httpSession.getAttribute("user");
-            model.addAttribute("sales", saleService.getAllSales());
+            Pageable pageable = PageRequest.of(page,size);
+            Page<Sale> salePage = saleService.getAllSalesPage(pageable);
+            model.addAttribute("sales",salePage.getContent());
+            model.addAttribute("totalPages",salePage.getTotalPages());
+            model.addAttribute("currentPage",page);
+            //model.addAttribute("sales", saleService.getAllSales());
             model.addAttribute("date", LocalDateTime.now());
             model.addAttribute("employees", employeeService.getAllEmployees());
             model.addAttribute("user",user);

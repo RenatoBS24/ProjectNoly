@@ -19,6 +19,17 @@ import java.util.List;
 )
 // --------------------------------------------------
 @NamedStoredProcedureQuery(
+        name = "getAllSalesLimit",
+        procedureName = "sp_get_sale_limit",
+        parameters = {
+                @StoredProcedureParameter(mode = ParameterMode.IN, name = "p_page", type = Integer.class),
+                @StoredProcedureParameter(mode = ParameterMode.IN, name = "p_size", type = Integer.class
+                )
+        },
+        resultClasses = Sale.class
+)
+// --------------------------------------------------
+@NamedStoredProcedureQuery(
         name="addSale",
         procedureName = "sp_add_sale",
         parameters = {

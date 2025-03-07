@@ -6,6 +6,9 @@ import com.projectnoly.Repositories.SaleRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +31,13 @@ public class SaleService {
     @Transactional
     public List<Sale> getAllSales() {
         return saleRepo.getAllSales();
+    }
+    @Transactional
+    public Page<Sale> getAllSalesPage(Pageable pageable){
+        int page = pageable.getPageNumber();
+        int size = pageable.getPageSize();
+        List<Sale> saleList = saleRepo.getAllSalesPage(page,size);
+        return new PageImpl<>(saleList,pageable,saleRepo.count());
     }
 
     public int addSale(String pay_method,int id_employee,String valid_sale,int id_table){
