@@ -23,8 +23,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     break;
                 case '2': // Mes pasado
                     startDate = new Date(today.getFullYear(), today.getMonth() - 1, 1);
-                    today.setMonth(today.getMonth() - 1);
-                    today.setDate(0);
                     break;
                 case '3': // Últimos 3 meses
                     startDate = new Date(today.getFullYear(), today.getMonth() - 3, 1);
@@ -56,8 +54,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 showRow = false;
             }
 
+            console.log(startDate)
+            console.log(selectedMonths)
             if (selectedMonths !== '0') {
-                if (rowDate < startDate || rowDate > today) {
+                if (selectedMonths === '2') {
+                    const endDate = new Date(startDate.getFullYear(), startDate.getMonth() + 1, 0);
+                    if (rowDate < startDate || rowDate > endDate) {
+                        showRow = false;
+                    }
+                } else if (rowDate < startDate) {
                     showRow = false;
                 }
             } else if (selectedDate && selectedDate !== dateCell.split('-').reverse().join('-')) {

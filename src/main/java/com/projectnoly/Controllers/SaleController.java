@@ -39,7 +39,7 @@ public class SaleController {
     }
 
     @GetMapping("/sales")
-    public String getAllSales(Model model, HttpSession httpSession,@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "10") int size){
+    public String getAllSales(Model model, HttpSession httpSession,@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "100") int size){
         if (httpSession.getAttribute("user") != null) {
             User user = (User) httpSession.getAttribute("user");
             Pageable pageable = PageRequest.of(page,size);

@@ -36,7 +36,7 @@ public class SaleService {
     public Page<Sale> getAllSalesPage(Pageable pageable){
         int page = pageable.getPageNumber();
         int size = pageable.getPageSize();
-        List<Sale> saleList = saleRepo.getAllSalesPage(page,size);
+        List<Sale> saleList = saleRepo.getAllSalesPage(page*size,size);
         return new PageImpl<>(saleList,pageable,saleRepo.count());
     }
 

@@ -205,7 +205,7 @@
         <br>
         <div class="pagination">
             <a href="#">&laquo;</a>
-            <a th:each="i : ${#numbers.sequence(1,totalPages)}" th:text="${i}" th:href="@{/sales(page=${i - 1}, size = 10)}" th:class="${(i - 1) == currentPage} ? 'active' : ''"></a>
+            <a th:each="i : ${#numbers.sequence(1,totalPages)}" th:text="${i}" th:href="@{/sales(page=${i - 1}, size = 100)}" th:class="${(i - 1) == currentPage} ? 'active' : ''"></a>
             <a href="#">&raquo;</a>
         </div>
     </div>
