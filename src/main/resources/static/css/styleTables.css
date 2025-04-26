@@ -1,0 +1,52 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0;
+    h1{
+        color: #e5b322;
+        text-align: center;
+        font-size:32px ;
+    }
+}
+.containerTables{
+    display: grid;
+    height: 60vh;
+    width: 700px;
+    padding: 0 10px 15px;
+    grid-gap: 10px;
+    grid-template-areas:
+            'header header right'
+            'contenctl content contenctr'
+            'footerl footer footerr';
+    .table1{
+        grid-area: header;
+        width: 100%;
+    }
+    div{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 150px;
+        width: 150px;
+        background: #502708;
+    }
+}
+.table2{
+    grid-area: right;
+
+}
+.table3{
+    grid-area: contenctl;
+}
+.table4{
+    grid-area: contenctr;
+}
+.table5{
+    grid-area: footerl;
+}
+span{
+    font-size: 25px;
+    color: white;
+}

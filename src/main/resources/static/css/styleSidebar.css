@@ -81,7 +81,6 @@ ul {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 2rem;
     position: sticky;
     top: 0;
     background-color: #f7fafc;
