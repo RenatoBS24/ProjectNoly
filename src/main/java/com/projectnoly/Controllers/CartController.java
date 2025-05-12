@@ -96,5 +96,13 @@ public class CartController {
             return ResponseEntity.badRequest().body("error");
         }
     }
-
+    @GetMapping("/getAllTables")
+    public ResponseEntity<?> getAllTables(){
+        try{
+            return ResponseEntity.ok(tablesService.getAllTables());
+        }catch (Exception e){
+            log.warn(e.getMessage());
+            return ResponseEntity.badRequest().body("error");
+        }
+    }
 }

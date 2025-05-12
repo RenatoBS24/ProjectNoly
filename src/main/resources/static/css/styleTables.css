@@ -1,16 +1,18 @@
-.container{
+.container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     margin-top: 0;
-    h1{
-        color: #e5b322;
-        text-align: center;
-        font-size:32px ;
-    }
 }
-.containerTables{
+
+.container h1 {
+    color: #e5b322;
+    text-align: center;
+    font-size: 32px;
+}
+
+.containerTables {
     display: grid;
     height: 60vh;
     width: 700px;
@@ -20,33 +22,124 @@
             'header header right'
             'contenctl content contenctr'
             'footerl footer footerr';
-    .table1{
-        grid-area: header;
-        width: 100%;
-    }
-    div{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 150px;
-        width: 150px;
-        background: #502708;
-    }
 }
-.table2{
-    grid-area: right;
 
+.containerTables .table1 {
+    grid-area: header;
+    width: 100%;
 }
-.table3{
-    grid-area: contenctl;
+.table1 {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 150px;
+    width: 150px;
+    background: transparent;
+    overflow: hidden;
 }
-.table4{
-    grid-area: contenctr;
+.table2 {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 150px;
+    width: 150px;
+    background: transparent;
+    overflow: hidden;
 }
-.table5{
-    grid-area: footerl;
+.table3 {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 150px;
+    width: 150px;
+    background: transparent;
+    overflow: hidden;
 }
-span{
+.table4 {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 150px;
+    width: 150px;
+    background: transparent;
+    overflow: hidden;
+}
+.table5 {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 150px;
+    width: 150px;
+    background: transparent;
+    overflow: hidden;
+}
+
+.containerTables div::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #502708;
+    z-index: -1;
+    transition: all 0.5s ease;
+}
+
+.containerTables div:hover::before {
+    filter: blur(5px);
+}
+
+.containerTables div span {
     font-size: 25px;
     color: white;
+    transition: opacity 0.3s ease;
+    z-index: 1;
+}
+
+.containerTables div:hover span {
+    opacity: 0;
+    transition-delay: 0.2s;
+}
+
+.table2 {
+    grid-area: right;
+}
+
+.table3 {
+    grid-area: contenctl;
+}
+
+.table4 {
+    grid-area: contenctr;
+}
+
+.table5 {
+    grid-area: footerl;
+}
+
+.more-info {
+    position: absolute;
+    opacity: 0;
+    color: white;
+    z-index: 2;
+    width: 80%;
+    height: 80%;
+    background: rgba(0,0,0,0.7);
+    border-radius: 8px;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    text-align: center;
+    pointer-events: none;
+}
+.hidden{
+    display: none;
 }

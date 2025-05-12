@@ -5,6 +5,7 @@
     <title>Mesas</title>
     <link rel="stylesheet" th:href="@{/css/styleSidebar.css}">
     <link rel="stylesheet" th:href="@{/css/styleLogOut.css}">
+    <link rel="stylesheet" th:href="@{/css/styleTables.css}">
     <link rel="shortcut icon" th:href="@{/img/logo.ico}" type="image/x-icon">
     <link rel="stylesheet" href="../static/css/styleSidebar.css">
     <link rel="stylesheet" href="../static/css/styleTables.css">
@@ -142,22 +143,31 @@
         <div class="containerTables">
             <div class="table1">
                 <span>Mesa 1</span>
+                <div class="more-info hidden" id="1">
+                </div>
             </div>
-            <div class="table2">
+            <div class="table2" id="table2">
                 <span>Mesa 2</span>
+                <div class="more-info hidden" id="2" >
+                </div>
             </div>
             <div class="table3">
                 <span>Mesa 3</span>
+                <div class="more-info hidden" id="3">
+                </div>
             </div>
             <div class="table4">
                 <span>Mesa 4</span>
+                <div class="more-info hidden" id="4">
+                </div>
             </div>
             <div class="table5">
                 <span>Mesa 5</span>
+                <div class="more-info hidden" id="5">
+                </div>
             </div>
         </div>
     </div>
-
 </div>
 <div class="hidden" id="LogOutModal">
     <div class="container-exit">
@@ -171,5 +181,7 @@
     </div>
 </div>
 <script th:src="@{/js/LogOut.js}"></script>
+<script th:src="@{/js/tables.js}"></script>
+<script src="../static/js/tables.js"></script>
 </body>
 </html>

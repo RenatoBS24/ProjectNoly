@@ -64,7 +64,6 @@ public class SaleController {
             @RequestParam("id_table") int id_table
     ){
         try {
-
             double total = tablesService.getTotal(id_table);
             if (valid_sale.equals("true")) {
                 total = 0;
