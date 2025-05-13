@@ -44,6 +44,10 @@ async function renderData(){
             moreInfo.innerHTML = `
                 <p>Estado: ${state}</p>
                 <p>Total: S/ ${table.total.toFixed(2)}</p>
+                <div class="table-buttons">
+                    <button class="btn-view" onclick="viewTable(${table.id_table})">Ver mesa</button>
+                    <button class="btn-add" onclick="addProduct(${table.id_table})">Agregar</button>
+                </div>
             `;
         }
     })
