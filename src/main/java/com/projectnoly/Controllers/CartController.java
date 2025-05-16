@@ -9,10 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class CartController {
@@ -21,8 +18,8 @@ public class CartController {
     public CartController(TablesService tablesService) {
         this.tablesService = tablesService;
     }
-    @GetMapping("/cart")
-    public String getCart(Model model, HttpSession httpSession) {
+    @GetMapping("/cart/{id_table}")
+    public String getCart(Model model, HttpSession httpSession,@PathVariable int id_table) {
         try {
             if (httpSession.getAttribute("user") != null) {
                 User user =(User) httpSession.getAttribute("user");
@@ -32,13 +29,14 @@ public class CartController {
                 model.addAttribute("table4",tablesService.getAllProducts(4));
                 model.addAttribute("table5",tablesService.getAllProducts(5));
                 model.addAttribute("table6",tablesService.getAllProducts(6));
-                model.addAttribute("total", tablesService.getTotal(1));
+                model.addAttribute("total", tablesService.getTotal(id_table));
                 model.addAttribute("employee",user.getEmployee());
                 return "cart";
             }
             return "redirect:/login";
         } catch (Exception e) {
-            log.warn(e.getMessage());
+            log.error(e.getMessage());
+            model.addAttribute("error",e.getMessage());
             return "error";
         }
     }

@@ -52,3 +52,9 @@ async function renderData(){
         }
     })
 }
+
+function viewTable(id_table){
+    window.location.href = `/cart/${id_table}`;
+    localStorage.clear();
+    localStorage.setItem('id_table', id_table);
+}

@@ -1,3 +1,18 @@
+window.onload =function initView(){
+    let id_table = localStorage.getItem('id_table');
+    if(id_table === null){
+        id_table = 1;
+    }
+    const name = 'table'+id_table;
+    document.querySelectorAll('.container-cart').forEach(function (element) {
+        element.classList.remove('container-cart');
+        element.classList.add('hidden');
+    })
+    document.getElementById('tables').value = id_table;
+    document.getElementById(name).classList.remove('hidden');
+    document.getElementById(name).classList.add('container-cart');
+}
+
 document.getElementById('pay').addEventListener('change', function (){
     let id = document.getElementById('tables').value;
     updateTotal(Number(id));
