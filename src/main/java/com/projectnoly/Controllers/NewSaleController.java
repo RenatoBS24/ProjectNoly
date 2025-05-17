@@ -38,10 +38,11 @@ public class NewSaleController {
     }
     @PostMapping("/addToCart")
     public ResponseEntity<?> addToCart(
-          @RequestBody Product product,
-          @RequestParam("id_table") int id_table
+            @RequestParam("id_table") int id_table,
+            @RequestParam("id_product") int id_product
+
     ) {
-        tablesService.addProduct(id_table,product);
+        tablesService.addProduct(id_table,id_product);
         return ResponseEntity.ok("product added to cart");
     }
 

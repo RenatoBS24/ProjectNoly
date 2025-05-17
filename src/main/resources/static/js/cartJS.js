@@ -1,8 +1,13 @@
 window.onload =function initView(){
-    let id_table = localStorage.getItem('id_table');
+    let id_table = sessionStorage.getItem('id_table');
     if(id_table === null){
-        id_table = 1;
+        if(sessionStorage.getItem("id_table_pay") === null){
+            id_table = 1;
+        }else{
+            id_table = sessionStorage.getItem("id_table_pay");
+        }
     }
+    sessionStorage.removeItem('id_table');
     const name = 'table'+id_table;
     document.querySelectorAll('.container-cart').forEach(function (element) {
         element.classList.remove('container-cart');
@@ -99,7 +104,7 @@ function removeProduct(button) {
     let id = button.getAttribute('data-id');
     let id_table = document.getElementById('tables').value;
     const product = { id_product: id };
-
+    sessionStorage.setItem("id_table",id_table)
     fetch(`/removeProduct?id_table=${id_table}`, {
         method: "POST",
         headers: {
@@ -109,7 +114,7 @@ function removeProduct(button) {
     })
         .then(response => response.text())
         .then(data => {
-            window.location.href = "/cart";
+            window.location.href = `/cart/${id_table}`;
         })
         .catch(error => {
             console.log("error:", error);

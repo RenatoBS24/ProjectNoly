@@ -3,6 +3,7 @@ package com.projectnoly.Services;
 import com.projectnoly.DTO.TableDTO;
 import com.projectnoly.Model.MongoDB.Product;
 import com.projectnoly.Model.MongoDB.Tables;
+import com.projectnoly.Model.MySql.Menu;
 import com.projectnoly.Repositories.TablesMDB;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,9 +15,11 @@ import java.util.List;
 public class TablesService {
 
     private final TablesMDB tablesMDB;
+    private final MenuService menuService;
     @Autowired
-    public TablesService(TablesMDB tablesMDB) {
+    public TablesService(TablesMDB tablesMDB, MenuService menuService) {
         this.tablesMDB = tablesMDB;
+        this.menuService = menuService;
     }
     /**
      * Retrieves all products associated with a specific table.
@@ -68,13 +71,19 @@ public class TablesService {
     /**
      * Adds a product to a specific table. If the product already exists in the table, its quantity is incremented.
      *
-     * @param id The identifier of the table to which the product will be added.
-     * @param product The product to be added to the table.
+     * @param id_table The identifier of the table to which the product will be added.
+     * @param id_product The identifier of the product to be added.
      * @throws RuntimeException If the table with the specified ID exists but is not found.
+     * @throws NullPointerException If the product with the specified ID is not found.
      */
-    public void addProduct(int id, Product product) {
-        Tables table = tablesMDB.findById(id).orElseThrow(() -> new RuntimeException("Mesa no encontrada"));
-        List<Product> products = tablesMDB.findById(id).orElseThrow(() -> new RuntimeException("Mesa no encontrada")).getProductList();
+    public void addProduct(int id_table,int id_product) {
+        Tables table = tablesMDB.findById(id_table).orElseThrow(() -> new RuntimeException("Mesa no encontrada"));
+        Menu menu = menuService.getMenuById(id_product);
+        if(menu == null){
+            throw new NullPointerException("Producto no encontrado");
+        }
+        Product product = new Product(menu.getId_menu(), menu.getName_item(), menu.getPrice(), menu.getPrice(), 1,menu.getRoute_image());
+        List<Product> products = tablesMDB.findById(id_table).orElseThrow(() -> new RuntimeException("Mesa no encontrada")).getProductList();
         if (products != null) {
             if(products.contains(product)){
                 int pos = products.indexOf(product);

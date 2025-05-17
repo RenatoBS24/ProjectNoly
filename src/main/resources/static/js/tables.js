@@ -55,6 +55,11 @@ async function renderData(){
 
 function viewTable(id_table){
     window.location.href = `/cart/${id_table}`;
-    localStorage.clear();
-    localStorage.setItem('id_table', id_table);
+    sessionStorage.removeItem("id_table");
+    sessionStorage.setItem('id_table', id_table);
+}
+function addProduct(id_table){
+    window.location.href = '/newSale';
+    sessionStorage.removeItem("id_table_pay");
+    sessionStorage.setItem('id_table_pay', id_table);
 }

@@ -4,65 +4,36 @@ document.querySelectorAll('.checks label').forEach(label => {
         this.classList.add('selected');
     });
 });
-function showModal(button){
-    document.getElementById('addModal').classList.remove("hidden");
-    document.getElementById('addModal').classList.add("addProduct");
-    document.getElementById('price') .textContent = 'S/ '+Number(button.getAttribute('data-price')).toFixed(2);
-    document.getElementById('price_product').value = button.getAttribute('data-price');
-    document.getElementById('name_product').textContent = button.getAttribute('data-name');
-    document.getElementById('id_product').value = button.getAttribute('data-id');
-    document.getElementById('img').src = '/'+button.getAttribute('data-img');
-    document.getElementById('route').value=button.getAttribute('data-img');
-    document.querySelectorAll('.checks input[type="checkbox"]').forEach(input => {
-        input.checked=false;
-    });
-    document.querySelectorAll('.checks label').forEach(label => {
-        label.classList.remove('selected');
-    });
-}
-function closeModal(){
-    document.getElementById('addModal').classList.add("hidden");
-    document.getElementById('addModal').classList.remove("addProduct");
-}
-function addProduct(){
-    let id = document.getElementById('id_product').value;
-    let name = document.getElementById('name_product').textContent;
-    let price = document.getElementById('price_product').value;
-    let route = document.getElementById('route').value;
-    // codigo que recorra todos los checkbox
-    let table_id = 0;
-    document.querySelectorAll('.checks input[type="checkbox"]').forEach(input => {
-        if(input.checked){
-            table_id = input.value;
-        }
-    });
-    console.log(table_id)
-    addToCart(id,name,price,table_id,route);
-}
-function addToCart(id,name,price,table_id,route){
-    let id_product = id
-    let name_product = name
-    let price_product = price
-    let id_table = table_id
-    const product ={
-        id_product: id_product,
-        name: name_product,
-        price: price_product,
-        subtotal : price_product,
-        quantity: 1,
-        route: route
+function add(button){
+    let id_table = sessionStorage.getItem("id_table_pay");
+    if(id_table === null){
+        id_table = 1;
     }
-    console.log(product)
-    fetch(`/addToCart?id_table=${id_table}`,{
+    sessionStorage.removeItem("id_table_pay");
+    let id_product = button.getAttribute('data-id');
+    addToCart(id_table,id_product)
+
+}
+window.onload = function (){
+    let id_table_pay = sessionStorage.getItem('id_table_pay');
+    if(id_table_pay === null){
+        id_table_pay = 1;
+    }
+    document.getElementById('toCartButton').setAttribute('table', id_table_pay);
+}
+document.getElementById('toCartButton').addEventListener('click', function (){
+   window.location.href = `/cart/${document.getElementById('toCartButton').getAttribute('table')}`;
+})
+
+function addToCart(id_table,id_product){
+    fetch(`/addToCart?id_table=${id_table}&id_product=${id_product}`,{
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(product)
     }).then(response => response.text())
         .then(data => {
-            closeModal();
-            showToast('Producto agregado al carrito');
+            showToast(`Producto agregado a la mesa ${id_table}`, 3000);
         }).catch( error =>{
         console.log(error)
     })

@@ -124,11 +124,11 @@
             </span>
         </div>
         <div class="right">
-            <button class="addButton" onclick="showAddModal()" >
+            <button class="addButton" id ="toCartButton" >
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
                     <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
                 </svg>
-                <a href="/cart/1">Ver carrito</a>
+                Ver carrito
             </button>
             <div class="notifications">
                 <a href="notificaciones.html">
@@ -150,7 +150,7 @@
             <h3 class="title-product" th:text="${menu_item.name_item}"></h3>
             <p class="price-product" th:text="'Precio: S/ ' +${#numbers.formatDecimal(menu_item.price,1,2,'POINT')}">S/</p>
             <div>
-                <button class="add" th:data-id="${menu_item.id_menu}" th:data-name="${menu_item.name_item}" th:data-price="${menu_item.price}" th:data-img="${menu_item.route_image}" onclick="showModal(this)">Agregar al carrito</button>
+                <button class="add" th:data-id="${menu_item.id_menu}"  onclick="add(this)">Agregar al carrito</button>
             </div>
         </div>
     </div>
@@ -161,40 +161,9 @@
             <h3 class="title-product" th:text="${menu_item.name_item}"></h3>
             <p class="price-product" th:text="'Precio: S/ ' +${#numbers.formatDecimal(menu_item.price,1,2,'POINT')}">S/</p>
             <div>
-                <button class="add" th:data-id="${menu_item.id_menu}" th:data-name="${menu_item.name_item}" th:data-price="${menu_item.price}" th:data-img="${menu_item.route_image}" onclick="showModal(this)" >Agregar al carrito</button>
+                <button class="add" th:data-id="${menu_item.id_menu}"  onclick="add(this)">Agregar al carrito</button>
             </div>
         </div>
-    </div>
-</div>
-<div class="hidden" id="addModal">
-    <h1>Agregar producto al carrito</h1>
-    <div class="container-menu">
-        <img src="" alt="imagen del producto" id="img">
-        <div>
-            <input type="hidden" id="id_product" >
-            <h2 id="name_product"></h2>
-            <p class="price" id="price"></p>
-            <input type="hidden" id="price_product">
-            <input type="hidden" id="route">
-        </div>
-    </div>
-    <div class="checks">
-        <input type="checkbox" value="1" name="table" id="table1">
-        <label for="table1">Mesa 01</label>
-        <input type="checkbox" value="2" name="table" id="table2">
-        <label for="table2">Mesa 02</label>
-        <input type="checkbox" value="3" name="table" id="table3">
-        <label for="table3">Mesa 03</label>
-        <input type="checkbox" value="4" name="table" id="table4">
-        <label for="table4">Mesa 04</label>
-        <input type="checkbox" value="5" name="table" id="table5">
-        <label for="table5">Mesa 05</label>
-        <input type="checkbox" value="6" name="table" id="table6">
-        <label for="table6">Mesa 06</label>
-    </div>
-    <div class="container-buttons">
-        <button class="cancel" onclick="closeModal()">Cancelar</button>
-        <button class="button" onclick="addProduct()">Agregar</button>
     </div>
 </div>
 <div id="toast-container"></div>

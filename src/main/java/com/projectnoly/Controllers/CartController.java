@@ -1,5 +1,4 @@
 package com.projectnoly.Controllers;
-
 import com.projectnoly.Model.MongoDB.Product;
 import com.projectnoly.Model.MySql.User;
 import com.projectnoly.Services.TablesService;
