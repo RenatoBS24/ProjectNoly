@@ -91,10 +91,10 @@ table{
     height: 200px;
     border-radius: 50%;
     background: conic-gradient(
-            #ff0000 0% 25%,
+            purple 0% 25%,
             #00ff00 25% 50%,
-            #0000ff 50% 75%,
-            #ffff00 75% 100%
+            deepskyblue 50% 75%,
+            red 75% 100%
     );
     position: relative;
     margin-top: 20px;

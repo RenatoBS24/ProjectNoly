@@ -26,6 +26,8 @@ public class IngredientController {
             User user = (User) httpSession.getAttribute("user");
             model.addAttribute("ingredients",ingredientService.getAllIngredients());
             model.addAttribute("user",user);
+            model.addAttribute("employee",user.getEmployee());
+            model.addAttribute("username",user.getUsername());
             return "ingredient";
         }
         return "redirect:/login";

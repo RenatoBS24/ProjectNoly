@@ -25,6 +25,7 @@ public class EmployeeController {
             User user = (User) httpSession.getAttribute("user");
             model.addAttribute("employees",employeeService.getAllEmployees());
             model.addAttribute("user",user);
+            model.addAttribute("username",user.getUsername());
             return "employee";
         }
         return "redirect:/login";

@@ -1,6 +1,7 @@
 package com.projectnoly.Controllers;
 
 import com.projectnoly.Model.MongoDB.Product;
+import com.projectnoly.Model.MySql.User;
 import com.projectnoly.Services.CategoryService;
 import com.projectnoly.Services.MenuService;
 import com.projectnoly.Services.TablesService;
@@ -30,8 +31,10 @@ public class NewSaleController {
     @GetMapping("/newSale")
     public String getCartPage(Model model, HttpSession httpSession) {
         if (httpSession.getAttribute("user") != null) {
+            User user = (User) httpSession.getAttribute("user");
             model.addAttribute("categories", categoryService.getAllCategories());
             model.addAttribute("menuList", menuService.getAllMenu());
+            model.addAttribute("username",user.getUsername());
             return "newSale";
         }
         return "redirect:/login";

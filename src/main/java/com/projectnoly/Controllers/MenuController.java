@@ -48,6 +48,7 @@ public class MenuController {
             model.addAttribute("categories",categoryService.getAllCategories());
             model.addAttribute("ingredients",ingredientService.getAllIngredients());
             model.addAttribute("user",user);
+            model.addAttribute("username",user.getUsername());
             return "menu";
         }
         return "redirect:/login";

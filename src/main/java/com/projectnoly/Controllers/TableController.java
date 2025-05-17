@@ -14,6 +14,7 @@ public class TableController {
             if("superadmin".equals(((User) HttpSession.getAttribute("user")).getRole())){
                 User user = (User) HttpSession.getAttribute("user");
                 model.addAttribute("user", user);
+                model.addAttribute("username", user.getUsername());
                 return "tables";
             }else{
                 return "construction";

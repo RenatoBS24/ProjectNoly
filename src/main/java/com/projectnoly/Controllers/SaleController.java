@@ -13,12 +13,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
+@RequestMapping("/sales")
 public class SaleController {
 
     private final SaleService saleService;
@@ -38,7 +40,7 @@ public class SaleController {
         this.tablesService = tablesService;
     }
 
-    @GetMapping("/sales")
+    @GetMapping("")
     public String getAllSales(Model model, HttpSession httpSession,@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "100") int size){
         if (httpSession.getAttribute("user") != null) {
             User user = (User) httpSession.getAttribute("user");
@@ -51,6 +53,7 @@ public class SaleController {
             model.addAttribute("date", LocalDateTime.now());
             model.addAttribute("employees", employeeService.getAllEmployees());
             model.addAttribute("user",user);
+            model.addAttribute("username", user.getUsername());
             return "sale";
         }
         return "redirect:/login";

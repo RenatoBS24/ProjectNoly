@@ -1,5 +1,6 @@
 package com.projectnoly.Controllers;
 
+import com.projectnoly.Model.MySql.User;
 import com.projectnoly.Services.EmployeeService;
 import com.projectnoly.Services.MenuService;
 import com.projectnoly.Services.SaleProductService;
@@ -20,9 +21,11 @@ public class SaleDetailController {
     @GetMapping("/sale-detail")
     public String getSaleDetail(Model model, HttpSession httpSession, @RequestParam(value = "id_sale",required = false) Integer id_sale){
         if (httpSession.getAttribute("user") != null) {
+            User user = (User) httpSession.getAttribute("user");
             model.addAttribute("sale", saleProductService.getSaleById(id_sale));
             model.addAttribute("employee",employeeService.getEmployeeById(saleProductService.getSaleById(id_sale).getId_employee()));
             model.addAttribute("product",saleProductService.getSaleById(id_sale).getProducts());
+            model.addAttribute("username",user.getUsername());
             return "sale-detail";
         }
         return "redirect:/login";

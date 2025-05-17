@@ -30,6 +30,7 @@ public class CartController {
                 model.addAttribute("table6",tablesService.getAllProducts(6));
                 model.addAttribute("total", tablesService.getTotal(id_table));
                 model.addAttribute("employee",user.getEmployee());
+                model.addAttribute("username",user.getUsername());
                 return "cart";
             }
             return "redirect:/login";

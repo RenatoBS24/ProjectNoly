@@ -1,5 +1,6 @@
 package com.projectnoly.Controllers;
 
+import com.projectnoly.Model.MySql.User;
 import com.projectnoly.Services.IngredientService;
 import com.projectnoly.Services.SaleService;
 import jakarta.servlet.http.HttpSession;
@@ -23,12 +24,14 @@ public class indexController {
     @GetMapping("/")
     public String getIndex(Model model, HttpSession httpSession){
         if (httpSession.getAttribute("user") !=null) {
+            User user = (User) httpSession.getAttribute("user");
             model.addAttribute("ingredients",ingredientService.getIngredientsByTenHours());
             model.addAttribute("sale",saleService.getTotalSales());
             model.addAttribute("efectivo",saleService.getTotalByMethod("Efectivo"));
             model.addAttribute("tarjeta",saleService.getTotalByMethod("Tarjeta"));
             model.addAttribute("yape",saleService.getTotalByMethod("yape"));
             model.addAttribute("plin",saleService.getTotalByMethod("plin"));
+            model.addAttribute("username",user.getUsername());
             return "index";
         }
         return "redirect:/login";
