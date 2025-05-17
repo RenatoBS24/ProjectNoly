@@ -37,6 +37,14 @@ import java.time.LocalDateTime;
                 @StoredProcedureParameter(mode = ParameterMode.OUT, name = "p_id", type = Integer.class),
         }
 )
+@NamedStoredProcedureQuery(
+        name = "updateDataUser",
+        procedureName = "sp_update_username",
+        parameters = {
+                @StoredProcedureParameter(mode = ParameterMode.IN, name = "p_id", type = Integer.class),
+                @StoredProcedureParameter(mode = ParameterMode.IN,name = "p_username",type = String.class)
+        }
+)
 @Table(name = "user")
 public class User {
     @Id

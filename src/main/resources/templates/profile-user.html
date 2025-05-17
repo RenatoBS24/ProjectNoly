@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil de Usuario</title>
+    <link rel="stylesheet" th:href="@{/css/styleSidebar.css}">
+    <link rel="stylesheet" th:href="@{/css/styleLogOut.css}">
+    <link rel="stylesheet" th:href="@{/css/styleProfile.css}">
+    <link rel="shortcut icon" th:href="@{/img/logo.ico}" type="image/x-icon">
+</head>
+<body>
+<div class="content-wrapper">
+    <div th:replace="~{fragments :: sidebar}"></div>
+
+    <div class="main-content">
+        <div class="profile-container">
+            <div class="profile-header">
+                <div class="profile-avatar-container">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="#e5b322" class="bi bi-person-circle profile-avatar" viewBox="0 0 16 16">
+                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                        <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+                    </svg>
+                </div>
+                <h1 class="profile-name" th:text="${employee != null ? employee.name + ' ' + employee.lastname : username}"></h1>
+                <p class="profile-role" th:text="${user != null ? user.role.toUpperCase() : 'Usuario'}"></p>
+            </div>
+
+            <div class="profile-content">
+                <form id="profileForm">
+                    <input type="hidden" name="userId" th:value="${user.id_user}" id="id_user">
+                    <input type="file" id="profileImageInput" name="profileImage" accept="image/*" style="display: none;">
+                    <div class="profile-grid">
+                        <div class="profile-column">
+                            <h3 class="section-title">Información de cuenta</h3>
+                            <div class="profile-info">
+                                <div class="info-group">
+                                    <label for="username" class="info-label">Nombre de usuario</label>
+                                    <input type="text" class="info-input" id="username" name="username" th:value="${user.username}" maxlength="20" required>
+                                </div>
+                                <div class="info-group">
+                                    <label for="dni" class="info-label">DNI</label>
+                                    <input type="text" class="info-input" id="dni" name="dni" th:value="${employee.dni}" maxlength="8" required>
+                                </div>
+                                <div class="info-group">
+                                    <label for="phone" class="info-label">N° de celular</label>
+                                    <input type="text" class="info-input" id="phone" name="phone" th:value="${employee.phone}" maxlength="9" required>
+                                </div>
+                                <button type="button" class="change-password-btn" id="openPasswordModalBtn">
+                                    <i >
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-key-fill" viewBox="0 0 16 16">
+                                        <path d="M3.5 11.5a3.5 3.5 0 1 1 3.163-5H14L15.5 8 14 9.5l-1-1-1 1-1-1-1 1-1-1-1 1H6.663a3.5 3.5 0 0 1-3.163 2M2.5 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
+                                    </svg>
+                                    </i> Cambiar contraseña
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="profile-column" th:if="${employee != null}">
+                            <h3 class="section-title">Información personal</h3>
+                            <div class="profile-info">
+                                <div class="info-group">
+                                    <label class="info-label">Nombre completo</label>
+                                    <div class="info-value" th:text="${employee.name + ' ' + employee.lastname}"></div>
+                                </div>
+                                <div class="info-group">
+                                    <label class="info-label">Cargo</label>
+                                    <div class="info-value" th:text="${user.role.toUpperCase()}"></div>
+                                </div>
+                                <div class="info-group">
+                                    <label class="info-label">Fecha de registro</label>
+                                    <div class="info-value" th:text="${user.date_registered}"></div>
+                                </div>
+                            </div>
+                            <div class="error-message" id="update-data"></div>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="save-btn" id="button-update">
+                            <i>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-floppy-fill" viewBox="0 0 16 16">
+                                    <path d="M0 1.5A1.5 1.5 0 0 1 1.5 0H3v5.5A1.5 1.5 0 0 0 4.5 7h7A1.5 1.5 0 0 0 13 5.5V0h.086a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5H14v-5.5A1.5 1.5 0 0 0 12.5 9h-9A1.5 1.5 0 0 0 2 10.5V16h-.5A1.5 1.5 0 0 1 0 14.5z"/>
+                                    <path d="M3 16h10v-5.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5zm9-16H4v5.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5zM9 1h2v4H9z"/>
+                                </svg>
+                            </i> Guardar cambios
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="hidden" id="passwordModal">
+    <div class="modal-container">
+        <input type="hidden" name="userId" id="userID" th:value="${user.id_user}">
+        <div class="modal-header">
+            <h3>Cambiar contraseña</h3>
+            <span class="close-modal" id="closePasswordModal">&times;</span>
+        </div>
+        <div class="modal-body">
+            <div class="info-group">
+                <label for="currentPassword" class="info-label">Contraseña actual</label>
+                <input type="password" class="info-input" id="currentPassword" required>
+                <div class="error-message" id="passwordOld"></div>
+            </div>
+            <div class="info-group">
+                <label for="newPassword" class="info-label">Nueva contraseña</label>
+                <input type="password" class="info-input" id="newPassword" required>
+                <div class="error-message" id="passwordStrength"></div>
+            </div>
+            <div class="info-group">
+                <label for="confirmPassword" class="info-label">Confirmar nueva contraseña</label>
+                <input type="password" class="info-input" id="confirmPassword" required>
+                <div class="error-message" id="passwordMatch"></div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="cancel-btn" id="cancelPasswordBtn">Cancelar</button>
+            <button type="button" class="save-btn" id="savePasswordBtn">Guardar contraseña</button>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments :: LogOutModal}"></div>
+
+<script th:src="@{/js/userProfile.js}"></script>
+</body>
+</html>

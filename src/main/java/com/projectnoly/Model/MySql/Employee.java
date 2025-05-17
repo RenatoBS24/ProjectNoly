@@ -48,6 +48,15 @@ import java.util.List;
                 @StoredProcedureParameter(mode = ParameterMode.IN, name = "p_id_user", type = Integer.class)
         }
 )
+@NamedStoredProcedureQuery(
+        name = "updateEmployee",
+        procedureName = "sp_update_employee",
+        parameters = {
+                @StoredProcedureParameter(mode = ParameterMode.IN,name = "p_id",type=Integer.class),
+                @StoredProcedureParameter(mode = ParameterMode.IN,name = "p_dni",type=String.class),
+                @StoredProcedureParameter(mode = ParameterMode.IN,name = "p_phone",type=String.class)
+        }
+)
 @Table(name = "employee")
 public class Employee {
     @Id

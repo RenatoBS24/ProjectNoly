@@ -32,4 +32,10 @@ public interface EmployeeRepo extends JpaRepository<Employee,Integer> {
             @Param("p_dni") String dni,
             @Param("p_id_user") Integer id_user
     );
+    @Procedure(name = "updateEmployee")
+    void updateEmployee(
+            @Param("p_id") Integer id_employee,
+            @Param("p_dni") String dni,
+            @Param("p_phone") String phone
+    );
 }

@@ -31,6 +31,11 @@ public class EmployeeService {
         }
         employeeRepo.updateEmployee(id, name, lastname, phone, dni);
     }
+    public void updateEmployee(Integer id,String dni,String phone){
+        if(id >0 && dni.length() == 8 && phone.length() == 9){
+            employeeRepo.updateEmployee(id,dni,phone);
+        }
+    }
 
     public void deleteEmployee(Integer id){
         if(id > 0){

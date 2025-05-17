@@ -24,4 +24,9 @@ public interface UserRepo extends JpaRepository<User, Integer> {
             @Param("p_password") String p_password,
             @Param("p_role") String p_role
     );
+    @Procedure(name ="updateDataUser")
+    void updateUsername(
+            @Param("p_id") Integer id_user,
+            @Param("p_username") String username
+    );
 }

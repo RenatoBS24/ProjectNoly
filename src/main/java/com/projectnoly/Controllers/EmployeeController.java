@@ -30,6 +30,17 @@ public class EmployeeController {
         }
         return "redirect:/login";
     }
+    @GetMapping("/user-profile")
+    public String getUserProfile(Model model, HttpSession httpSession){
+        if (httpSession.getAttribute("user") !=null) {
+            User user = (User) httpSession.getAttribute("user");
+            model.addAttribute("employee",user.getEmployee());
+            model.addAttribute("user",user);
+            model.addAttribute("username",user.getUsername());
+            return "profile-user";
+        }
+        return "redirect:/login";
+    }
     @PostMapping("/edit-employee")
     public String editEmployee(
             @RequestParam("id") Integer id,

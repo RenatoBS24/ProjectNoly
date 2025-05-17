@@ -99,17 +99,7 @@
     </div>
 
 </div>
-<div class="hidden" id="LogOutModal">
-    <div class="container-exit">
-        <h2>Esta seguro de cerrrar sesion</h2>
-        <form th:action="@{/logOut}" th:method="POST">
-            <div class="container-buttons">
-                <button type="button" class="cancel" onclick="closeModalExit()">No</button>
-                <button type="submit" class="save">Si</button>
-            </div>
-        </form>
-    </div>
-</div>
+<div th:replace="~{fragments :: LogOutModal}"></div>
 <script src="../static/js/indexJS.js"></script>
 <script th:src="@{/js/indexJS.js}"></script>
 <script th:src="@{/js/LogOut.js}"></script>
