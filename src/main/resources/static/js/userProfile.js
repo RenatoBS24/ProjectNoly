@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
             dni: document.getElementById('dni').value,
             phone: document.getElementById('phone').value
         }
-        console.log("Ele metodo llego hasta aqui xd")
+        console.log("El metodo llego hasta aqui xd")
         fetch("/update-data",{
             method: 'PUT',
             headers: {

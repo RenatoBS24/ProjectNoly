@@ -5,6 +5,8 @@ import com.projectnoly.Model.MySql.Sale;
 import com.projectnoly.Model.MySql.User;
 import com.projectnoly.Services.*;
 import jakarta.servlet.http.HttpSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -29,6 +31,7 @@ public class SaleController {
     private final IngredientService ingredientService;
     private final SaleMenuService saleMenuService;
     private final TablesService tablesService;
+    private final Logger log = LoggerFactory.getLogger(SaleController.class);
 
     @Autowired
     public SaleController(SaleService saleService, EmployeeService employeeService, SaleProductService saleProductService,IngredientService ingredientService,SaleMenuService saleMenuService,TablesService tablesService) {
@@ -76,7 +79,10 @@ public class SaleController {
             saleMenuService.createSaleMenu(productList,id_sale);
             saleProductService.addSaleProduct(id_sale,id_employee,total,pay_method,productList);
             ingredientService.editStockByAdd(productList);
+            log.info("El id de la tabla es {}", id_table);
+            log.info("Sale created with id: {}", id_sale);
         } catch (Exception e) {
+            log.warn(e.getMessage());
             return "error";
         }
 

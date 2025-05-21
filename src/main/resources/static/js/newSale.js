@@ -9,7 +9,7 @@ function add(button){
     if(id_table === null){
         id_table = 1;
     }
-    sessionStorage.removeItem("id_table_pay");
+    //sessionStorage.removeItem("id_table_pay"); -> lo estoy comentando por que no se si es necesario
     let id_product = button.getAttribute('data-id');
     addToCart(id_table,id_product)
 

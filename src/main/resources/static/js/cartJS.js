@@ -7,6 +7,7 @@ window.onload =function initView(){
             id_table = sessionStorage.getItem("id_table_pay");
         }
     }
+    document.getElementById('id_table').value = id_table;
     sessionStorage.removeItem('id_table');
     const name = 'table'+id_table;
     document.querySelectorAll('.container-cart').forEach(function (element) {
