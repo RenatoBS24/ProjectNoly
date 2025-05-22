@@ -19,7 +19,7 @@
                     <div>
                         <img th:src="@{/img/img_sinfondo.png}" class="logo" alt="logo">
                     </div>
-                    <form th:action="@{/validateLogin}" th:method="POST">
+                    <form th:action="@{/login}" method="post">
                         <div class="user">
                             <label for="user">Usuario:</label>
                             <input type="text" placeholder="Escriba el usuario" name="username" id="user" maxlength="20" required>
@@ -34,11 +34,11 @@
                             <input type ="submit" value ="Inciar Sesion" class="button" name = "button">
                         </div>
                         <div>
-                            <p th:if="${warning}" th:text="${warning}" style="color: red"></p>
+                            <p th:if="${param.error}" th:text="Usuario o contrseña incorrectos" style="color: red"></p>
                         </div>
                         <div>
                             <a target ="_self" href ="/recoverPassword" class="recoverPass">Olvido su contraseña</a>
-                            <a target ="_self" href ="/addUser" class="register">Registrarse</a>
+                            <a target ="_self" href ="/add-user" class="register">Registrarse</a>
                         </div>
                     </form>
                 </div>
@@ -47,6 +47,5 @@
     </div>
 </section>
 <div class="hidden"></div>
-<script th:src="@{/js/login.js}"></script>
 </body>
 </html>

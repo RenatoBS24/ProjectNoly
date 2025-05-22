@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,22 +32,24 @@ public class SaleController {
     private final IngredientService ingredientService;
     private final SaleMenuService saleMenuService;
     private final TablesService tablesService;
+    private final UserService userService;
     private final Logger log = LoggerFactory.getLogger(SaleController.class);
 
     @Autowired
-    public SaleController(SaleService saleService, EmployeeService employeeService, SaleProductService saleProductService,IngredientService ingredientService,SaleMenuService saleMenuService,TablesService tablesService) {
+    public SaleController(SaleService saleService, EmployeeService employeeService, SaleProductService saleProductService,IngredientService ingredientService,SaleMenuService saleMenuService,TablesService tablesService,UserService userService) {
         this.saleService = saleService;
         this.employeeService = employeeService;
         this.saleProductService = saleProductService;
         this.ingredientService = ingredientService;
         this.saleMenuService = saleMenuService;
         this.tablesService = tablesService;
+        this.userService = userService;
     }
 
     @GetMapping("")
-    public String getAllSales(Model model, HttpSession httpSession,@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "100") int size){
-        if (httpSession.getAttribute("user") != null) {
-            User user = (User) httpSession.getAttribute("user");
+    public String getAllSales(Model model, Authentication authentication, HttpSession httpSession, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "100") int size){
+        if(authentication != null && authentication.isAuthenticated()){
+            User user = userService.getUserByUsername(authentication.getName());
             Pageable pageable = PageRequest.of(page,size);
             Page<Sale> salePage = saleService.getAllSalesPage(pageable);
             model.addAttribute("sales",salePage.getContent());

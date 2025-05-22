@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
             phone: document.getElementById('phone').value
         }
         console.log("El metodo llego hasta aqui xd")
-        fetch("/update-data",{
+        fetch("/user/update-data",{
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.log('Contraseña válida');
                 let newPasswordValue = newPassword.value;
                 let userID = document.getElementById('userID').value;
-                fetch(`/updatePassword?userID=${userID}&password=${newPasswordValue}`, {
+                fetch(`/user/updatePassword?userID=${userID}&password=${newPasswordValue}`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -174,7 +174,7 @@ async function validateOldPassword(passwordOld) {
     console.log(userID);
     console.log(passwordOld);
     try {
-        const response = await fetch(`/validateOldPassword?userID=${userID}&password=${passwordOld}`, {
+        const response = await fetch(`/user/validateOldPassword?userID=${userID}&password=${passwordOld}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

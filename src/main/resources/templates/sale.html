@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Ventas</title>
@@ -98,7 +98,7 @@
                     <td th:if="${user.role == 'admin' || user.role == 'superadmin'}">
                         <div>
                             <a th:href="'sale-detail?id_sale='+${sale.id_sale}">Ver mas</a>
-                            <button th:data-id="${sale.id_sale}" onclick="showDeleteModal(this)">Eliminar</button>
+                            <button sec:authorize="hasAnyRole('ROLE_SUPERADMIN','ROLE_ADMIN')" th:data-id="${sale.id_sale}" onclick="showDeleteModal(this)">Eliminar</button>
                         </div>
 
                     </td>
@@ -114,7 +114,7 @@
         </div>
     </div>
 </div>
-<div class="hidden" id="deleteModal">
+<div class="hidden" sec:authorize="hasAnyRole('ROLE_SUPERADMIN','ROLE_ADMIN')" id="deleteModal">
     <div class="container-modal-delete">
         <h2>Eliminar venta</h2>
         <form th:action="@{/sales/delete-sale}" th:method="POST">

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Ingredientes</title>
@@ -49,13 +49,13 @@
             <p class="price-product" th:text="'Stock: '+${ingredient.stock}"></p>
             <p class="price-product" th:text="'Precio: S/'+${#numbers.formatDecimal(ingredient.price,1,2,'POINT')}"></p>
             <div th:if="${user.role == 'admin' || user.role == 'superadmin'}">
-                <button class="delete" th:data-id-ingredient ="${ingredient.id_ingredient}" onclick="showDeleteModal(this)">Eliminar</button>
-                <button class="edit" th:data-id-ingredient="${ingredient.id_ingredient}" th:data-name="${ingredient.name_ingredient}" th:data-price="${ingredient.price}" th:data-stock="${ingredient.stock}" th:data-img="${ingredient.route_image}" onclick="showEditModal(this)" >Editar</button>
+                <button class="delete" sec:authorize="hasAnyRole('ROLE_SUPERADMIN','ROLE_ADMIN')" th:data-id-ingredient ="${ingredient.id_ingredient}" onclick="showDeleteModal(this)">Eliminar</button>
+                <button class="edit" sec:authorize="hasAnyRole('ROLE_SUPERADMIN','ROLE_ADMIN')" th:data-id-ingredient="${ingredient.id_ingredient}" th:data-name="${ingredient.name_ingredient}" th:data-price="${ingredient.price}" th:data-stock="${ingredient.stock}" th:data-img="${ingredient.route_image}" onclick="showEditModal(this)" >Editar</button>
             </div>
         </div>
     </div>
 </div>
-<div class="hidden" id="editModal" >
+<div class="hidden" sec:authorize="hasAnyRole('ROLE_SUPERADMIN','ROLE_ADMIN')" id="editModal" >
     <div class="container-modal">
         <h2>Editar la informacion del ingrediente</h2>
         <div class="container-img">
@@ -95,7 +95,7 @@
     </div>
 
 </div>
-<div class="hidden" id="deleteModal">
+<div class="hidden" sec:authorize="hasAnyRole('ROLE_SUPERADMIN','ROLE_ADMIN')" id="deleteModal">
     <div class="container-modal-delete">
         <h2>Eliminar Ingrediente</h2>
         <form th:action="@{/deleteIngredient}" th:method="POST">

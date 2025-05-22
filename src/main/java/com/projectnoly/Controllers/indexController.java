@@ -1,10 +1,8 @@
 package com.projectnoly.Controllers;
 
-import com.projectnoly.Model.MySql.User;
-import com.projectnoly.Services.IngredientService;
 import com.projectnoly.Services.SaleService;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,23 +13,19 @@ import java.util.Map;
 
 @Controller
 public class indexController {
-    private final IngredientService ingredientService;
     private final SaleService saleService;
-    public indexController(IngredientService ingredientService, SaleService saleService) {
-        this.ingredientService = ingredientService;
+    public indexController(SaleService saleService) {
         this.saleService = saleService;
     }
     @GetMapping("/")
-    public String getIndex(Model model, HttpSession httpSession){
-        if (httpSession.getAttribute("user") !=null) {
-            User user = (User) httpSession.getAttribute("user");
-            model.addAttribute("ingredients",ingredientService.getIngredientsByTenHours());
+    public String getIndex(Model model,Authentication authentication){
+        if(authentication !=null && authentication.isAuthenticated()){
             model.addAttribute("sale",saleService.getTotalSales());
             model.addAttribute("efectivo",saleService.getTotalByMethod("Efectivo"));
             model.addAttribute("tarjeta",saleService.getTotalByMethod("Tarjeta"));
             model.addAttribute("yape",saleService.getTotalByMethod("yape"));
             model.addAttribute("plin",saleService.getTotalByMethod("plin"));
-            model.addAttribute("username",user.getUsername());
+            model.addAttribute("username",authentication.getName());
             return "index";
         }
         return "redirect:/login";

@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface UserRepo extends JpaRepository<User, Integer> {
     @Procedure(name = "LoginUser")
@@ -29,4 +31,6 @@ public interface UserRepo extends JpaRepository<User, Integer> {
             @Param("p_id") Integer id_user,
             @Param("p_username") String username
     );
+    @Procedure(name ="getUserByUsername")
+    Optional<User> getUserByUsername(@Param("p_username") String username);
 }

@@ -45,6 +45,14 @@ import java.time.LocalDateTime;
                 @StoredProcedureParameter(mode = ParameterMode.IN,name = "p_username",type = String.class)
         }
 )
+@NamedStoredProcedureQuery(
+        name = "getUserByUsername",
+        procedureName = "sp_get_user",
+        parameters = {
+                @StoredProcedureParameter(mode = ParameterMode.IN,name = "p_username",type= String.class)
+        },
+        resultClasses = User.class
+)
 @Table(name = "user")
 public class User {
     @Id

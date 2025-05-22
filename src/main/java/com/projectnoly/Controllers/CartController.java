@@ -2,10 +2,11 @@ package com.projectnoly.Controllers;
 import com.projectnoly.Model.MongoDB.Product;
 import com.projectnoly.Model.MySql.User;
 import com.projectnoly.Services.TablesService;
-import jakarta.servlet.http.HttpSession;
+import com.projectnoly.Services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,15 +14,17 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class CartController {
     private final TablesService tablesService;
+    private final UserService userService;
     private final Logger log = LoggerFactory.getLogger(CartController.class);
-    public CartController(TablesService tablesService) {
+    public CartController(TablesService tablesService,UserService userService) {
         this.tablesService = tablesService;
+        this.userService = userService;
     }
     @GetMapping("/cart/{id_table}")
-    public String getCart(Model model, HttpSession httpSession,@PathVariable int id_table) {
+    public String getCart(Model model,Authentication authentication, @PathVariable int id_table) {
         try {
-            if (httpSession.getAttribute("user") != null) {
-                User user =(User) httpSession.getAttribute("user");
+            if(authentication != null && authentication.isAuthenticated()){
+                User user = userService.getUserByUsername(authentication.getName());
                 model.addAttribute("table1",tablesService.getAllProducts(1));
                 model.addAttribute("table2",tablesService.getAllProducts(2));
                 model.addAttribute("table3",tablesService.getAllProducts(3));

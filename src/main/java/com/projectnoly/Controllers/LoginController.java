@@ -1,15 +1,10 @@
 package com.projectnoly.Controllers;
-import com.projectnoly.DTO.UserDTO;
-import com.projectnoly.Model.MySql.User;
 import com.projectnoly.Services.UserService;
 import jakarta.servlet.http.HttpSession;
-import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class LoginController {
@@ -26,30 +21,9 @@ public class LoginController {
     public String recoverPassword(){
         return "recover-password";
     }
-    @GetMapping("/addUser")
+    @GetMapping("/add-user")
     public String addUser(){
         return "new-user";
-    }
-    @PostMapping("/validateLogin")
-    public String validateLogin(
-           @RequestParam("username") String username,
-           @RequestParam("password") String password,
-           HttpSession session,
-           RedirectAttributes redirectAttributes
-    ){
-        try {
-            User user = userService.login(username,password);
-            if(user !=null){
-                session.setAttribute("user",user);
-                log.info("El usuario {} ha iniciado sesión", user.getUsername());
-                return "redirect:/";
-            }
-            redirectAttributes.addFlashAttribute("warning","Credenciales incorrectas");
-            return "redirect:/login";
-        } catch (Exception e) {
-            log.info("Error: {}", e.getMessage());
-            return "error";
-        }
     }
     @PostMapping("/recoverPassword")
     public String updatePassword (
@@ -97,48 +71,6 @@ public class LoginController {
             return "error";
         }
         return "redirect:/login";
-    }
-    @PostMapping("/validateOldPassword")
-    public ResponseEntity<?> validateRecoverPassword(
-            @RequestParam("userID") Integer username,
-            @RequestParam("password") String password
-    ){
-       try{
-           return ResponseEntity.ok(userService.validateOldPassword(username,password));
-       }catch (Exception e){
-           log.info("Error: {}", e.getMessage());
-           return ResponseEntity.badRequest().body("Error: " + e.getMessage());
-       }
-    }
-    @PostMapping("/updatePassword")
-    public ResponseEntity<?> updatePassword(
-            @RequestParam("userID") Integer userId,
-            @RequestParam("password") String password
-    ){
-        try{
-            userService.updatePassword(userId,password);
-            return ResponseEntity.ok("Contraseña actualizada");
-        }catch (Exception e){
-            log.info("Error: {}", e.getMessage());
-            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
-        }
-    }
-
-    @PutMapping("/update-data")
-    public ResponseEntity<?> updateData(
-            @Valid @RequestBody UserDTO userDTO,
-            HttpSession httpSession
-            ){
-        if(userDTO !=null){
-            userService.updateDataUser(userDTO);
-            log.info("Se actualizaron los datos del usuario {}", userDTO.getUsername());
-            httpSession.removeAttribute("user");
-            User user = userService.getUserById(userDTO.getId_user());
-            httpSession.setAttribute("user",user);
-            return ResponseEntity.ok("Se actualizaron los datos del usuario");
-        }else{
-            return ResponseEntity.badRequest().body("Error: " + "No se pudo actualizar los datos del usuario");
-        }
     }
 
 }

@@ -3,15 +3,13 @@ package com.projectnoly.Controllers;
 
 import com.projectnoly.Model.MySql.Menu;
 import com.projectnoly.Model.MySql.User;
-import com.projectnoly.Services.CategoryService;
-import com.projectnoly.Services.IngredientService;
-import com.projectnoly.Services.MenuIngredientService;
-import com.projectnoly.Services.MenuService;
+import com.projectnoly.Services.*;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,21 +27,23 @@ public class MenuController {
     private final CategoryService categoryService;
     private final IngredientService ingredientService;
     private final MenuIngredientService menuIngredientService;
+    private final UserService userService;
     private final Logger log = LoggerFactory.getLogger(MenuController.class);
 
     @Autowired
-    public MenuController(MenuService menuService,CategoryService categoryService, IngredientService ingredientService , MenuIngredientService menuIngredientService){
+    public MenuController(MenuService menuService,CategoryService categoryService, IngredientService ingredientService , MenuIngredientService menuIngredientService,UserService userService){
         this.menuService = menuService;
         this.categoryService = categoryService;
         this.ingredientService = ingredientService;
         this.menuIngredientService = menuIngredientService;
+        this.userService = userService;
     }
 
     @GetMapping("/menu")
-    public String menu(Model model, HttpSession httpSession){
-        if (httpSession.getAttribute("user") !=null) {
+    public String menu(Model model, HttpSession httpSession, Authentication authentication){
+        if(authentication != null && authentication.isAuthenticated()){
+            User user = userService.getUserByUsername(authentication.getName());
             List<Menu> menuList = menuService.getAllMenu();
-            User user = (User)httpSession.getAttribute("user");
             model.addAttribute("menuList",menuList);
             model.addAttribute("categories",categoryService.getAllCategories());
             model.addAttribute("ingredients",ingredientService.getAllIngredients());

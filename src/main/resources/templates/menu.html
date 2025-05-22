@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Menu</title>
@@ -54,9 +55,9 @@
             <img th:src="@{/{imageName} (imageName=${menu_item.route_image})}" class="img-custom" alt="Imagen del producto">
             <h3 class="title-product" th:text="${menu_item.name_item}"></h3>
             <p class="price-product" th:text="'Precio: S/ ' +${#numbers.formatDecimal(menu_item.price,1,2,'POINT')}">S/</p>
-            <div th:if="${user.role == 'admin' || user.role == 'superadmin'}" >
-                <button class="delete" th:data-id-menu="${menu_item.id_menu}" onclick="showDeleteModal(this)">Eliminar</button>
-                <button class="edit" th:data-ingredients="${menu_item.menu_ingredients}" th:data-id-menu="${menu_item.id_menu}"  th:data-nameProduct="${menu_item.name_item}" th:data-price="${menu_item.price}" th:data-description="${menu_item.description}" th:data-category="${menu_item.category.id}" onclick="showEditModal(this)">Editar</button>
+            <div>
+                <button class="delete" sec:authorize="hasAnyRole('ROLE_SUPERADMIN','ROLE_ADMIN')" th:data-id-menu="${menu_item.id_menu}" onclick="showDeleteModal(this)">Eliminar</button>
+                <button class="edit" sec:authorize="hasAnyRole('ROLE_SUPERADMIN','ROLE_ADMIN')" th:data-ingredients="${menu_item.menu_ingredients}" th:data-id-menu="${menu_item.id_menu}"  th:data-nameProduct="${menu_item.name_item}" th:data-price="${menu_item.price}" th:data-description="${menu_item.description}" th:data-category="${menu_item.category.id}" onclick="showEditModal(this)">Editar</button>
             </div>
         </div>
     </div>
@@ -67,14 +68,14 @@
             <h3 class="title-product" th:text="${menu_item.name_item}"></h3>
             <p class="price-product" th:text="'Precio: S/ ' +${#numbers.formatDecimal(menu_item.price,1,2,'POINT')}">S/</p>
             <div th:if="${user.role == 'admin' || user.role == 'superadmin'}" >
-                <button class="delete" th:data-id-menu="${menu_item.id_menu}" onclick="showDeleteModal(this)">Eliminar</button>
-                <button class="edit" th:data-ingredients="${menu_item.menu_ingredients}" th:data-id-menu="${menu_item.id_menu}" th:data-nameProduct="${menu_item.name_item}" th:data-price="${menu_item.price}" th:data-description="${menu_item.description}" th:data-category="${menu_item.category.id}" onclick="showEditModal(this)">Editar</button>
+                <button class="delete" sec:authorize="hasAnyRole('ROLE_SUPERADMIN','ROLE_ADMIN')" th:data-id-menu="${menu_item.id_menu}" onclick="showDeleteModal(this)">Eliminar</button>
+                <button class="edit" sec:authorize="hasAnyRole('ROLE_SUPERADMIN','ROLE_ADMIN')" th:data-ingredients="${menu_item.menu_ingredients}" th:data-id-menu="${menu_item.id_menu}" th:data-nameProduct="${menu_item.name_item}" th:data-price="${menu_item.price}" th:data-description="${menu_item.description}" th:data-category="${menu_item.category.id}" onclick="showEditModal(this)">Editar</button>
             </div>
         </div>
     </div>
 </div>
 
-<div class="hidden" id="editModal">
+<div class="hidden" sec:authorize="hasAnyRole('ROLE_SUPERADMIN','ROLE_ADMIN')" id="editModal">
     <div class="container-modal">
         <h2>Editar la informacion del producto</h2>
         <form th:action="@{/edit-menu}" th:method="POST" enctype="multipart/form-data">
@@ -125,7 +126,7 @@
 
 </div>
 
-<div class="hidden" id="deleteModal">
+<div class="hidden" sec:authorize="hasAnyRole('ROLE_SUPERADMIN','ROLE_ADMIN')" id="deleteModal">
     <div class="container-modal-delete">
         <h2>Eliminar Producto</h2>
         <form th:action="@{/delete-menu}" th:method="POST">

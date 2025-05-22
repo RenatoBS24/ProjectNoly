@@ -2,42 +2,37 @@ package com.projectnoly.Controllers;
 
 import com.projectnoly.Model.MySql.User;
 import com.projectnoly.Services.EmployeeService;
+import com.projectnoly.Services.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
+@RequestMapping("/superadmin")
 public class EmployeeController {
 
     private final EmployeeService employeeService;
+    private final UserService userService;
 
     @Autowired
-    public EmployeeController(EmployeeService employeeService){
+    public EmployeeController(EmployeeService employeeService,UserService userService){
         this.employeeService = employeeService;
+        this.userService = userService;
     }
     @GetMapping("/employees")
-    public String getEmployees(Model model, HttpSession httpSession){
-        if (httpSession.getAttribute("user") !=null) {
-            User user = (User) httpSession.getAttribute("user");
+    public String getEmployees(Model model, Authentication authentication, HttpSession httpSession){
+        if(authentication != null && authentication.isAuthenticated()){
+            User user = userService.getUserByUsername(authentication.getName());
             model.addAttribute("employees",employeeService.getAllEmployees());
             model.addAttribute("user",user);
             model.addAttribute("username",user.getUsername());
             return "employee";
-        }
-        return "redirect:/login";
-    }
-    @GetMapping("/user-profile")
-    public String getUserProfile(Model model, HttpSession httpSession){
-        if (httpSession.getAttribute("user") !=null) {
-            User user = (User) httpSession.getAttribute("user");
-            model.addAttribute("employee",user.getEmployee());
-            model.addAttribute("user",user);
-            model.addAttribute("username",user.getUsername());
-            return "profile-user";
         }
         return "redirect:/login";
     }

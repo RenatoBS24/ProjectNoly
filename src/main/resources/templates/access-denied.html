@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Acceso denegado</title>
+    <link rel="stylesheet" th:href="@{/css/styleAccessDenied.css}">
+    <link rel="stylesheet" th:href="@{/css/styleSidebar.css}">
+    <link rel="stylesheet" th:href="@{/css/styleLogOut.css}">
+    <link rel="shortcut icon" th:href="@{/img/logo.ico}" type="image/x-icon">
+    <link rel="shortcut icon" th:href="@{/img/logo.ico}" type="image/x-icon">
+</head>
+<body>
+<div class="container">
+    <div th:replace="~{fragments :: sidebar}"></div>
+    <h1>Acceso denegado</h1>
+    <p>No tienes permisos para acceder a esta página.</p>
+    <a href="/" class="btn">Volver al inicio</a>
+</div>
+</body>
+</html>
+

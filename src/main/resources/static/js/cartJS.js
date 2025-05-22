@@ -106,6 +106,7 @@ function removeProduct(button) {
     let id_table = document.getElementById('tables').value;
     const product = { id_product: id };
     sessionStorage.setItem("id_table",id_table)
+    console.log(id+' '+id_table)
     fetch(`/removeProduct?id_table=${id_table}`, {
         method: "POST",
         headers: {
@@ -115,6 +116,7 @@ function removeProduct(button) {
     })
         .then(response => response.text())
         .then(data => {
+            console.log(data)
             window.location.href = `/cart/${id_table}`;
         })
         .catch(error => {

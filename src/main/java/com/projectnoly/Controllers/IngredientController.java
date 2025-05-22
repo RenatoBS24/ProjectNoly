@@ -2,8 +2,9 @@ package com.projectnoly.Controllers;
 
 import com.projectnoly.Model.MySql.User;
 import com.projectnoly.Services.IngredientService;
-import jakarta.servlet.http.HttpSession;
+import com.projectnoly.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,15 +16,17 @@ import org.springframework.web.multipart.MultipartFile;
 public class IngredientController {
 
     private final IngredientService ingredientService;
+    private final UserService userService;
 
     @Autowired
-    public IngredientController(IngredientService ingredientService){
+    public IngredientController(IngredientService ingredientService,UserService userService){
         this.ingredientService = ingredientService;
+        this.userService = userService;
     }
     @GetMapping("/ingredients")
-    public String getIngredients(Model model, HttpSession httpSession){
-        if (httpSession.getAttribute("user") !=null) {
-            User user = (User) httpSession.getAttribute("user");
+    public String getIngredients(Model model, Authentication authentication){
+        if(authentication != null && authentication.isAuthenticated()){
+            User user = userService.getUserByUsername(authentication.getName());
             model.addAttribute("ingredients",ingredientService.getAllIngredients());
             model.addAttribute("user",user);
             model.addAttribute("employee",user.getEmployee());
