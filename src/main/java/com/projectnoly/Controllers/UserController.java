@@ -40,26 +40,16 @@ public class UserController {
             @RequestParam("userID") Integer username,
             @RequestParam("password") String password
     ){
-        try{
-            return ResponseEntity.ok(userService.validateOldPassword(username,password));
-        }catch (Exception e){
-            log.info("Error: {}", e.getMessage());
-            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
-        }
+        return ResponseEntity.ok(userService.validateOldPassword(username,password));
     }
     @PostMapping("/updatePassword")
     public ResponseEntity<?> updatePassword(
             @RequestParam("userID") Integer userId,
             @RequestParam("password") String password
     ){
-        try{
-            log.info(password);
-            userService.updatePassword(userId,password);
-            return ResponseEntity.ok("Contraseña actualizada");
-        }catch (Exception e){
-            log.info("Error: {}", e.getMessage());
-            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
-        }
+        log.info(password);
+        userService.updatePassword(userId,password);
+        return ResponseEntity.ok("Contraseña actualizada");
     }
 
     @PutMapping("/update-data")

@@ -3,8 +3,6 @@
 <head>
     <meta charset="UTF-8" >
     <title>Ocurrio un error</title>
-    <link rel="stylesheet" href="/static/css/styleSidebar.css">
-    <link rel="stylesheet" href="/static/css/styleError.css">
     <link rel="stylesheet" th:href="@{/css/styleSidebar.css}">
     <link rel="stylesheet" th:href="@{/css/styleError.css}">
     <link rel="stylesheet" th:href="@{/css/styleLogOut.css}">
@@ -42,7 +40,6 @@
     </div>
     <div class="container-error">
         <h1>Algo salio mal</h1>
-        <p  th:text="${error}"></p>
         <p>Si el error persiste contacte a soporte</p>
     </div>
 </div>

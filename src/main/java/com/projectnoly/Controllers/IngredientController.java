@@ -40,12 +40,8 @@ public class IngredientController {
             @RequestParam("id_ingredient") Integer id,
             @RequestParam("code_entered") String code_entered
     ){
-        try {
-            if(code_entered.equals("1234")){
-                ingredientService.deleteIngredient(id);
-            }
-        } catch (Exception e) {
-            return "error";
+        if(code_entered.equals("1234")){
+            ingredientService.deleteIngredient(id);
         }
         return "redirect:/ingredients";
     }
@@ -57,11 +53,7 @@ public class IngredientController {
             @RequestParam("stock") Integer stock,
             @RequestParam(value = "image", required = false) MultipartFile route_image
     ){
-        try {
-            ingredientService.editIngredient(id,name,price,stock,route_image);
-        } catch (Exception e) {
-            return "error";
-        }
+        ingredientService.editIngredient(id,name,price,stock,route_image);
         return "redirect:/ingredients";
     }
     @PostMapping("/add-ingredient")
@@ -72,11 +64,7 @@ public class IngredientController {
             @RequestParam("image") MultipartFile route_image
 
     ){
-        try {
-            ingredientService.addIngredient(name,price,route_image,stock);
-        } catch (Exception e) {
-            return "error";
-        }
+        ingredientService.addIngredient(name,price,route_image,stock);
         return "redirect:/ingredients";
     }
 }

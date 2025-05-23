@@ -72,22 +72,17 @@ public class SaleController {
             @RequestParam("id_employee") int id_employee,
             @RequestParam("id_table") int id_table
     ){
-        try {
-            double total = tablesService.getTotal(id_table);
-            if (valid_sale.equals("true")) {
-                total = 0;
-            }
-            int id_sale = saleService.addSale(pay_method,id_employee,valid_sale,id_table);
-            List<Product> productList = tablesService.deleteAllProducts(id_table);
-            saleMenuService.createSaleMenu(productList,id_sale);
-            saleProductService.addSaleProduct(id_sale,id_employee,total,pay_method,productList);
-            ingredientService.editStockByAdd(productList);
-            log.info("El id de la tabla es {}", id_table);
-            log.info("Sale created with id: {}", id_sale);
-        } catch (Exception e) {
-            log.warn(e.getMessage());
-            return "error";
+        double total = tablesService.getTotal(id_table);
+        if (valid_sale.equals("true")) {
+            total = 0;
         }
+        int id_sale = saleService.addSale(pay_method,id_employee,valid_sale,id_table);
+        List<Product> productList = tablesService.deleteAllProducts(id_table);
+        saleMenuService.createSaleMenu(productList,id_sale);
+        saleProductService.addSaleProduct(id_sale,id_employee,total,pay_method,productList);
+        ingredientService.editStockByAdd(productList);
+        log.info("El id de la tabla es {}", id_table);
+        log.info("Sale created with id: {}", id_sale);
 
         return "redirect:/sales";
     }
@@ -97,15 +92,10 @@ public class SaleController {
             @RequestParam("code_entered") String code,
             HttpSession httpSession
     ){
-        try {
-            User user = (User)httpSession.getAttribute("user");
-            ingredientService.editStockByDelete(code,saleMenuService.getSaleMenuByid(id_sale));
-            saleService.deleteSale(user,code,id_sale);
-            saleMenuService.deleteSaleMenu(code,id_sale);
-
-        } catch (Exception e) {
-            return  "error";
-        }
+        User user = (User)httpSession.getAttribute("user");
+        ingredientService.editStockByDelete(code,saleMenuService.getSaleMenuByid(id_sale));
+        saleService.deleteSale(user,code,id_sale);
+        saleMenuService.deleteSaleMenu(code,id_sale);
         return "redirect:/sales";
     }
 

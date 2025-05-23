@@ -63,14 +63,10 @@ public class MenuController {
             @RequestParam("image") MultipartFile route_image,
             @RequestParam(value = "listIngredient" ,required = false) List<String> listIngredient
     ){
-        try {
-            boolean result = menuService.editMenu(id,nameProduct,description,price,id_category,route_image);
-            menuIngredientService.deleteMenuIngredient(id,listIngredient);
-            if(result){
-                log.info("Menu editado con exito");
-            }
-        } catch (Exception e) {
-            return "error";
+        boolean result = menuService.editMenu(id,nameProduct,description,price,id_category,route_image);
+        menuIngredientService.deleteMenuIngredient(id,listIngredient);
+        if(result){
+            log.info("Menu editado con exito");
         }
         return "redirect:/menu";
     }
@@ -79,15 +75,11 @@ public class MenuController {
             @RequestParam("id_menu") int id,
             @RequestParam("code_entered") String code
     ){
-        try {
-            if (code.equals("1234")) {
-                boolean result = menuService.deleteMenu(id);
-                if(result){
-                    log.info("El usarioMenu eliminado con exito");
-                }
+        if (code.equals("1234")) {
+            boolean result = menuService.deleteMenu(id);
+            if(result){
+                log.info("El usarioMenu eliminado con exito");
             }
-        } catch (Exception e) {
-            return  "error";
         }
         return "redirect:/menu";
     }
@@ -102,16 +94,12 @@ public class MenuController {
             @RequestParam("image") MultipartFile route_image,
             @RequestParam(value = "listIngredient" ,required = false) List<String> listIngredient
     ){
-        try {
-            int id = menuService.addMenu(nameProduct,description,price,route_image,id_category);
-            if( id>0){
-                menuIngredientService.addMenuIngredient(id,listIngredient);
-                log.info("Menu agregado con exito");
-            }else{
-                log.warn("el id recibido es menor que 0");
-            }
-        } catch (Exception e) {
-            return "error";
+        int id = menuService.addMenu(nameProduct,description,price,route_image,id_category);
+        if( id>0){
+            menuIngredientService.addMenuIngredient(id,listIngredient);
+            log.info("Menu agregado con exito");
+        }else{
+            log.warn("el id recibido es menor que 0");
         }
         return "redirect:/menu";
 

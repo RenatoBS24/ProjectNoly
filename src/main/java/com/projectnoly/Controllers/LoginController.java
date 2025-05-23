@@ -31,14 +31,9 @@ public class LoginController {
             @RequestParam("password") String password,
             @RequestParam("code") String code
     ){
-        try {
-            userService.updatePassword(username,password,code);
-            log.info("El usuario {} ha actualizado su contraseña", username);
-            return "login";
-        } catch (Exception e) {
-            log.info("Error: {}", e.getMessage());
-            return "error";
-        }
+        userService.updatePassword(username,password,code);
+        log.info("El usuario {} ha actualizado su contraseña", username);
+        return "login";
     }
     @PostMapping("/addUser")
     public String addUser(
@@ -51,24 +46,15 @@ public class LoginController {
             @RequestParam("phone") String phone,
             @RequestParam("code") String code
     ){
-        try {
-            userService.adduser(username,password,role,nameEmployee,lastname,dni,phone,code);
-            log.info("Se ha registrado un nuevo usuario con el nombre de usuario {}", username);
-            return "login";
-        } catch (Exception e) {
-            log.info("Error: {}", e.getMessage());
-            return "error";
-        }
+        userService.adduser(username,password,role,nameEmployee,lastname,dni,phone,code);
+        log.info("Se ha registrado un nuevo usuario con el nombre de usuario {}", username);
+        return "login";
     }
     @PostMapping("/logOut")
     public String logOut(HttpSession httpSession){
-        try {
-            if(httpSession.getAttribute("user") !=null){
-                httpSession.removeAttribute("user");
-                return "redirect:/login";
-            }
-        } catch (Exception e) {
-            return "error";
+        if(httpSession.getAttribute("user") !=null){
+            httpSession.removeAttribute("user");
+            return "redirect:/login";
         }
         return "redirect:/login";
     }
