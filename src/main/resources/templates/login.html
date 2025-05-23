@@ -33,8 +33,8 @@
                         <div>
                             <input type ="submit" value ="Inciar Sesion" class="button" name = "button">
                         </div>
-                        <div>
-                            <p th:if="${param.error}" th:text="Usuario o contrseña incorrectos" style="color: red"></p>
+                        <div th:if="${param.error}" style="color: red">
+                            <p>Usuario o contraseña incorrectos</p>
                         </div>
                         <div>
                             <a target ="_self" href ="/recoverPassword" class="recoverPass">Olvido su contraseña</a>

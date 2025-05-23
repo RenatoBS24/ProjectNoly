@@ -7,6 +7,8 @@
     <link rel="stylesheet" th:href="@{/css/styleSidebar.css}">
     <link rel="stylesheet" th:href="@{/css/styleLogOut.css}">
     <link rel="shortcut icon" th:href="@{/img/logo.ico}" type="image/x-icon">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 </head>
 <body>
 <div th:replace="~{fragments :: sidebar}"></div>

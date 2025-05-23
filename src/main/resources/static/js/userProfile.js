@@ -17,6 +17,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const savePasswordBtn = document.getElementById('savePasswordBtn');
     const updateForm = document.getElementById('profileForm');
     const updateData = document.getElementById('update-data');
+    const token = document.querySelector('meta[name="_csrf"]').content;
+    const header = document.querySelector('meta[name="_csrf_header"]').content;
 
     updateForm.addEventListener('submit', function(event) {
         event.preventDefault();
@@ -26,17 +28,17 @@ document.addEventListener('DOMContentLoaded', function() {
             dni: document.getElementById('dni').value,
             phone: document.getElementById('phone').value
         }
-        console.log("El metodo llego hasta aqui xd")
         fetch("/user/update-data",{
             method: 'PUT',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                [header]: token
             },
             body: JSON.stringify(formData)
         })
         .then(response => {
             if (response.ok) {
-                window.location.href = '/user-profile';
+                window.location.href = '/login';
             } else {
                 updateData.textContent = 'Error al actualizar los datos.';
             }
@@ -151,11 +153,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 fetch(`/user/updatePassword?userID=${userID}&password=${newPasswordValue}`, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        [header]: token
                     },
                 }).then(response => {
                     if (response.ok) {
-                        window.location.href = '/user-profile';
+                        window.location.href = '/user/user-profile';
                     } else {
                         throw new Error('Error al actualizar la contraseña.');
                     }
@@ -171,13 +174,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
 async function validateOldPassword(passwordOld) {
     let userID = document.getElementById('userID').value;
+    const token = document.querySelector('meta[name="_csrf"]').content;
+    const header = document.querySelector('meta[name="_csrf_header"]').content;
     console.log(userID);
     console.log(passwordOld);
     try {
         const response = await fetch(`/user/validateOldPassword?userID=${userID}&password=${passwordOld}`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                [header]: token
             },
         });
 
@@ -192,6 +198,7 @@ async function validateOldPassword(passwordOld) {
             document.getElementById('passwordOld').textContent = '';
             return true;
         } else {
+            console.log('clave mal')
             document.getElementById('passwordOld').textContent = 'Contraseña actual incorrecta';
             return false;
         }

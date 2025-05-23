@@ -1,3 +1,6 @@
+const token = document.querySelector('meta[name="_csrf"]').content;
+const header = document.querySelector('meta[name="_csrf_header"]').content;
+
 window.onload =function initView(){
     let id_table = sessionStorage.getItem('id_table');
     if(id_table === null){
@@ -66,7 +69,8 @@ function increment(button){
     fetch(`/increment?id_table=${id_table}`,{
         method: "POST",
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            [header]: token
         },
         body: JSON.stringify(product)
     }).then(response => response.json())
@@ -89,7 +93,8 @@ function decrement(button){
     fetch(`/decrement?id_table=${id_table}`,{
         method: "POST",
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            [header]: token
         },
         body: JSON.stringify(product)
     }).then(response => response.json())
@@ -110,7 +115,8 @@ function removeProduct(button) {
     fetch(`/removeProduct?id_table=${id_table}`, {
         method: "POST",
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            [header]: token
         },
         body: JSON.stringify(product)
     })

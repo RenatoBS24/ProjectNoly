@@ -26,10 +26,13 @@ document.getElementById('toCartButton').addEventListener('click', function (){
 })
 
 function addToCart(id_table,id_product){
+    const token = document.querySelector('meta[name="_csrf"]').content;
+    const header = document.querySelector('meta[name="_csrf_header"]').content;
     fetch(`/addToCart?id_table=${id_table}&id_product=${id_product}`,{
         method: "POST",
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            [header]: token
         },
     }).then(response => response.text())
         .then(data => {

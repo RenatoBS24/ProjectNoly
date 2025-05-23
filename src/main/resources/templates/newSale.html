@@ -7,9 +7,8 @@
     <link rel="stylesheet" th:href="@{/css/styleSidebar.css}">
     <link rel="stylesheet" th:href="@{/css/styleLogOut.css}">
     <link rel="stylesheet" th:href="@{/css/styleNewSale.css}">
-    <link rel="stylesheet" href="../static/css/styleMenu.css">
-    <link rel="stylesheet" href="../static/css/styleNewSale.css">
-    <link rel="stylesheet" href="../static/css/styleSidebar.css">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <link rel="shortcut icon" th:href="@{/img/logo.ico}" type="image/x-icon">
 
 
@@ -73,7 +72,6 @@
 <div id="toast-container"></div>
 
 <div th:replace="~{fragments :: LogOutModal}"></div>
-<script src="../static/js/newSale.js"></script>
 <script th:src="@{/js/cartJS.js}"></script>
 <script th:src="@{/js/LogOut.js}"></script>
 <script th:src="@{/js/search.js}"></script>

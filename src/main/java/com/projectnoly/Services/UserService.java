@@ -61,7 +61,7 @@ public class UserService  implements UserDetailsService {
     public boolean validateOldPassword(Integer userId,String password){
        User user = userRepo.findById(userId).orElse(null);
        if(user !=null){
-           return user.getPassword().equals(passwordEncoder.encode(password));
+           return passwordEncoder.matches(password,user.getPassword());
        }else{
               return false;
        }
