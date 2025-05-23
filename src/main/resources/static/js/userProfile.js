@@ -1,51 +1,78 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // ================== Element References ==================
+    // Botón y elementos para cambiar foto
     const changePhotoBtn = document.getElementById('changePhotoBtn');
     const profileImageInput = document.getElementById('profileImageInput');
     const profileAvatar = document.querySelector('.profile-avatar');
-    const toggleButton = document.getElementById('toggleButton');
-    const sidebar = document.querySelector('.sidebar');
-    const main = document.querySelector('.main-content');
+
+    // Modal de contraseña
     const passwordModal = document.getElementById('passwordModal');
     const openPasswordModalBtn = document.getElementById('openPasswordModalBtn');
     const closePasswordModal = document.getElementById('closePasswordModal');
     const cancelPasswordBtn = document.getElementById('cancelPasswordBtn');
+
+    // Campos y mensajes de contraseña
     const newPassword = document.getElementById('newPassword');
     const confirmPassword = document.getElementById('confirmPassword');
     const passwordStrength = document.getElementById('passwordStrength');
     const passwordOld = document.getElementById('passwordOld');
     const passwordMatch = document.getElementById('passwordMatch');
     const savePasswordBtn = document.getElementById('savePasswordBtn');
+
+    // Formulario de perfil
     const updateForm = document.getElementById('profileForm');
     const updateData = document.getElementById('update-data');
+
+    // CSRF
     const token = document.querySelector('meta[name="_csrf"]').content;
     const header = document.querySelector('meta[name="_csrf_header"]').content;
 
-    updateForm.addEventListener('submit', function(event) {
-        event.preventDefault();
-        const formData ={
-            id_user: document.getElementById('id_user').value,
-            username: document.getElementById('username').value,
-            dni: document.getElementById('dni').value,
-            phone: document.getElementById('phone').value
-        }
-        fetch("/user/update-data",{
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                [header]: token
-            },
-            body: JSON.stringify(formData)
-        })
-        .then(response => {
-            if (response.ok) {
-                window.location.href = '/login';
-            } else {
-                updateData.textContent = 'Error al actualizar los datos.';
-            }
-        })
-            .catch(error => console.error('Error:', error));
-    })
-    if (changePhotoBtn && profileImageInput && profileAvatar) {
+    // ================== Event Bindings ==================
+    bindProfileForm();
+    bindPhotoUpload();
+    bindPasswordModal();
+    bindPasswordValidation();
+    bindSavePassword();
+
+    // ================== Function Definitions ==================
+
+    // ---- 1. Actualización de datos de usuario ----
+    function bindProfileForm() {
+        if (!updateForm) return;
+        updateForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = {
+                id_user: document.getElementById('id_user').value,
+                username: document.getElementById('username').value,
+                dni: document.getElementById('dni').value,
+                phone: document.getElementById('phone').value
+            };
+            fetch("/user/update-data", {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    [header]: token
+                },
+                body: JSON.stringify(formData)
+            })
+                .then(response => {
+                    if (response.ok) {
+                        window.location.href = '/login';
+                    } else {
+                        updateData.textContent = 'Error al actualizar los datos.';
+                    }
+                })
+                .catch(error => {
+                    updateData.textContent = 'Error al actualizar los datos.';
+                    console.error('Error:', error);
+                });
+        });
+    }
+
+    // ---- 2. Cambio de foto de perfil ----
+    function bindPhotoUpload() {
+        if (!(changePhotoBtn && profileImageInput && profileAvatar)) return;
+
         changePhotoBtn.addEventListener('click', function() {
             profileImageInput.click();
         });
@@ -56,155 +83,142 @@ document.addEventListener('DOMContentLoaded', function() {
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     profileAvatar.src = e.target.result;
-                }
+                };
                 reader.readAsDataURL(file);
             }
         });
     }
-    if (toggleButton && sidebar && main) {
-        toggleButton.addEventListener('click', function() {
-            sidebar.classList.toggle('expanded');
-            if (sidebar.classList.contains('expanded')) {
-                main.style.marginLeft = '160px';
-                main.style.width = 'calc(100% - 160px)';
-            } else {
-                main.style.marginLeft = '84px';
-                main.style.width = 'calc(100% - 84px)';
-            }
-        });
-    }
+    // ---- 4. Modal de contraseña ----
+    function bindPasswordModal() {
+        if (openPasswordModalBtn && passwordModal) {
+            openPasswordModalBtn.addEventListener('click', function() {
+                passwordModal.classList.remove('hidden');
+                passwordModal.classList.add('passwordModal');
+            });
+        }
+        if (closePasswordModal && passwordModal) {
+            closePasswordModal.addEventListener('click', closeModalPassword);
+        }
+        if (cancelPasswordBtn && passwordModal) {
+            cancelPasswordBtn.addEventListener('click', closeModalPassword);
+        }
 
-    if (openPasswordModalBtn && passwordModal) {
-        openPasswordModalBtn.addEventListener('click', function() {
-            passwordModal.classList.remove('hidden');
-            passwordModal.classList.add('passwordModal');
-        });
-    }
-
-    if (closePasswordModal && passwordModal) {
-        closePasswordModal.addEventListener('click', function() {
+        function closeModalPassword() {
             passwordModal.classList.remove('passwordModal');
             passwordModal.classList.add('hidden');
-        });
+        }
     }
 
-    if (cancelPasswordBtn && passwordModal) {
-        cancelPasswordBtn.addEventListener('click', function() {
-            passwordModal.classList.remove('passwordModal');
-            passwordModal.classList.add('hidden');
-        });
+    // ---- 5. Validación de contraseñas ----
+    function bindPasswordValidation() {
+        if (newPassword && passwordStrength) {
+            newPassword.addEventListener('input', validatePasswordStrength);
+        }
+        if (confirmPassword && passwordMatch) {
+            confirmPassword.addEventListener('input', validatePasswordMatch);
+        }
     }
 
-    if (newPassword && passwordStrength) {
-        newPassword.addEventListener('input', function() {
-            validatePasswordStrength();
-        });
-    }
-
-    if (confirmPassword && passwordMatch) {
-        confirmPassword.addEventListener('input', function() {
-            validatePasswordMatch();
-        });
-    }
     function validatePasswordStrength() {
         const password = newPassword.value;
         if (password.length < 8) {
             passwordStrength.textContent = 'La contraseña debe tener al menos 8 caracteres.';
             return false;
-        } else if (!/[A-Z]/.test(password)) {
+        }
+        if (!/[A-Z]/.test(password)) {
             passwordStrength.textContent = 'La contraseña debe contener al menos una letra mayúscula.';
             return false;
-        } else if (!/[a-z]/.test(password)) {
+        }
+        if (!/[a-z]/.test(password)) {
             passwordStrength.textContent = 'La contraseña debe contener al menos una letra minúscula.';
             return false;
-        } else if (!/[0-9]/.test(password)) {
+        }
+        if (!/[0-9]/.test(password)) {
             passwordStrength.textContent = 'La contraseña debe contener al menos un número.';
             return false;
-        } else {
-            passwordStrength.textContent = '';
-            return true;
         }
+        passwordStrength.textContent = '';
+        return true;
     }
+
     function validatePasswordMatch() {
         if (newPassword.value !== confirmPassword.value) {
             passwordMatch.textContent = 'Las contraseñas no coinciden.';
             return false;
-        } else {
-            passwordMatch.textContent = '';
-            return true;
         }
+        passwordMatch.textContent = '';
+        return true;
     }
-    if (savePasswordBtn) {
-        savePasswordBtn.addEventListener('click',  async function() {
+
+    // ---- 6. Guardar nueva contraseña ----
+    function bindSavePassword() {
+        if (!savePasswordBtn) return;
+        savePasswordBtn.addEventListener('click', async function() {
             const currentPassword = document.getElementById('currentPassword').value;
-            let isValid = await validateOldPassword(currentPassword);
-            console.log(isValid);
-            if (isValid === false) {
-                return;
-            }
             if (!currentPassword) {
                 passwordOld.textContent = 'La contraseña actual es obligatoria.';
                 return;
             }
-            if (validatePasswordStrength() && validatePasswordMatch() && isValid) {
-                console.log('Contraseña válida');
-                let newPasswordValue = newPassword.value;
-                let userID = document.getElementById('userID').value;
-                fetch(`/user/updatePassword?userID=${userID}&password=${newPasswordValue}`, {
+            let isValid = await validateOldPassword(currentPassword);
+            if (!isValid) return;
+
+            if (validatePasswordStrength() && validatePasswordMatch()) {
+                const newPasswordValue = newPassword.value;
+                const userID = document.getElementById('userID').value;
+                fetch(`/user/updatePassword?userID=${userID}&password=${encodeURIComponent(newPasswordValue)}`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                         [header]: token
-                    },
-                }).then(response => {
-                    if (response.ok) {
-                        window.location.href = '/user/user-profile';
-                    } else {
-                        throw new Error('Error al actualizar la contraseña.');
                     }
-                }).catch(error => {
-                    console.error('Error:', error);
-                    alert('Error al actualizar la contraseña.');
                 })
-
+                    .then(response => {
+                        if (response.ok) {
+                            window.location.href = '/user/user-profile';
+                        } else {
+                            throw new Error('Error al actualizar la contraseña.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Error al actualizar la contraseña.');
+                    });
             }
         });
     }
 });
 
+// ================== Función global: validar contraseña actual ==================
 async function validateOldPassword(passwordOld) {
-    let userID = document.getElementById('userID').value;
+    const userID = document.getElementById('userID').value;
     const token = document.querySelector('meta[name="_csrf"]').content;
     const header = document.querySelector('meta[name="_csrf_header"]').content;
-    console.log(userID);
-    console.log(passwordOld);
+    const passwordOldMsg = document.getElementById('passwordOld');
     try {
-        const response = await fetch(`/user/validateOldPassword?userID=${userID}&password=${passwordOld}`, {
+        const response = await fetch(`/user/validateOldPassword?userID=${userID}&password=${encodeURIComponent(passwordOld)}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 [header]: token
-            },
+            }
         });
 
         if (!response.ok) {
-            document.getElementById('passwordOld').textContent = 'Error al validar la contraseña actual.';
+            passwordOldMsg.textContent = 'Error al validar la contraseña actual.';
             return false;
         }
 
         const data = await response.json();
-        console.log(data);
         if (data) {
-            document.getElementById('passwordOld').textContent = '';
+            passwordOldMsg.textContent = '';
             return true;
         } else {
-            console.log('clave mal')
-            document.getElementById('passwordOld').textContent = 'Contraseña actual incorrecta';
+            passwordOldMsg.textContent = 'Contraseña actual incorrecta';
             return false;
         }
     } catch (error) {
         console.error('Error:', error);
-        document.getElementById('passwordOld').textContent = 'Error al validar la contraseña actual.';
+        passwordOldMsg.textContent = 'Error al validar la contraseña actual.';
         return false;
     }
 }
