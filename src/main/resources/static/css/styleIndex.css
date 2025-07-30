@@ -111,3 +111,118 @@ table{
     border-radius: 50%;
     transform: translate(-50%, -50%);
 }
+
+/* --- RESPONSIVE DESIGN --- */
+@media (max-width: 900px) {
+    .container {
+        flex-direction: column;
+        gap: 16px;
+    }
+    .table-ingredients, .info-sales {
+        max-width: 100%;
+        width: 100%;
+    }
+    .total-sales {
+        width: 100%;
+        min-width: 0;
+    }
+    .sales-pay-methods {
+        width: 160px;
+        height: 160px;
+    }
+    .sales-pay-methods::before {
+        width: 80px;
+        height: 80px;
+    }
+}
+
+@media (max-width: 640px) {
+    .container {
+        flex-direction: column;
+        gap: 10px;
+        padding: 0 2vw;
+    }
+    .table-ingredients, .info-sales {
+        max-width: 100%;
+        width: 100%;
+        padding: 6px;
+        border-radius: 14px;
+    }
+    .table-ingredients h2,
+    .title {
+        font-size: 20px;
+    }
+    /* Tabla desplazable horizontalmente en móvil */
+    .table-ingredients > div {
+        overflow-x: auto;
+    }
+    table {
+        min-width: 480px;
+        font-size: 13px;
+    }
+    table thead th {
+        font-size: 15px;
+        padding: 0.5rem 0.2rem;
+    }
+    table tbody td {
+        font-size: 13px;
+        padding: 0.3rem 0.5rem;
+    }
+    .total-sales {
+        width: 100%;
+        min-width: 0;
+        height: auto;
+        padding: 8px;
+        border-radius: 14px;
+    }
+    .total-sales span {
+        font-size: 18px;
+    }
+    .pay-methods {
+        flex-direction: column;
+        gap: 10px;
+        padding: 4px;
+        margin: 0;
+        align-items: stretch;
+    }
+    .methods {
+        width: 100%;
+    }
+    .method label,
+    .method p {
+        font-size: 14px;
+    }
+    .sales-pay-methods {
+        width: 120px;
+        height: 120px;
+        margin: 10px auto 0 auto;
+    }
+    .sales-pay-methods::before {
+        width: 60px;
+        height: 60px;
+    }
+}
+
+@media (max-width: 400px) {
+    .container {
+        padding: 0 1vw;
+    }
+    .table-ingredients h2,
+    .title {
+        font-size: 15px;
+    }
+    .total-sales h3 {
+        font-size: 1rem;
+    }
+    .total-sales span {
+        font-size: 1rem;
+    }
+    .sales-pay-methods {
+        width: 80px;
+        height: 80px;
+    }
+    .sales-pay-methods::before {
+        width: 36px;
+        height: 36px;
+    }
+}

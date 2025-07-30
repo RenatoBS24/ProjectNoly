@@ -86,3 +86,65 @@ input[type="password"] {
 .register{
     margin-left: 150px;
 }
+
+@media (max-width: 900px) {
+    .divisor {
+        flex-direction: column;
+        height: auto;
+    }
+    .left, .right {
+        flex: none;
+        width: 100%;
+        min-height: 180px;
+        padding: 10px;
+    }
+    .container-img {
+        margin-top: 20px;
+    }
+    .form {
+        margin-top: 10px;
+        padding: 0;
+    }
+    .data {
+        width: 100%;
+        max-width: 400px;
+        padding: 5px;
+    }
+    .data select {
+        width: 100%;
+    }
+    .button {
+        width: 100%;
+        margin-left: 0;
+    }
+    .register {
+        margin-left: 0;
+        text-align: center;
+        margin-top: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .left, .right {
+        min-height: 100px;
+        padding: 5px;
+    }
+    .container-img img.logo {
+        max-width: 80vw;
+        height: auto;
+    }
+    .data label {
+        font-size: 16px;
+    }
+    .data {
+        width: 100%;
+        padding: 2px;
+    }
+    .button {
+        font-size: 1rem;
+        padding: 8px;
+    }
+    .form {
+        margin-top: 5px;
+    }
+}

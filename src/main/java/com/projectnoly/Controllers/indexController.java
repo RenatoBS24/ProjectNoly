@@ -1,5 +1,6 @@
 package com.projectnoly.Controllers;
 
+import com.projectnoly.Services.IngredientService;
 import com.projectnoly.Services.SaleService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -14,8 +15,10 @@ import java.util.Map;
 @Controller
 public class indexController {
     private final SaleService saleService;
-    public indexController(SaleService saleService) {
+    private final IngredientService ingredientService;
+    public indexController(SaleService saleService, IngredientService ingredientService) {
         this.saleService = saleService;
+        this.ingredientService = ingredientService;
     }
     @GetMapping("/")
     public String getIndex(Model model,Authentication authentication){
@@ -25,6 +28,7 @@ public class indexController {
             model.addAttribute("tarjeta",saleService.getTotalByMethod("Tarjeta"));
             model.addAttribute("yape",saleService.getTotalByMethod("yape"));
             model.addAttribute("plin",saleService.getTotalByMethod("plin"));
+            model.addAttribute("ingredients",ingredientService.getIngredientsByTenHours());
             model.addAttribute("username",authentication.getName());
             return "index";
         }

@@ -5,8 +5,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function toggleSidebar() {
         sidebar.classList.toggle('expanded');
-
-        // Guardar el estado del sidebar en localStorage
         const isExpanded = sidebar.classList.contains('expanded');
         localStorage.setItem('sidebarExpanded', isExpanded);
     }

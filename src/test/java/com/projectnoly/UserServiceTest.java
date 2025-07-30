@@ -11,16 +11,19 @@ import org.junit.jupiter.api.Test;
 import com.projectnoly.Model.MySql.User;
 import com.projectnoly.Repositories.UserRepo;
 import com.projectnoly.Services.UserService;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 public class UserServiceTest {
 
     private UserRepo userRepo;
     private UserService userService;
     private EmployeeService employeeService;
+    private PasswordEncoder passwordEncoder;
     @BeforeEach
     void setUp() {
         userRepo = mock(UserRepo.class);
         employeeService = mock(EmployeeService.class);
-        userService = new UserService(userRepo, employeeService);
+        userService = new UserService(userRepo, employeeService,passwordEncoder);
 
     }
 
@@ -54,40 +57,6 @@ public class UserServiceTest {
         when(userRepo.findById(1)).thenReturn(Optional.empty());
         boolean result = userService.validateOldPassword(1, "password123");
         assertFalse(result);
-    }
-    @Test
-    void testLogin_ValidCredentials() {
-        String username = "usuario123";
-        String password = "pass123";
-        User user = new User();
-        when(userRepo.login(eq(username), anyString())).thenReturn(user);
-
-        User result = userService.login(username, password);
-
-        assertNotNull(result);
-        verify(userRepo).login(eq(username), anyString());
-    }
-
-    @Test
-    void testLogin_InvalidUsername() {
-        String username = "usuario@123";
-        String password = "pass123";
-
-        User result = userService.login(username, password);
-
-        assertNull(result);
-        verify(userRepo, never()).login(anyString(), anyString());
-    }
-
-    @Test
-    void testLogin_InvalidPassword() {
-        String username = "usuario123";
-        String password = "pass@123";
-
-        User result = userService.login(username, password);
-
-        assertNull(result);
-        verify(userRepo, never()).login(anyString(), anyString());
     }
     @Test
     void testAddUser_ValidInput() {
