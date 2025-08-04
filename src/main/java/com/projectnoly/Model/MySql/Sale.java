@@ -76,4 +76,6 @@ public class Sale {
     private Employee employee;
     @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL)
     private List<SaleMenu> saleMenus;
+    @OneToMany(mappedBy ="sale",cascade = CascadeType.ALL)
+    private List<SalePaymentMethod> salePaymentMethodList;
 }

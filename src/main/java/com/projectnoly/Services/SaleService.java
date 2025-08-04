@@ -1,7 +1,7 @@
 package com.projectnoly.Services;
 
-import com.projectnoly.Model.MySql.Sale;
-import com.projectnoly.Model.MySql.User;
+import com.projectnoly.Model.MySql.*;
+import com.projectnoly.Repositories.PaymentMethodRepo;
 import com.projectnoly.Repositories.SaleRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +12,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class SaleService {
@@ -20,13 +23,15 @@ public class SaleService {
     private final SaleRepo saleRepo;
     private final TablesService tablesService;
     private final EmployeeService employeeService;
+    private final PaymentMethodRepo paymentMethodRepo;
     private final Logger log = LoggerFactory.getLogger(SaleProductService.class);
 
     @Autowired
-    public SaleService(SaleRepo saleRepo, TablesService tablesService, EmployeeService employeeService) {
+    public SaleService(SaleRepo saleRepo, TablesService tablesService, EmployeeService employeeService,PaymentMethodRepo paymentMethodRepo) {
         this.saleRepo = saleRepo;
         this.tablesService = tablesService;
         this.employeeService = employeeService;
+        this.paymentMethodRepo = paymentMethodRepo;
     }
     @Transactional
     public List<Sale> getAllSales() {
@@ -55,6 +60,30 @@ public class SaleService {
             log.warn(e.getMessage());
             return 0;
         }
+    }
+
+    public int addSale(int idTable, int idEmployee, Map<String,Double> payMethods){
+        double total = tablesService.getTotal(idTable);
+        Employee employee = employeeService.getEmployeeById(idEmployee);
+        double totalPayMethods = 0;
+        for(Double amount : payMethods.values()){
+            totalPayMethods+= amount;
+        }
+        if(total != totalPayMethods){
+            throw new IllegalArgumentException("La suma de los montos tiene que ser igual al total");
+
+        }
+        Sale sale = new Sale(0, LocalDateTime.now(),total,"active","efectivo",employee,new ArrayList<>(),new ArrayList<>());
+        Sale newSale = saleRepo.save(sale);
+        List<SalePaymentMethod> salePaymentMethodList = new ArrayList<>();
+        for(Map.Entry<String,Double> entry : payMethods.entrySet()){
+            PaymentMethod paymentMethod = paymentMethodRepo.findByName(entry.getKey());
+            SalePaymentMethodId paymentMethodId = new SalePaymentMethodId((long) newSale.getId_sale(),paymentMethod.getIdPaymentMethod());
+            salePaymentMethodList.add(new SalePaymentMethod(paymentMethodId,newSale,paymentMethod, entry.getValue()));
+        }
+        newSale.setSalePaymentMethodList(salePaymentMethodList);
+        saleRepo.save(newSale);
+        return newSale.getId_sale();
     }
     public double getTotalSales(){
         return saleRepo.getTotalSales();
