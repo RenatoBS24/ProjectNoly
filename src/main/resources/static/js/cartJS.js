@@ -156,5 +156,57 @@ document.getElementById('valid-sale').addEventListener('change', function() {
         updateTotal(Number(id));
     }
 });
+function openSplitModal() {
+    document.getElementById('splitModal').classList.remove('hidden');
+    document.getElementById('splitTotal').textContent = document.getElementById('total').textContent;
+    validateSplitTotal();
+}
+function closeSplitModal() {
+    document.getElementById('splitModal').classList.add('hidden');
+}
+function validateSplitTotal() {
+    const total = parseFloat(document.getElementById('total').textContent.replace('S/',''));
+    const form = document.getElementById('splitForm');
+    let sum = 0;
+    ['efectivo','yape','plin','tarjeta'].forEach(m => {
+        sum += parseFloat(form[m].value) || 0;
+    });
+    const error = document.getElementById('splitError');
+    const confirmBtn = document.getElementById('confirmSplit');
+    if (Math.abs(sum - total) > 0.01) {
+        error.textContent = 'La suma debe ser igual al total (' + total.toFixed(2) + ')';
+        confirmBtn.disabled = true;
+    } else {
+        error.textContent = '';
+        confirmBtn.disabled = false;
+    }
+}
+document.getElementById('splitForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    const id_employee = document.getElementById('id_employee').value;
+    const id_table = document.getElementById('id_table').value;
+    const form = e.target;
+    const paymentsMethods = {
+        efectivo: parseFloat(form.efectivo.value) || 0,
+        yape: parseFloat(form.yape.value) || 0,
+        plin: parseFloat(form.plin.value) || 0,
+        tarjeta: parseFloat(form.tarjeta.value) || 0
+    };
+    fetch('/sales/add-sale', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            [header]: token
+        },
+        body: JSON.stringify({
+            idTable: Number(id_table),
+            idEmployee: Number(id_employee),
+            paymentMethods: paymentsMethods
+        })
+    }).then(res => {
+        if(res.redirected) window.location.href = res.url;
+        else closeSplitModal();
+    });
+});
 
 

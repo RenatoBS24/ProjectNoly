@@ -1,5 +1,6 @@
 package com.projectnoly.Controllers;
 
+import com.projectnoly.DTO.SaleSplitMethodsDto;
 import com.projectnoly.Model.MongoDB.Product;
 import com.projectnoly.Model.MySql.Sale;
 import com.projectnoly.Model.MySql.User;
@@ -14,13 +15,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/sales")
@@ -83,6 +82,21 @@ public class SaleController {
         ingredientService.editStockByAdd(productList);
         log.info("El id de la tabla es {}", id_table);
         log.info("Sale created with id: {}", id_sale);
+
+        return "redirect:/sales";
+    }
+    @PostMapping("/add-sale")
+    public String addSplitSale(@RequestBody SaleSplitMethodsDto saleSplitMethodsDto){
+        int idTable = saleSplitMethodsDto.getIdTable().intValue();
+        int idEmployee = saleSplitMethodsDto.getIdEmployee().intValue();
+        double total = tablesService.getTotal(idTable);
+        int idSale = saleService.addSale(idTable,idEmployee,saleSplitMethodsDto.getPaymentMethods());
+        List<Product> productList = tablesService.deleteAllProducts(idTable);
+        saleMenuService.createSaleMenu(productList, idSale);
+        saleProductService.addSaleProduct(idSale,idEmployee,total,saleSplitMethodsDto.getPaymentMethods(),productList);
+        ingredientService.editStockByAdd(productList);
+        log.info("El id de la tabla es {}", saleSplitMethodsDto.getIdTable());
+        log.info("Sale created with id: {}", idSale);
 
         return "redirect:/sales";
     }

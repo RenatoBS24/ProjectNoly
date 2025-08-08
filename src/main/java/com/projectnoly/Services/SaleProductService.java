@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class SaleProductService {
@@ -33,14 +35,26 @@ public class SaleProductService {
             }
             return saleProduct;
         }
-        return  new SaleProduct(0,0, LocalDateTime.now(),0,"",null);
+        return  new SaleProduct(0,0, LocalDateTime.now(),0, null,null);
     }
 
     public void addSaleProduct(int id_sale, int id_employee, double total,String pay_method, List<Product> productList){
         if (pay_method.equalsIgnoreCase("Tarjeta")) {
             total = total * 1.05;
         }
-        SaleProduct saleProduct = new SaleProduct(id_sale,id_employee, LocalDateTime.now(),total,pay_method,productList);
+        Map<String,Double> paymentMethods = new HashMap<>();
+        paymentMethods.put(pay_method,total);
+        SaleProduct saleProduct = new SaleProduct(id_sale,id_employee, LocalDateTime.now(),total,paymentMethods,productList);
+        saleProductMDB.save(saleProduct);
+    }
+
+    public void addSaleProduct(int id_sale, int id_employee, double total,Map<String,Double> paymentMethods, List<Product> productList){
+        if(paymentMethods.containsKey("tarjeta")){
+            double amount = paymentMethods.remove("tarjeta");
+            amount = amount*1.05;
+            paymentMethods.put("tarjeta",amount);
+        }
+        SaleProduct saleProduct = new SaleProduct(id_sale,id_employee, LocalDateTime.now(),total,paymentMethods,productList);
         saleProductMDB.save(saleProduct);
     }
 

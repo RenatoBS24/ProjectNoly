@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
@@ -19,7 +20,7 @@ public class SaleProduct {
     private int id_employee;
     private LocalDateTime date_sale;
     private double total;
-    private String pay_method;
+    private Map<String,Double> pay_method;
     private List<Product> products;
 
     @Override

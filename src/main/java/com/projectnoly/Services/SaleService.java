@@ -62,6 +62,7 @@ public class SaleService {
         }
     }
 
+    @Transactional
     public int addSale(int idTable, int idEmployee, Map<String,Double> payMethods){
         double total = tablesService.getTotal(idTable);
         Employee employee = employeeService.getEmployeeById(idEmployee);
@@ -77,9 +78,11 @@ public class SaleService {
         Sale newSale = saleRepo.save(sale);
         List<SalePaymentMethod> salePaymentMethodList = new ArrayList<>();
         for(Map.Entry<String,Double> entry : payMethods.entrySet()){
-            PaymentMethod paymentMethod = paymentMethodRepo.findByName(entry.getKey());
-            SalePaymentMethodId paymentMethodId = new SalePaymentMethodId((long) newSale.getId_sale(),paymentMethod.getIdPaymentMethod());
-            salePaymentMethodList.add(new SalePaymentMethod(paymentMethodId,newSale,paymentMethod, entry.getValue()));
+            if (entry.getValue() > 0 ) {
+                PaymentMethod paymentMethod = paymentMethodRepo.findByName(entry.getKey());
+                SalePaymentMethodId paymentMethodId = new SalePaymentMethodId(newSale.getId_sale(),paymentMethod.getIdPaymentMethod());
+                salePaymentMethodList.add(new SalePaymentMethod(paymentMethodId,newSale,paymentMethod, entry.getValue()));
+            }
         }
         newSale.setSalePaymentMethodList(salePaymentMethodList);
         saleRepo.save(newSale);

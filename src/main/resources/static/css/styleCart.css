@@ -140,7 +140,7 @@
     .resume{
         form{
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr 1fr ;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr ;
             gap: 10px;
             padding: 10px;
             height: 120px;
@@ -201,13 +201,19 @@
             justify-content: center;
             align-items: center;
         }
+        .split-button{
+            display: flex;
+            justify-content: flex-end;
+            align-items: flex-end;
+            padding: 4px;
+        }
         .button{
             display: flex;
             align-items: flex-end;
             flex-direction: column;
             justify-content: center;
             align-content: center;
-            gap: 15px;
+            gap: 10px;
         }
         button{
             border-radius: 25px;
@@ -303,7 +309,6 @@ input:checked + .slider:before {
     display: none;
 }
 
-/* --- RESPONSIVE DESIGN --- */
 @media (max-width: 900px) {
     .container-product {
         width: 95vw;
@@ -437,6 +442,62 @@ input:checked + .slider:before {
         gap: 6px;
     }
 }
+.modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed; z-index: 2000; left: 0; top: 0; width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.4); animation: fadeIn 0.3s;
+}
+.modal.hidden { display: none; }
+.modal-content {
+    background: #fff; border-radius: 20px; padding: 30px; min-width: 350px; box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    animation: slideDown 0.4s;
+}
+.split-btn {
+    background: #fff;
+    color: #e5b322;
+    border: 2px solid #e5b322;
+    border-radius: 25px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    box-shadow: 0 2px 8px rgba(229,179,34,0.08);
+}
+
+.split-btn:hover {
+    background: #e5b322;
+    color: #fff;
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideDown { from { transform: translateY(-40px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+.close { position: absolute; right: 30px; top: 20px; font-size: 2rem; color: #e5b322; cursor: pointer; }
+.split-method { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; }
+.split-method img { width: 36px; height: 36px; border-radius: 8px; background: #fff; }
+.split-method label { width: 80px; color: #e5b322; font-weight: bold; }
+.split-method input { width: 100px; padding: 5px; border-radius: 8px; border: 1px solid #d1d5db; }
+.split-total { margin: 15px 0; font-size: 1.1rem; color: #e5b322; }
+.split-error { color: red; min-height: 20px; }
+.split-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px; 
+}
+.split-actions button {
+    border-radius: 25px;
+    border: none;
+    background: #e5b322;
+    color: white;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+.split-actions button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
 
 @media (max-width: 400px) {
     .container-product {

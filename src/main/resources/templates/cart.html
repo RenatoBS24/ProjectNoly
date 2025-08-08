@@ -6,6 +6,7 @@
     <link rel="stylesheet" th:href="@{/css/styleCart.css}">
     <link rel="stylesheet" th:href="@{/css/styleSidebar.css}">
     <link rel="stylesheet" th:href="@{/css/styleLogOut.css}">
+    <link rel="stylesheet" href="../static/css/styleCart.css">
     <link rel="shortcut icon" th:href="@{/img/logo.ico}" type="image/x-icon">
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
@@ -250,7 +251,7 @@
                 <div class="employee">
                     <label for="employee">Trabajador:</label>
                     <p id="employee" th:text="${employee.getName()+' '+employee.getLastname()}"></p>
-                    <input type="hidden" th:value="${employee.getId_employee()}" name="id_employee">
+                    <input type="hidden" th:value="${employee.getId_employee()}" name="id_employee" id="id_employee">
                 </div>
                 <div class="pay-method">
                     <label for="pay">Metodo de pago:</label>
@@ -265,6 +266,10 @@
                     <span>Total:</span>
                     <span id="total" th:text="'S/'+${#numbers.formatDecimal(total,1,2,'POINT')}"></span>
                 </div>
+                <div class="split-button">
+                    <button type="button" class="split-btn" onclick="openSplitModal()">Dividir cuenta</button>
+                </div>
+
                 <div class="button">
                     <div class="valid-sale">
                         <label for="valid-sale" class="warning">No contabilizar venta</label>
@@ -277,6 +282,44 @@
                 </div>
             </form>
         </div>
+    </div>
+</div>
+
+<div id="splitModal" class="modal hidden">
+    <div class="modal-content">
+        <span class="close" onclick="closeSplitModal()">&times;</span>
+        <h2>Dividir cuenta</h2>
+        <form id="splitForm">
+            <div class="split-method">
+                <img src="/img/efectivo.png" alt="Efectivo" />
+                <label>Efectivo</label>
+                <input type="number" min="0" step="0.01" name="efectivo" value="0" oninput="validateSplitTotal()" />
+            </div>
+            <div class="split-method">
+                <img src="/img/yape.png" alt="Yape" />
+                <label>Yape</label>
+                <input type="number" min="0" step="0.01" name="yape" value="0" oninput="validateSplitTotal()" />
+            </div>
+            <div class="split-method">
+                <img src="/img/plin.png" alt="Plin" />
+                <label>Plin</label>
+                <input type="number" min="0" step="0.01" name="plin" value="0" oninput="validateSplitTotal()" />
+            </div>
+            <div class="split-method">
+                <img src="/img/tarjeta.png" alt="Tarjeta" />
+                <label>Tarjeta</label>
+                <input type="number" min="0" step="0.01" name="tarjeta" value="0" oninput="validateSplitTotal()" />
+            </div>
+            <div class="split-total">
+                <span>Total a pagar:</span>
+                <span id="splitTotal"></span>
+            </div>
+            <div class="split-error" id="splitError"></div>
+            <div class="split-actions">
+                <button type="button" onclick="closeSplitModal()">Cancelar</button>
+                <button type="submit" id="confirmSplit" disabled>Confirmar</button>
+            </div>
+        </form>
     </div>
 </div>
 <div th:replace="~{fragments :: LogOutModal}"></div>
