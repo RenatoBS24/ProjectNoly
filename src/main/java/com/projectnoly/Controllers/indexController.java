@@ -38,7 +38,7 @@ public class indexController {
     public ResponseEntity<Map<String, Object>> getData(){
         double total = saleService.getTotalSales();
         double efectivo = saleService.getTotalByMethod("Efectivo");
-        double tarjeta = saleService.getTotalByMethod("Tarjeta");
+        double tarjeta = saleService.getTotalByMethod("tarjeta");
         double yape = saleService.getTotalByMethod("yape");
         double plin = saleService.getTotalByMethod("plin");
         HashMap<String,Object> data = new HashMap<>();

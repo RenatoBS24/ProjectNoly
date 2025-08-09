@@ -13,9 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class SaleService {
@@ -45,7 +43,7 @@ public class SaleService {
         return new PageImpl<>(saleList,pageable,saleRepo.count());
     }
 
-    public int addSale(String pay_method,int id_employee,String valid_sale,int id_table){
+    public int addSale(String pay_method, int idEmployee, String valid_sale, int id_table){
         try {
             double total = tablesService.getTotal(id_table);
             if(valid_sale.equals("true")){
@@ -54,8 +52,17 @@ public class SaleService {
             if(pay_method.equalsIgnoreCase("Tarjeta")){
                 total = total*1.05;
             }
+            Employee employee = employeeService.getEmployeeById(idEmployee);
+            Sale sale = new Sale(0,LocalDateTime.now(),total,"active","efectivo",employee,new ArrayList<>(),new ArrayList<>());
+            Sale newSale = saleRepo.save(sale);
+            List<SalePaymentMethod> salePaymentMethodList = new ArrayList<>();
+            PaymentMethod paymentMethod = paymentMethodRepo.findByName(pay_method);
+            SalePaymentMethodId salePaymentMethodId = new SalePaymentMethodId(newSale.getId_sale(),paymentMethod.getIdPaymentMethod());
+            salePaymentMethodList.add(new SalePaymentMethod(salePaymentMethodId, newSale,paymentMethod,total));
+            newSale.setSalePaymentMethodList(salePaymentMethodList);
+            saleRepo.save(newSale);
             log.info("Se ha guardado la venta exitosamente");
-            return saleRepo.addSale(total,pay_method,employeeService.getEmployeeById(id_employee).getId_employee());
+            return newSale.getId_sale();
         } catch (Exception e) {
             log.warn(e.getMessage());
             return 0;
@@ -90,17 +97,34 @@ public class SaleService {
     }
     public double getTotalSales(){
         return saleRepo.getTotalSales();
-    }
+   }
+
+//    @Transactional
+//    public double getTotalByMethod(String method){
+//        double total = 0;
+//        List<Sale> saleList = saleRepo.getSalesNow();
+//        for(Sale sale : saleList){
+//            if(sale.getPay_method().equalsIgnoreCase(method)){
+//                total += sale.getTotal();
+//            }
+//        }
+//        return total;
+//    }
     @Transactional
     public double getTotalByMethod(String method){
+        Long paymentMethodId = paymentMethodRepo.findByName(method).getIdPaymentMethod();
         double total = 0;
         List<Sale> saleList = saleRepo.getSalesNow();
         for(Sale sale : saleList){
-            if(sale.getPay_method().equalsIgnoreCase(method)){
-                total += sale.getTotal();
+            for(SalePaymentMethod salePaymentMethod : sale.getSalePaymentMethodList()){
+                if(Objects.equals(salePaymentMethod.getPaymentMethod().getIdPaymentMethod(), paymentMethodId)){
+                    total += salePaymentMethod.getTotal();
+                }
             }
         }
         return total;
+
+
     }
     public void deleteSale(User user, String code, int id_sale){
         if (code.equals("1234")) {
