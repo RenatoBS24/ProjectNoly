@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -49,10 +50,18 @@ public class SaleProductService {
     }
 
     public void addSaleProduct(int id_sale, int id_employee, double total,Map<String,Double> paymentMethods, List<Product> productList){
-        if(paymentMethods.containsKey("tarjeta")){
+        if(paymentMethods.containsKey("tarjeta")) {
             double amount = paymentMethods.remove("tarjeta");
-            amount = amount*1.05;
-            paymentMethods.put("tarjeta",amount);
+            amount = amount * 1.05;
+            paymentMethods.put("tarjeta", amount);
+        }
+        Iterator<Map.Entry<String, Double>> iterator = paymentMethods.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<String, Double> entry = iterator.next();
+            if (entry.getValue() <= 0) {
+                log.warn("Payment method {} has a non-positive value: {}", entry.getKey(), entry.getValue());
+                iterator.remove();
+            }
         }
         SaleProduct saleProduct = new SaleProduct(id_sale,id_employee, LocalDateTime.now(),total,paymentMethods,productList);
         saleProductMDB.save(saleProduct);

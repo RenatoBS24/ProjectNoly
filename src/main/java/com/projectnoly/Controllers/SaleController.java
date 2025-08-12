@@ -5,7 +5,6 @@ import com.projectnoly.Model.MongoDB.Product;
 import com.projectnoly.Model.MySql.Sale;
 import com.projectnoly.Model.MySql.User;
 import com.projectnoly.Services.*;
-import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +15,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/sales")
@@ -46,7 +43,7 @@ public class SaleController {
     }
 
     @GetMapping("")
-    public String getAllSales(Model model, Authentication authentication, HttpSession httpSession, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "100") int size){
+    public String getAllSales(Model model, Authentication authentication, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "100") int size){
         if(authentication != null && authentication.isAuthenticated()){
             User user = userService.getUserByUsername(authentication.getName());
             Pageable pageable = PageRequest.of(page,size);
@@ -104,9 +101,9 @@ public class SaleController {
     public String deleteSale(
             @RequestParam("id_sale") int id_sale,
             @RequestParam("code_entered") String code,
-            HttpSession httpSession
+            Authentication authentication
     ){
-        User user = (User)httpSession.getAttribute("user");
+        User user = userService.getUserByUsername(authentication.getName());
         ingredientService.editStockByDelete(code,saleMenuService.getSaleMenuByid(id_sale));
         saleService.deleteSale(user,code,id_sale);
         saleMenuService.deleteSaleMenu(code,id_sale);

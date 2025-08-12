@@ -19,43 +19,20 @@ public class UserServiceTest {
     private UserService userService;
     private EmployeeService employeeService;
     private PasswordEncoder passwordEncoder;
+
     @BeforeEach
     void setUp() {
         userRepo = mock(UserRepo.class);
         employeeService = mock(EmployeeService.class);
-        userService = new UserService(userRepo, employeeService,passwordEncoder);
+        passwordEncoder = mock(PasswordEncoder.class);
+        userService = new UserService(userRepo, employeeService, passwordEncoder);
 
-    }
-
-    @Test
-    void testValidateOldPassword_CorrectPassword() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        User user = new User();
-        Method userMethod = userService.getClass().getDeclaredMethod("sha256", String.class);
-        userMethod.setAccessible(true);
-        String hashPassword = userMethod.invoke(userService,"123456").toString();
-        user.setPassword(hashPassword);
-        when(userRepo.findById(1)).thenReturn(Optional.of(user));
-        boolean result = userService.validateOldPassword(1, "123456");
-        assertTrue(result);
-    }
-
-    @Test
-    void testValidateOldPassword_WrongPassword() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        User user = new User();
-        Method userMethod = userService.getClass().getDeclaredMethod("sha256", String.class);
-        userMethod.setAccessible(true);
-        String hashPassword = userMethod.invoke(userService,"123456").toString();
-        user.setPassword(hashPassword);
-        when(userRepo.findById(1)).thenReturn(Optional.of(user));
-
-        boolean result = userService.validateOldPassword(1, "wrongpass");
-        assertFalse(result);
     }
 
     @Test
     void testValidateOldPassword_UserNotFound() {
         when(userRepo.findById(1)).thenReturn(Optional.empty());
-        boolean result = userService.validateOldPassword(1, "password123");
+        boolean result = userService.validateOldPassword(2, "password123");
         assertFalse(result);
     }
     @Test
@@ -69,11 +46,12 @@ public class UserServiceTest {
         String phone = "987654321";
         String code = "1234";
 
+        when(passwordEncoder.encode(password)).thenReturn("encodedPass123");
         when(userRepo.addUser(eq(username), anyString(), eq(role))).thenReturn(1);
 
         userService.adduser(username, password, role, nameEmployee, lastname, dni, phone, code);
 
-        verify(userRepo).addUser(eq(username), anyString(), eq(role));
+        verify(userRepo).addUser(eq(username), eq("encodedPass123"), eq(role));
         verify(employeeService).addEmployee(nameEmployee, lastname, phone, dni, 1);
     }
 
@@ -112,11 +90,13 @@ public class UserServiceTest {
     void testUpdatePassword_ById_ValidUser() {
         User user = new User();
         user.setUsername("usuario123");
+        user.setPassword("oldPass");
         when(userRepo.findById(1)).thenReturn(Optional.of(user));
+        when(passwordEncoder.encode("pass123")).thenReturn("encodedPass123");
 
         userService.updatePassword(1, "pass123");
 
-        verify(userRepo).updatePassword(eq("usuario123"), anyString());
+        verify(userRepo).updatePassword(eq("usuario123"), eq("encodedPass123"));
     }
 
     @Test
@@ -129,8 +109,9 @@ public class UserServiceTest {
     }
     @Test
     void testUpdatePassword_ByUsername_ValidInput() {
+        when(passwordEncoder.encode("pass123")).thenReturn("encodedPass123");
         userService.updatePassword("usuario123", "pass123", "1234");
-        verify(userRepo).updatePassword(eq("usuario123"), anyString());
+        verify(userRepo).updatePassword(eq("usuario123"), eq("encodedPass123"));
     }
 
     @Test

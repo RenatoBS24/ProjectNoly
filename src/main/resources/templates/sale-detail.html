@@ -53,9 +53,14 @@
                     <label for="employee">Trabajador:</label>
                     <p id="employee" th:text="${employee.name}+' '+${employee.lastname}"></p>
                 </div>
-                <div class="pay-method">
-                    <label for="pay-method">Metodo de pago:</label>
-                    <p  id="pay-method" th:text="${sale.pay_method}"></p>
+                <div class="pay-methods">
+                    <h4>Métodos de pago:</h4>
+                    <ul>
+                        <li th:each="entry : ${sale.pay_method}">
+                            <span th:text="${entry.key}"></span>:
+                            <span th:text="'S/'+${#numbers.formatDecimal(entry.value,1,2,'POINT')}"></span>
+                        </li>
+                    </ul>
                 </div>
                 <div class="total">
                     <span>Total:</span>

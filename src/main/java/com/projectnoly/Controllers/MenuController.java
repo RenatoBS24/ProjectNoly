@@ -1,6 +1,7 @@
 package com.projectnoly.Controllers;
 
 
+import com.projectnoly.DTO.ProductDataDto;
 import com.projectnoly.Model.MySql.Menu;
 import com.projectnoly.Model.MySql.User;
 import com.projectnoly.Services.*;
@@ -9,6 +10,7 @@ import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -52,6 +54,17 @@ public class MenuController {
             return "menu";
         }
         return "redirect:/login";
+    }
+    @GetMapping("/get-menu-by-id")
+    public ResponseEntity<?> getMenuById(@RequestParam("id") int id){
+        ProductDataDto productDataById = menuService.getProductDataById(id);
+        if(productDataById != null){
+            log.info("Menu encontrado con id: {}", id);
+            return ResponseEntity.ok(productDataById);
+        } else {
+            log.warn("Menu no encontrado con id: {}", id);
+            return ResponseEntity.notFound().build();
+        }
     }
     @PostMapping("/edit-menu")
     public String editMenu(

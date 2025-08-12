@@ -53,7 +53,7 @@
             <h3 class="title-product" th:text="${menu_item.name_item}"></h3>
             <p class="price-product" th:text="'Precio: S/ ' +${#numbers.formatDecimal(menu_item.price,1,2,'POINT')}">S/</p>
             <div>
-                <button class="add" th:data-id="${menu_item.id_menu}"  onclick="add(this)">Agregar al carrito</button>
+                <button class="add" th:data-id="${menu_item.id_menu}"  onclick="getDataProduct(this)">Agregar al carrito</button>
             </div>
         </div>
     </div>
@@ -64,11 +64,47 @@
             <h3 class="title-product" th:text="${menu_item.name_item}"></h3>
             <p class="price-product" th:text="'Precio: S/ ' +${#numbers.formatDecimal(menu_item.price,1,2,'POINT')}">S/</p>
             <div>
-                <button class="add" th:data-id="${menu_item.id_menu}"  onclick="add(this)">Agregar al carrito</button>
+                <button class="add" th:data-id="${menu_item.id_menu}"  onclick="getDataProduct(this)">Agregar al carrito</button>
             </div>
         </div>
     </div>
 </div>
+
+<div class="hidden" id="addModal">
+<h1>Agregar producto al carrito</h1>
+<div class="container-menu">
+    <img src="" alt="imagen del producto" id="img">
+    <div>
+        <input type="hidden" id="productId">
+        <h2 id="productName"></h2>
+        <p class="price" id="productPrice"></p>
+        <input type="hidden" id="price_product">
+        <input type="hidden" id="route">
+    </div>
+</div>
+<div class="checks">
+    <input type="checkbox" value="1" name="table" id="table1">
+    <label for="table1">Mesa 01</label>
+    <input type="checkbox" value="2" name="table" id="table2">
+    <label for="table2">Mesa 02</label>
+    <input type="checkbox" value="3" name="table" id="table3">
+    <label for="table3">Mesa 03</label>
+    <input type="checkbox" value="4" name="table" id="table4">
+    <label for="table4">Mesa 04</label>
+    <input type="checkbox" value="5" name="table" id="table5">
+    <label for="table5">Mesa 05</label>
+    <input type="checkbox" value="6" name="table" id="table6">
+    <label for="table6">Mesa 06</label>
+</div>
+<div class="container-buttons">
+    <button class="cancel" onclick="closeAddProductModal()">Cancelar</button>
+    <button class="button" onclick="addProductToCart()">Agregar</button>
+</div>
+</div>
+
+
+
+
 <div id="toast-container"></div>
 
 <div th:replace="~{fragments :: LogOutModal}"></div>

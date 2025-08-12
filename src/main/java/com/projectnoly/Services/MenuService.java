@@ -1,5 +1,6 @@
 package com.projectnoly.Services;
 
+import com.projectnoly.DTO.ProductDataDto;
 import com.projectnoly.Model.MySql.Menu;
 import com.projectnoly.Repositories.MenuRepo;
 import org.slf4j.Logger;
@@ -27,6 +28,11 @@ public class MenuService {
     }
     public Menu getMenuById(int id){
         return menuRepo.findById(id).orElse(null);
+    }
+
+    public ProductDataDto getProductDataById(int id){
+        Menu menu = menuRepo.getReferenceById(id);
+        return new ProductDataDto((long) menu.getId_menu(), menu.getName_item(), menu.getPrice(), menu.getRoute_image());
     }
     public int addMenu(String name_menu, String description, double price, MultipartFile route_image, int id_category){
         if(name_menu.matches("^(?=.*[a-zA-Z])[a-zA-Z0-9 +]*$") && !name_menu.isEmpty() && price >0 && id_category>0){

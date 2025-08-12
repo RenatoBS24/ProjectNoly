@@ -4,16 +4,6 @@ document.querySelectorAll('.checks label').forEach(label => {
         this.classList.add('selected');
     });
 });
-function add(button){
-    let id_table = sessionStorage.getItem("id_table_pay");
-    if(id_table === null){
-        id_table = 1;
-    }
-    //sessionStorage.removeItem("id_table_pay"); -> lo estoy comentando por que no se si es necesario
-    let id_product = button.getAttribute('data-id');
-    addToCart(id_table,id_product)
-
-}
 window.onload = function (){
     let id_table_pay = sessionStorage.getItem('id_table_pay');
     if(id_table_pay === null){
@@ -21,6 +11,9 @@ window.onload = function (){
     }
     document.getElementById('toCartButton').setAttribute('table', id_table_pay);
 }
+window.addEventListener('beforeunload', function () {
+    sessionStorage.removeItem('id_table_pay');
+})
 document.getElementById('toCartButton').addEventListener('click', function (){
    window.location.href = `/cart/${document.getElementById('toCartButton').getAttribute('table')}`;
 })
@@ -33,7 +26,7 @@ function addToCart(id_table,id_product){
         headers: {
             'Content-Type': 'application/json',
             [header]: token
-        },
+        }
     }).then(response => response.text())
         .then(data => {
             showToast(`Producto agregado a la mesa ${id_table}`, 3000);
@@ -57,4 +50,63 @@ function showToast(message, duration = 3000) {
             toastContainer.removeChild(toast);
         }, 500);
     }, duration);
+}
+
+
+function showAddProductModal(){
+    const modal = document.getElementById('addModal');
+    modal.classList.remove('hidden')
+    modal.classList.add('addProduct')
+    document.querySelectorAll('.checks input[type="checkbox"]').forEach(input => {
+        input.checked=false;
+    });
+    document.querySelectorAll('.checks label').forEach(label => {
+        label.classList.remove('selected');
+    });
+}
+
+function closeAddProductModal(){
+    const modal = document.getElementById('addModal');
+    modal.classList.add('hidden')
+    modal.classList.remove('addProduct')
+}
+
+function getDataProduct(button){
+    const idProduct = button.getAttribute('data-id');
+    const idTable = sessionStorage.getItem('id_table_pay');
+    if(idTable === null){
+        const token = document.querySelector('meta[name="_csrf"]').content;
+        const header = document.querySelector('meta[name="_csrf_header"]').content;
+        fetch('/get-menu-by-id?id='+idProduct,{
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                [header]: token
+            }
+        }).then(response => response.json())
+            .then(data => {
+                document.getElementById('productName').textContent = data.nameProduct;
+                document.getElementById('productPrice').textContent = 'S/ ' + Number(data.price).toFixed(2);
+                document.getElementById('productId').value = data.id;
+                document.getElementById('img').src = data.route;
+                showAddProductModal();
+            }).catch(error => {
+            console.error('Error fetching product data:', error);
+        });
+    }else{
+        addToCart(idTable, idProduct);
+    }
+
+}
+
+function addProductToCart() {
+    const id = document.getElementById('productId').value;
+    const checkedInput = document.querySelector('.checks input[type="checkbox"]:checked');
+    if (checkedInput) {
+        const idTable = checkedInput.value;
+        addToCart(idTable, id);
+        closeAddProductModal();
+    }else{
+        showToast('Por favor, seleccione una mesa para agregar el producto.', 3000);
+    }
 }

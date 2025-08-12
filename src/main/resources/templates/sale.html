@@ -92,7 +92,11 @@
                 <tr th:each="sale : ${sales}">
                     <td th:text=" 'Venta 00'+${sale.id_sale}"></td>
                     <td th:text="${#temporals.format(sale.date_sale,'dd-MM-yyyy HH:mm:ss')}"></td>
-                    <td th:text="${sale.pay_method}"></td>
+                    <td>
+                        <span th:each="pm, iterStat : ${sale.salePaymentMethodList}">
+                          <span th:text="${pm.paymentMethod.name}"></span><span th:if="${!iterStat.last}">, </span>
+                        </span>
+                    </td>
                     <td th:text="${sale.employee.name}"></td>
                     <td th:text="'S/ '+${#numbers.formatDecimal(sale.total,1,2,'POINT')}"></td>
                     <td th:if="${user.role == 'admin' || user.role == 'superadmin'}">
@@ -135,5 +139,16 @@
 <script th:src="@{/js/saleJS.js}"></script>
 <script th:src="@{/js/LogOut.js}"></script>
 <script th:src="@{/js/sidebar.js}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const paginationLinks = document.querySelectorAll('.pagination a:not(:first-child):not(:last-child)');
+        const maxVisible = 10;
+        paginationLinks.forEach((link, idx) => {
+            if (idx >= maxVisible) {
+                link.style.display = 'none';
+            }
+        });
+    });
+</script>
 </body>
 </html>
