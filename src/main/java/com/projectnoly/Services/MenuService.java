@@ -18,6 +18,7 @@ import java.util.List;
 public class MenuService {
     private final MenuRepo menuRepo;
     private final Logger log = LoggerFactory.getLogger(MenuService.class);
+    private final String DEFAULT_IMAGE = "hamburguesa.jpg";
     @Autowired
     public MenuService(MenuRepo menuRepo){
         this.menuRepo = menuRepo;
@@ -42,32 +43,32 @@ public class MenuService {
         return 0;
     }
     private String saveImage(int id,MultipartFile img){
-        if(img != null && !img.isEmpty()){
-            try{
-                String so = System.getProperty("os.name").toLowerCase();
-                String route = "";
-                if(so.contains("win")){
-                    route = "C:/Users/DREP/Pictures/";
-
-                }else if(so.contains("nux") || so.contains("nix")){
-                    route = "/home/renatob/Imagenes/Noly/";
-                }
-                File carpet = new File(route);
-                if(carpet.exists()){
-                    carpet.mkdirs();
-                }
-                File file = new File(route + img.getOriginalFilename());
-                img.transferTo(file);
-                return file.getName();
-            }catch (IOException e){
-                log.info("--------------------------------------------");
-                log.warn(e.getMessage());
-                log.info("--------------------------------------------");
-            }
-        }else if (id >0){
-            return menuRepo.getReferenceById(id).getRoute_image();
+        if(img == null){
+            return DEFAULT_IMAGE;
         }
-        return "hamburguesa.jpg";
+        if(img.isEmpty()){
+            return getMenuById(id).getRoute_image();
+        }
+        try{
+            String so = System.getProperty("os.name").toLowerCase();
+            String route = "";
+            if(so.contains("win")){
+                route = "C:/Users/DREP/Pictures/";
+            }else if(so.contains("nux") || so.contains("nix")){
+                route = "/home/renatob/Imagenes/Noly/";
+            }
+            File file = new File(route+img.getOriginalFilename());
+            if(!file.exists()){
+                file.mkdirs();
+            }
+            img.transferTo(file);
+            return file.getName();
+
+        }catch (IOException e){
+            log.error(e.getMessage());
+            return DEFAULT_IMAGE;
+
+        }
     }
     public boolean editMenu(int id,String name_menu,String description,double price,int id_category,MultipartFile route_image){
         if(name_menu.matches("^(?=.*[a-zA-Z])[a-zA-Z0-9 +]*$") && !name_menu.isEmpty() && price >0 && id_category>0 && id>0){

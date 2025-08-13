@@ -56,30 +56,33 @@ public class IngredientService {
     }
 
     private String saveImage(int id,MultipartFile img){
-        if(img != null && !img.isEmpty()){
-            try{
-                String so = System.getProperty("os.name").toLowerCase();
-                String route = "";
-                if(so.contains("win")){
-                    route = "C:/Users/DREP/Pictures/";
-
-                }else if(so.contains("nux") || so.contains("nix")){
-                    route = "/home/renatob/Imagenes/Noly/";
-                }
-                File carpet = new File(route);
-                if(carpet.exists()){
-                    carpet.mkdirs();
-                }
-                File file = new File(route + img.getOriginalFilename());
-                img.transferTo(file);
-                return file.getName();
-            }catch (IOException e){
-                log.warn(e.getMessage());
-            }
-        }else if (id >0){
+        final String DEFAULT_IMAGE = "hamburguesa.jpg";
+        if(img == null){
+            return DEFAULT_IMAGE;
+        }
+        if(img.isEmpty()){
             return getIngredientById(id).getRoute_image();
         }
-        return "hamburguesa.jpg";
+        try{
+            String so = System.getProperty("os.name").toLowerCase();
+            String route = "";
+            if(so.contains("win")){
+                route = "C:/Users/DREP/Pictures/";
+            }else if(so.contains("nux") || so.contains("nix")){
+                route = "/home/renatob/Imagenes/Noly/";
+            }
+            File file = new File(route+img.getOriginalFilename());
+            if(!file.exists()){
+                file.mkdirs();
+            }
+            img.transferTo(file);
+            return file.getName();
+
+        }catch (IOException e){
+            log.error(e.getMessage());
+            return DEFAULT_IMAGE;
+
+        }
     }
     public void editStockByAdd(List<Product> products){
         List<Menu> menuList = menuService.getAllMenu();
@@ -90,7 +93,7 @@ public class IngredientService {
                     for(MenuIngredient menuIngredient: menuIngredients){
                         Integer id = menuIngredient.getIngredient().getId_ingredient();
                         int quantityIngredient = menuIngredient.getQuantity();
-                        log.info(product.getQuantity()*quantityIngredient+"");
+                        log.info("{}", product.getQuantity() * quantityIngredient);
                         updateStock(id,product.getQuantity() * quantityIngredient);
                     }
                 }
