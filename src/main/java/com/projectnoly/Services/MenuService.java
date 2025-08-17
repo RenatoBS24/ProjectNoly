@@ -1,6 +1,7 @@
 package com.projectnoly.Services;
 
 import com.projectnoly.DTO.ProductDataDto;
+import com.projectnoly.Exception.ResourceNotFoundException;
 import com.projectnoly.Model.MySql.Menu;
 import com.projectnoly.Repositories.MenuRepo;
 import org.slf4j.Logger;
@@ -32,7 +33,7 @@ public class MenuService {
     }
 
     public ProductDataDto getProductDataById(int id){
-        Menu menu = menuRepo.getReferenceById(id);
+        Menu menu = menuRepo.findById(id).orElseThrow(() ->  new ResourceNotFoundException("menu","id",id));
         return new ProductDataDto((long) menu.getId_menu(), menu.getName_item(), menu.getPrice(), menu.getRoute_image());
     }
     public int addMenu(String name_menu, String description, double price, MultipartFile route_image, int id_category){
@@ -82,17 +83,12 @@ public class MenuService {
     }
 
     public boolean deleteMenu(int id){
-        try {
-            if(id>0){
-                menuRepo.deleteMenuBy(id);
-                return true;
-            }else{
-                log.warn("el id recibido para eliminar el menu es igual o menor que 0");
-                return false;
-            }
-        } catch (Exception e) {
-            log.warn(e.getMessage());
+
+        if(id <=0){
+            return false;
         }
+        menuRepo.deleteMenuBy(id);
+        log.info("Se elimino el menu con id: {}", id);
         return false;
     }
 
