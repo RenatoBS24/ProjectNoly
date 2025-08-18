@@ -7,6 +7,8 @@
     <link rel="stylesheet" th:href="@{/css/styleLogOut.css}">
     <link rel="stylesheet" th:href="@{/css/styleTables.css}">
     <link rel="shortcut icon" th:href="@{/img/logo.ico}" type="image/x-icon">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <link rel="stylesheet" href="../static/css/styleSidebar.css">
     <link rel="stylesheet" href="../static/css/styleTables.css">
 </head>
@@ -69,6 +71,32 @@
                 <span>Mesa 5</span>
                 <div class="more-info hidden" id="5">
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="productModal" class="product-modal hidden">
+    <div class="product-modal-container">
+        <div class="product-modal-header">
+            <h2>Seleccionar Productos</h2>
+            <button class="product-modal-close" onclick="closeProductModal()">&times;</button>
+        </div>
+
+        <div class="product-search-container">
+            <div class="product-search-wrapper">
+                <svg class="product-search-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                </svg>
+                <input type="text"
+                       id="productSearchInput"
+                       class="product-search-input"
+                       placeholder="Buscar productos por nombre..."
+                       autocomplete="off">
+            </div>
+        </div>
+
+        <div class="product-list-container">
+            <div id="productList" class="product-list">
             </div>
         </div>
     </div>

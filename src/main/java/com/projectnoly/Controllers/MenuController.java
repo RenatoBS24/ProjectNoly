@@ -71,6 +71,10 @@ public class MenuController {
     public ResponseEntity<?> getDataMenuById(@RequestParam("id") int id){
         return ResponseEntity.ok(menuService.getDataMenuById(id));
     }
+    @GetMapping("/get-menu-to-cart")
+    public ResponseEntity<?> getMenuToCart(){
+        return ResponseEntity.ok(menuService.getAllMenuToCart());
+    }
     @PostMapping("/edit-menu")
     public String editMenu(
             @RequestParam("id_menu")int id,

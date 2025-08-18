@@ -1,5 +1,6 @@
 package com.projectnoly.Services;
 
+import com.projectnoly.DTO.MenuAddToTableDto;
 import com.projectnoly.DTO.MenuIngredientDto;
 import com.projectnoly.DTO.MenuResponseDto;
 import com.projectnoly.DTO.ProductDataDto;
@@ -16,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -83,6 +83,17 @@ public class MenuService {
                ).toList(),
                isAvailable(menu.getId_menu())
        );
+    }
+    @Transactional
+    public List<MenuAddToTableDto> getAllMenuToCart(){
+        return menuRepo.getAllMenu().stream()
+                .map(menu -> new MenuAddToTableDto(
+                        (long) menu.getId_menu(),
+                        menu.getName_item(),
+                        menu.getRoute_image(),
+                        isAvailable(menu.getId_menu()),
+                        menu.getPrice())
+                ).toList();
     }
 
     public ProductDataDto getProductDataById(int id){
