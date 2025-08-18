@@ -34,7 +34,7 @@ public class NewSaleController {
         if(authentication != null && authentication.isAuthenticated()){
             User user = userService.getUserByUsername(authentication.getName());
             model.addAttribute("categories", categoryService.getAllCategories());
-            model.addAttribute("menuList", menuService.getAllMenu());
+            model.addAttribute("menuList", menuService.getAllMenuResponse());
             model.addAttribute("username",user.getUsername());
             return "newSale";
         }

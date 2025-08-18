@@ -79,6 +79,7 @@
 
 <div class="hidden" sec:authorize="hasAnyRole('ROLE_SUPERADMIN','ROLE_ADMIN')" id="editModal">
     <div class="container-modal">
+        <button type="button" class="close-button" onclick="closeEditModal()">&times;</button>
         <h2>Editar la informacion del producto</h2>
         <form th:action="@{/edit-menu}" th:method="POST" enctype="multipart/form-data">
             <input type="hidden" id="id_menu" name="id_menu">

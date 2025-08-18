@@ -49,22 +49,24 @@
     <div id="todos" class="container-product">
         <!-- Product Item -->
         <div class="product" th:each="menu_item: ${menuList}">
-            <img th:src="@{/{imageName} (imageName=${menu_item.route_image})}" class="img-custom" alt="img-producto">
-            <h3 class="title-product" th:text="${menu_item.name_item}"></h3>
+            <img th:src="@{/{imageName} (imageName=${menu_item.routeImage})}" class="img-custom" alt="img-producto">
+            <h3 class="title-product" th:text="${menu_item.name}"></h3>
             <p class="price-product" th:text="'Precio: S/ ' +${#numbers.formatDecimal(menu_item.price,1,2,'POINT')}">S/</p>
             <div>
-                <button class="add" th:data-id="${menu_item.id_menu}"  onclick="getDataProduct(this)">Agregar al carrito</button>
+                <button class="add"  th:if="${menu_item.available}" th:data-id="${menu_item.id}"  onclick="getDataProduct(this)">Agregar al carrito</button>
+                <p th:if="${menu_item.available() == false}" style="color: red">¡¡No hay stock para este producto!!</p>
             </div>
         </div>
     </div>
     <div th:each="category : ${categories}" th:id="${category.name_category}" class="hidden" >
         <!-- Product Item -->
-        <div class="product" th:each="menu_item: ${menuList}" th:if="${menu_item.category.name_category} == ${category.name_category}">
-            <img th:src="@{/{imageName} (imageName=${menu_item.route_image})}" class="img-custom" alt="img-product">
-            <h3 class="title-product" th:text="${menu_item.name_item}"></h3>
+        <div class="product" th:each="menu_item: ${menuList}" th:if="${menu_item.idCategory} == ${category.id}">
+            <img th:src="@{/{imageName} (imageName=${menu_item.routeImage})}" class="img-custom" alt="img-product">
+            <h3 class="title-product" th:text="${menu_item.name}"></h3>
             <p class="price-product" th:text="'Precio: S/ ' +${#numbers.formatDecimal(menu_item.price,1,2,'POINT')}">S/</p>
             <div>
-                <button class="add" th:data-id="${menu_item.id_menu}"  onclick="getDataProduct(this)">Agregar al carrito</button>
+                <button class="add"  th:if="${menu_item.available}" th:data-id="${menu_item.id}"  onclick="getDataProduct(this)">Agregar al carrito</button>
+                <p th:if="${menu_item.available() == false}" style="color: red">¡¡No hay stock para este producto!!</p>
             </div>
         </div>
     </div>
