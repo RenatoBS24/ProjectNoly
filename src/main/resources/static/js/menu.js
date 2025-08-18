@@ -18,32 +18,49 @@ function showCategory(button){
     document.getElementById(category).classList.add('container-product');
 }
 
-function showEditModal(button){
+
+function getMenuData(idMenu){
+    const token = document.querySelector('meta[name="_csrf"]').content;
+    const header = document.querySelector('meta[name="_csrf_header"]').content;
+    fetch('/get-data-menu-by-id?id=' + idMenu, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            [header]: token
+        }
+    }).then(response => response.json())
+        .then(data => {
+            console.log(data);
+            document.getElementById('nameProduct').value = data.name;
+            let price = Number(data.price);
+            document.getElementById('price').value = price.toFixed(2);
+            document.getElementById('description').textContent = data.description;
+            document.getElementById('category').value = data.idCategory;
+            document.getElementById('id_menu').value = data.id;
+
+            let list = data.menuIngredientDtoList
+            let id_ingredients = [];
+            list.forEach((item) => {
+                id_ingredients.push(item.idIngredient);
+            });
+            document.querySelectorAll('input[type="checkbox"]').forEach((item) => {
+                item.checked = false;
+            });
+            document.querySelectorAll('input[type="checkbox"]').forEach((item) => {
+                if (id_ingredients.includes(Number(item.value))) {
+                    item.checked = true;
+                }
+            });
+
+        }).catch(error => {
+        console.error('Error fetching menu data:', error);
+    });
+}
+
+function showEditMenuModal(button){
     document.getElementById('editModal').classList.remove('hidden');
     document.getElementById('editModal').classList.add('editModal');
-    document.getElementById('nameProduct').value = button.getAttribute('data-nameProduct');
-    let price = Number(button.getAttribute('data-price'));
-    document.getElementById('price').value = price.toFixed(2);
-    document.getElementById('description').textContent = button.getAttribute('data-description');
-    document.getElementById('category').value = button.getAttribute('data-category');
-    document.getElementById('id_menu').value = button.getAttribute('data-id-menu');
-
-    let list = JSON.parse(button.getAttribute('data-ingredients'))
-    let id_ingredients = [];
-    list.forEach((item) =>{
-        id_ingredients.push(item.ingredient);
-    })
-    document.querySelectorAll('input[type="checkbox"]').forEach((item) =>{
-       item.checked = false;
-    });
-    document.querySelectorAll('input[type="checkbox"]').forEach((item) =>{
-        if(id_ingredients.includes(Number(item.value))){
-            item.checked = true;
-        }
-    });
-
-    console.log(id_ingredients)
-
+    getMenuData(button.getAttribute('data-id-menu'));
 }
 function closeEditModal(){
     document.getElementById('editModal').classList.remove('editModal');

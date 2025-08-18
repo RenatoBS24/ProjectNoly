@@ -46,6 +46,7 @@
         <div class="product" th:each="ingredient: ${ingredients}">
             <img th:src="@{/{imagename} (imagename = ${ingredient.route_image})}" class="img-custom" alt="ingredient img">
             <h3 class="title-product" th:text="${ingredient.name_ingredient}"></h3>
+            <p th:if="${ingredient.stock <=3}">¡Queda poco stock del producto!!</p>
             <p class="price-product" th:text="'Stock: '+${ingredient.stock}"></p>
             <p class="price-product" th:text="'Precio: S/'+${#numbers.formatDecimal(ingredient.price,1,2,'POINT')}"></p>
             <div th:if="${user.role == 'admin' || user.role == 'superadmin'}">

@@ -1,8 +1,11 @@
 package com.projectnoly.Services;
 
+import com.projectnoly.DTO.MenuIngredientDto;
+import com.projectnoly.DTO.MenuResponseDto;
 import com.projectnoly.DTO.ProductDataDto;
 import com.projectnoly.Exception.ResourceNotFoundException;
 import com.projectnoly.Model.MySql.Menu;
+import com.projectnoly.Model.MySql.MenuIngredient;
 import com.projectnoly.Repositories.MenuRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -28,8 +32,57 @@ public class MenuService {
     public List<Menu> getAllMenu(){
         return menuRepo.getAllMenu();
     }
+    @Transactional
+    public List<MenuResponseDto> getAllMenuResponse(){
+       return menuRepo.getAllMenu().stream()
+               .map(menu -> new MenuResponseDto(
+               (long) menu.getId_menu(),
+               menu.getName_item(),
+               menu.getDescription(),
+               menu.getPrice(),
+               menu.getRoute_image(),
+               (long) menu.getCategory().getId(),
+               menu.getMenu_ingredients().stream().map(
+                       menuIngredient -> new MenuIngredientDto(
+                               (long) menuIngredient.getId(),
+                               menuIngredient.getQuantity(),
+                               (long) menuIngredient.getIngredient().getId_ingredient()
+                       )
+               ).toList(),
+               isAvailable(menu.getId_menu())
+       )).toList();
+    }
+    private  boolean isAvailable(int id){
+        Menu menu = getMenuById(id);
+        for(MenuIngredient menuIngredient : menu.getMenu_ingredients()){
+            if (menuIngredient.getIngredient().getStock() <=0){
+                return false;
+            }
+        }
+        return true;
+    }
+
     public Menu getMenuById(int id){
-        return menuRepo.findById(id).orElse(null);
+        return menuRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("menu","id",id));
+    }
+    public MenuResponseDto getDataMenuById(int id){
+       Menu menu = menuRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("menu","id",id));
+       return new MenuResponseDto(
+               (long)menu.getId_menu(),
+               menu.getName_item(),
+               menu.getDescription(),
+               menu.getPrice(),
+               menu.getRoute_image(),
+               (long)menu.getCategory().getId(),
+               menu.getMenu_ingredients().stream().map(
+                       menuIngredient -> new MenuIngredientDto(
+                               (long) menuIngredient.getId(),
+                               menuIngredient.getQuantity(),
+                               (long) menuIngredient.getIngredient().getId_ingredient()
+                       )
+               ).toList(),
+               isAvailable(menu.getId_menu())
+       );
     }
 
     public ProductDataDto getProductDataById(int id){

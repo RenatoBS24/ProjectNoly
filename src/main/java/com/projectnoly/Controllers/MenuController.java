@@ -1,6 +1,7 @@
 package com.projectnoly.Controllers;
 
 
+import com.projectnoly.DTO.MenuResponseDto;
 import com.projectnoly.DTO.ProductDataDto;
 import com.projectnoly.Model.MySql.Menu;
 import com.projectnoly.Model.MySql.User;
@@ -45,7 +46,7 @@ public class MenuController {
     public String menu(Model model, HttpSession httpSession, Authentication authentication){
         if(authentication != null && authentication.isAuthenticated()){
             User user = userService.getUserByUsername(authentication.getName());
-            List<Menu> menuList = menuService.getAllMenu();
+            List<MenuResponseDto> menuList = menuService.getAllMenuResponse();
             model.addAttribute("menuList",menuList);
             model.addAttribute("categories",categoryService.getAllCategories());
             model.addAttribute("ingredients",ingredientService.getAllIngredients());
@@ -65,6 +66,10 @@ public class MenuController {
             log.warn("Menu no encontrado con id: {}", id);
             return ResponseEntity.notFound().build();
         }
+    }
+    @GetMapping("/get-data-menu-by-id")
+    public ResponseEntity<?> getDataMenuById(@RequestParam("id") int id){
+        return ResponseEntity.ok(menuService.getDataMenuById(id));
     }
     @PostMapping("/edit-menu")
     public String editMenu(

@@ -8,6 +8,8 @@
     <link rel="stylesheet" th:href="@{/css/styleMenu.css}">
     <link rel="stylesheet" th:href="@{/css/styleSidebar.css}">
     <link rel="stylesheet" th:href="@{/css/styleLogOut.css}">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <link rel="shortcut icon" th:href="@{/img/logo.ico}" type="image/x-icon">
 
 </head>
@@ -52,24 +54,24 @@
     <div id="todos" class="container-product">
         <!-- Product Item -->
         <div class="product" th:each="menu_item: ${menuList}">
-            <img th:src="@{/{imageName} (imageName=${menu_item.route_image})}" class="img-custom" alt="Imagen del producto">
-            <h3 class="title-product" th:text="${menu_item.name_item}"></h3>
+            <img th:src="@{/{imageName} (imageName=${menu_item.routeImage})}" class="img-custom" alt="Imagen del producto">
+            <h3 class="title-product" th:text="${menu_item.name}"></h3>
             <p class="price-product" th:text="'Precio: S/ ' +${#numbers.formatDecimal(menu_item.price,1,2,'POINT')}">S/</p>
             <div>
-                <button class="delete" sec:authorize="hasAnyRole('ROLE_SUPERADMIN','ROLE_ADMIN')" th:data-id-menu="${menu_item.id_menu}" onclick="showDeleteModal(this)">Eliminar</button>
-                <button class="edit" sec:authorize="hasAnyRole('ROLE_SUPERADMIN','ROLE_ADMIN')" th:data-ingredients="${menu_item.menu_ingredients}" th:data-id-menu="${menu_item.id_menu}"  th:data-nameProduct="${menu_item.name_item}" th:data-price="${menu_item.price}" th:data-description="${menu_item.description}" th:data-category="${menu_item.category.id}" onclick="showEditModal(this)">Editar</button>
+                <button class="delete" sec:authorize="hasAnyRole('ROLE_SUPERADMIN','ROLE_ADMIN')" th:data-id-menu="${menu_item.id}" onclick="showDeleteModal(this)">Eliminar</button>
+                <button class="edit" sec:authorize="hasAnyRole('ROLE_SUPERADMIN','ROLE_ADMIN')" th:data-id-menu="${menu_item.id}"   onclick="showEditMenuModal(this)">Editar</button>
             </div>
         </div>
     </div>
     <div th:each="category : ${categories}" th:id="${category.name_category}" class="hidden" >
         <!-- Product Item -->
-        <div class="product" th:each="menu_item: ${menuList}" th:if="${menu_item.category.name_category} == ${category.name_category}">
-            <img th:src="@{/{imageName} (imageName=${menu_item.route_image})}" class="img-custom" alt="Imagen del producto">
-            <h3 class="title-product" th:text="${menu_item.name_item}"></h3>
+        <div class="product" th:each="menu_item: ${menuList}" th:if="${menu_item.idCategory} == ${category.id}">
+            <img th:src="@{/{imageName} (imageName=${menu_item.routeImage()})}" class="img-custom" alt="Imagen del producto">
+            <h3 class="title-product" th:text="${menu_item.name}"></h3>
             <p class="price-product" th:text="'Precio: S/ ' +${#numbers.formatDecimal(menu_item.price,1,2,'POINT')}">S/</p>
             <div th:if="${user.role == 'admin' || user.role == 'superadmin'}" >
-                <button class="delete" sec:authorize="hasAnyRole('ROLE_SUPERADMIN','ROLE_ADMIN')" th:data-id-menu="${menu_item.id_menu}" onclick="showDeleteModal(this)">Eliminar</button>
-                <button class="edit" sec:authorize="hasAnyRole('ROLE_SUPERADMIN','ROLE_ADMIN')" th:data-ingredients="${menu_item.menu_ingredients}" th:data-id-menu="${menu_item.id_menu}" th:data-nameProduct="${menu_item.name_item}" th:data-price="${menu_item.price}" th:data-description="${menu_item.description}" th:data-category="${menu_item.category.id}" onclick="showEditModal(this)">Editar</button>
+                <button class="delete" sec:authorize="hasAnyRole('ROLE_SUPERADMIN','ROLE_ADMIN')" th:data-id-menu="${menu_item.id}" onclick="showDeleteModal(this)">Eliminar</button>
+                <button class="edit" sec:authorize="hasAnyRole('ROLE_SUPERADMIN','ROLE_ADMIN')" th:data-id-menu="${menu_item.id}" onclick="showEditMenuModal(this)">Editar</button>
             </div>
         </div>
     </div>
@@ -100,7 +102,6 @@
                 <div>
                     <label  for="category">Categoria</label>
                     <select name="category" id="category">
-                        <option value="0">Todos</option>
                         <option th:each="category :${categories}" th:value="${category.id}" th:text="${category.name_category}"></option>
                     </select>
                 </div>
@@ -192,7 +193,7 @@
 
 </div>
 <div th:replace="~{fragments :: LogOutModal}"></div>
-<script th:src="@{/js/menuJS.js}"></script>
+<script th:src="@{/js/menu.js}"></script>
 <script th:src="@{/js/LogOut.js}"></script>
 <script th:src="@{/js/search.js}"></script>
 <script th:src="@{/js/sidebar.js}"></script>
