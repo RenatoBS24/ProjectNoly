@@ -1,5 +1,6 @@
 package com.projectnoly.Controllers;
 
+import com.projectnoly.DTO.AddToCartDto;
 import com.projectnoly.Model.MySql.User;
 import com.projectnoly.Services.CategoryService;
 import com.projectnoly.Services.MenuService;
@@ -12,7 +13,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.Map;
 
 
 @Controller
@@ -48,6 +52,11 @@ public class NewSaleController {
     ) {
         tablesService.addProduct(id_table,id_product);
         return ResponseEntity.ok("product added to cart");
+    }
+    @PostMapping("/add-to-cart")
+    public ResponseEntity<?> addToCart(@RequestBody AddToCartDto addToCartDto){
+        tablesService.addProduct(addToCartDto.idTable().intValue(),addToCartDto.idProduct().intValue());
+        return ResponseEntity.ok(Map.of("success", "Product added to cart successful"));
     }
 
 }

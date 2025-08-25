@@ -47,7 +47,7 @@ async function renderData(){
                 <p>Total: S/ ${table.total.toFixed(2)}</p>
                 <div class="table-buttons">
                     <button class="btn-view" onclick="viewTable(${table.id_table})">Ver mesa</button>
-                    <button class="btn-add" onclick="showProductModal()">Agregar</button>
+                    <button class="btn-add" data-id=${table.id_table} onclick="showProductModal(this)">Agregar</button>
                 </div>
             `;
         }
@@ -64,8 +64,10 @@ function addProduct(id_table){
     sessionStorage.removeItem("id_table_pay");
     sessionStorage.setItem('id_table_pay', id_table);
 }
-function showProductModal() {
+function showProductModal(button) {
     document.getElementById('productModal').classList.remove('hidden');
+    console.log(button.getAttribute('data-id'));
+    document.getElementById('idTable').value = button.getAttribute('data-id');
     loadAllProducts();
     document.getElementById('productSearchInput').focus();
 }
@@ -109,8 +111,8 @@ function renderProducts(products) {
             <div class="product-info">
                 <div class="product-name">${product.name}</div>
             </div>
-            <div class="product-price">$${product.price.toFixed(2)}</div>
-            <button class="product-add-btn" onclick="addProductToOrder(${product.id})">
+            <div class="product-price">S/${product.price.toFixed(2)}</div>
+            <button class="product-add-btn" data-product-id=${product.id} onclick="addProductToOrder(this)">
                 Agregar
             </button>
         </div>
@@ -128,6 +130,36 @@ function showNoProducts() {
     `;
 }
 
+function addProductToOrder(button){
+    const token = document.querySelector('meta[name="_csrf"]').content;
+    const header = document.querySelector('meta[name="_csrf_header"]').content;
+    let tableId = document.getElementById('idTable').value;
+    let productId = button.getAttribute('data-product-id');
+    const productToCart ={
+        idTable: tableId,
+        idProduct: productId
+    }
+    fetch('/add-to-cart', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            [header]: token
+        },
+        body: JSON.stringify(productToCart)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showSuccessToast(`Producto agregado a la mesa ${tableId}`);
+        } else {
+            showErrorToast('No se pudo agregar el producto a la mesa');
+        }
+    })
+    .catch(error => {
+        console.error('Error al agregar el producto:', error);
+        showErrorToast('Error de conexión. Inténtalo de nuevo');
+    });
+}
 document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.getElementById('productSearchInput');
     if (searchInput) {

@@ -6,6 +6,7 @@
     <link rel="stylesheet" th:href="@{/css/styleSidebar.css}">
     <link rel="stylesheet" th:href="@{/css/styleLogOut.css}">
     <link rel="stylesheet" th:href="@{/css/styleTables.css}">
+    <link rel="stylesheet" th:href="@{/css/styleToast.css}">
     <link rel="shortcut icon" th:href="@{/img/logo.ico}" type="image/x-icon">
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
@@ -96,15 +97,18 @@
         </div>
 
         <div class="product-list-container">
+            <input type="hidden" value id="idTable">
             <div id="productList" class="product-list">
             </div>
         </div>
     </div>
 </div>
+<div id="toast-container"></div>
 <div th:replace="~{fragments :: LogOutModal}"></div>
 <script th:src="@{/js/LogOut.js}"></script>
 <script th:src="@{/js/tables.js}"></script>
 <script th:src="@{/js/sidebar.js}"></script>
+<script th:src="@{/js/toast.js}"></script>
 <script src="../static/js/tables.js"></script>
 </body>
 </html>
