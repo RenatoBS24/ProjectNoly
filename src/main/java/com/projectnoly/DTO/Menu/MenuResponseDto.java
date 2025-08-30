@@ -1,4 +1,4 @@
-package com.projectnoly.DTO;
+package com.projectnoly.DTO.Menu;
 
 import java.util.List;
 

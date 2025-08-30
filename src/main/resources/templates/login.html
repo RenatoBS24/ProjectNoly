@@ -1,52 +1,75 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Inicio de sesion</title>
-    <link rel="Stylesheet" type="text/css" href="../static/css/StyleLogin.css">
-    <link rel="Stylesheet" type="text/css" href="../static/css/StyleLoader.css">
+    <title>Inicio de sesión</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styleLogin.css}">
     <link rel="shortcut icon" th:href="@{/img/logo.ico}" type="image/x-icon">
-    <link rel="stylesheet" th:href="@{/css/styleLogin.css}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-<section>
-    <div class="separador">
-        <div class ="left" >
-        </div>
-        <div class ="right">
-            <div class ="login">
-                <div>
-                    <div>
-                        <img th:src="@{/img/img_sinfondo.png}" class="logo" alt="logo">
-                    </div>
-                    <form th:action="@{/login}" method="post">
-                        <div class="user">
-                            <label for="user">Usuario:</label>
-                            <input type="text" placeholder="Escriba el usuario" name="username" id="user" maxlength="20" required>
-                            <br/>
-                        </div>
-                        <div class="password">
-                            <label for="password">Contraseña:</label>
-                            <input type="password" placeholder="Escriba la contraseña" name="password" id="password" required>
-                            <br/>
-                        </div>
-                        <div>
-                            <input type ="submit" value ="Inciar Sesion" class="button" name = "button">
-                        </div>
-                        <div th:if="${param.error}" style="color: red">
-                            <p>Usuario o contraseña incorrectos</p>
-                        </div>
-                        <div>
-                            <a target ="_self" href ="/recoverPassword" class="recoverPass">Olvido su contraseña</a>
-                            <a target ="_self" href ="/add-user" class="register">Registrarse</a>
-                        </div>
-                    </form>
+    <div class="container">
+        <div class="background-blur"></div>
+        <div class="login-container">
+            <div class="login-card">
+                <div class="logo-container">
+                    <img th:src="@{/img/img_sinfondo.png}" class="logo" alt="logo">
                 </div>
+                <h2 class="login-title">Bienvenido de vuelta</h2>
+                <p class="login-subtitle">Inicia sesión en tu cuenta</p>
+                <form th:action="@{/login}" method="post" class="login-form">
+                    <div class="input-group">
+                        <div class="input-container">
+                            <i class="fas fa-user input-icon"></i>
+                            <input type="text"
+                                   placeholder="Usuario"
+                                   name="username"
+                                   id="user"
+                                   maxlength="20"
+                                   required
+                                   class="form-input">
+                            <label for="user" class="floating-label">Usuario</label>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-container">
+                            <i class="fas fa-lock input-icon"></i>
+                            <input type="password"
+                                   placeholder="Contraseña"
+                                   name="password"
+                                   id="password"
+                                   required
+                                   class="form-input">
+                            <label for="password" class="floating-label">Contraseña</label>
+                            <i class="fas fa-eye-slash toggle-password" onclick="togglePassword()"></i>
+                        </div>
+                    </div>
+                    <div th:if="${param.error}" class="error-message">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span>Usuario o contraseña incorrectos</span>
+                    </div>
+                    <button type="submit" class="login-button">
+                        <span class="button-text">Iniciar Sesión</span>
+                        <div class="button-loader" style="display: none;">
+                            <div class="spinner"></div>
+                        </div>
+                    </button>
+                    <div class="links-container">
+                        <a href="/recover-password" class="link-item recover-link">
+                            <i class="fas fa-key"></i>
+                            ¿Olvidaste tu contraseña?
+                        </a>
+                        <a href="/add-user" class="link-item register-link">
+                            <i class="fas fa-user-plus"></i>
+                            Crear cuenta nueva
+                        </a>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-</section>
-<div class="hidden"></div>
+    <script th:src="@{/js/form-utils.js}"></script>
+    <script th:src="@{/js/login.js}"></script>
 </body>
 </html>

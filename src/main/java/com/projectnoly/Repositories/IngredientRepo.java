@@ -2,6 +2,7 @@ package com.projectnoly.Repositories;
 
 import com.projectnoly.Model.MySql.Ingredient;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -11,6 +12,8 @@ import java.util.List;
 @Repository
 public interface IngredientRepo extends JpaRepository<Ingredient,Integer> {
 
+    @Query(value = "SELECT stock FROM Ingredient where id_ingredient = ?1", nativeQuery = true)
+    Ingredient getIngredientById(int id);
     @Procedure(name = "getAllIngredients")
     List<Ingredient> getAllIngredients();
     @Procedure(name = "deleteIngredient")

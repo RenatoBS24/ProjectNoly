@@ -84,8 +84,6 @@ public class Menu {
     @JoinColumn(name = "id_category", nullable = false)
     private Category category;
     @OneToMany(mappedBy = "menu", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Notification> notification;
-    @OneToMany(mappedBy = "menu", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MenuIngredient> menu_ingredients;
     @OneToMany(mappedBy = "menu", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SaleMenu> sale_menu;
@@ -100,7 +98,6 @@ public class Menu {
                 ", route_image='" + route_image + '\'' +
                 ", state='" + state + '\'' +
                 ", category=" + category +
-                ", notification=" + notification +
                 ", menu_ingredients=" + menu_ingredients +
                 '}';
     }

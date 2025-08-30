@@ -1,7 +1,7 @@
 package com.projectnoly.Controllers;
 
 
-import com.projectnoly.DTO.MenuResponseDto;
+import com.projectnoly.DTO.Menu.MenuResponseDto;
 import com.projectnoly.DTO.ProductDataDto;
 import com.projectnoly.Model.MySql.Menu;
 import com.projectnoly.Model.MySql.User;

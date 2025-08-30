@@ -1,8 +1,8 @@
 package com.projectnoly.Services;
 
-import com.projectnoly.DTO.MenuAddToTableDto;
-import com.projectnoly.DTO.MenuIngredientDto;
-import com.projectnoly.DTO.MenuResponseDto;
+import com.projectnoly.DTO.Menu.MenuAddToTableDto;
+import com.projectnoly.DTO.Menu.MenuIngredientDto;
+import com.projectnoly.DTO.Menu.MenuResponseDto;
 import com.projectnoly.DTO.ProductDataDto;
 import com.projectnoly.Exception.ResourceNotFoundException;
 import com.projectnoly.Model.MySql.Menu;

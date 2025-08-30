@@ -17,7 +17,7 @@ public class LoginController {
     public String login(){
         return "login";
     }
-    @GetMapping("/recoverPassword")
+    @GetMapping("/recover-password")
     public String recoverPassword(){
         return "recover-password";
     }
@@ -25,12 +25,16 @@ public class LoginController {
     public String addUser(){
         return "new-user";
     }
+
+
+
     @PostMapping("/recoverPassword")
     public String updatePassword (
             @RequestParam("username") String username,
             @RequestParam("password") String password,
             @RequestParam("code") String code
     ){
+        log.info("El usuario {} ha solicitado un cambio de contraseña", username);
         userService.updatePassword(username,password,code);
         log.info("El usuario {} ha actualizado su contraseña", username);
         return "login";

@@ -32,7 +32,7 @@ public class SecurityConfig {
                 .requestMatchers("/superadmin/**").hasRole("SUPERADMIN")
                 .requestMatchers("/admin/**").hasAnyRole("ADMIN","SUPERADMIN")
                 .requestMatchers("/user/**").hasAnyRole("USER","ADMIN","SUPERADMIN")
-                .requestMatchers("/login","/recoverPassword","/add-user","/css/**","/js/login.js","/js/newUserJS.js","/img/**").permitAll()
+                .requestMatchers("/login","/recover-password","/recoverPassword","/add-user","/addUser","/css/**","/js/login.js","/js/recover-password.js","/js/new-user.js","/js/form-utils.js","/img/**").permitAll()
                 .anyRequest().authenticated()
         )
                 .formLogin((form) -> form

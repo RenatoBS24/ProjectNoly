@@ -1,5 +1,6 @@
 package com.projectnoly.Services;
 
+import com.projectnoly.Exception.ResourceNotFoundException;
 import com.projectnoly.Model.MongoDB.Product;
 import com.projectnoly.Model.MySql.Ingredient;
 import com.projectnoly.Model.MySql.Menu;
@@ -25,12 +26,14 @@ public class IngredientService {
     private final IngredientRepo ingredientRepo;
     private final MenuService menuService;
     private final SaleMenuService saleMenuService;
+    private final NotificationService notificationService;
     private final Logger log = LoggerFactory.getLogger(IngredientService.class);
     @Autowired
-    public IngredientService(IngredientRepo ingredientRepo, MenuService menuService, SaleMenuService saleMenuService) {
+    public IngredientService(IngredientRepo ingredientRepo, MenuService menuService, SaleMenuService saleMenuService,NotificationService notificationService) {
         this.ingredientRepo = ingredientRepo;
         this.menuService = menuService;
         this.saleMenuService = saleMenuService;
+        this.notificationService = notificationService;
     }
 
 
@@ -95,6 +98,7 @@ public class IngredientService {
                         int quantityIngredient = menuIngredient.getQuantity();
                         log.info("{}", product.getQuantity() * quantityIngredient);
                         updateStock(id,product.getQuantity() * quantityIngredient);
+                        validateStock(id);
                     }
                 }
             }
@@ -122,11 +126,20 @@ public class IngredientService {
     private void updateStock(Integer id, Integer discount){
         ingredientRepo.updateStock(id, discount);
     }
+    private void validateStock(Integer id){
+        Ingredient ingredient = ingredientRepo.getIngredientById(id);
+        if(ingredient == null){
+            throw new ResourceNotFoundException("igredient","id",id);
+        }
+        if(ingredient.getStock()<=5){
+            notificationService.saveNotification(ingredient,ingredient.getStock());
+        }
+    }
     private List<Ingredient> getIngredientsByMenu(Menu menu){
         List<MenuIngredient> menuIngredients = menu.getMenu_ingredients();
         List<Ingredient> ingredients = new LinkedList<>();
         for(MenuIngredient menuIngredient: menuIngredients){
-            Ingredient ingredient = new Ingredient(menuIngredient.getIngredient().getId_ingredient(), menuIngredient.getIngredient().getName_ingredient(),menuIngredient.getIngredient().getPrice(),menuIngredient.getIngredient().getState(), menuIngredient.getIngredient().getRoute_image(),menuIngredient.getIngredient().getStock(),menuIngredient.getIngredient().getMenuIngredientList(), menuIngredient.getIngredient().getLots());
+            Ingredient ingredient = new Ingredient(menuIngredient.getIngredient().getId_ingredient(), menuIngredient.getIngredient().getName_ingredient(),menuIngredient.getIngredient().getPrice(),menuIngredient.getIngredient().getState(), menuIngredient.getIngredient().getRoute_image(),menuIngredient.getIngredient().getStock(),menuIngredient.getIngredient().getMenuIngredientList(), menuIngredient.getIngredient().getLots(),menuIngredient.getIngredient().getNotification());
             int quantity = menuIngredient.getQuantity();
             ingredient.setStock(quantity);
             ingredients.add(ingredient);

@@ -77,6 +77,8 @@ public class Ingredient {
     private List<MenuIngredient> menuIngredientList;
     @OneToMany(mappedBy = "ingredient", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Lot> lots;
+    @OneToMany(mappedBy = "ingredient", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Notification> notification;
 
     @Override
     public boolean equals(Object o) {
