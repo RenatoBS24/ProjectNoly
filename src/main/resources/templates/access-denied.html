@@ -16,6 +16,17 @@
     <p>No tienes permisos para acceder a esta página.</p>
     <a href="/" class="btn">Volver al inicio</a>
 </div>
+<script>
+    console.log("Iniciando worker de notificaciones...");
+    const worker = new SharedWorker('/js/webSocketNotification.js');
+    worker.port.onmessage = (event) => {
+        console.log("🔔 Notificación recibida en vista:", event.data);
+        showNotification(event.data);
+    };
+    worker.port.start();
+    console.log("Worker de notificaciones iniciado.");
+    worker.port.postMessage("start");
+</script>
 </body>
 </html>
 

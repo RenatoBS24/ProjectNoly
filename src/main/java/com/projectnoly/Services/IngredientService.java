@@ -98,7 +98,8 @@ public class IngredientService {
                         int quantityIngredient = menuIngredient.getQuantity();
                         log.info("{}", product.getQuantity() * quantityIngredient);
                         updateStock(id,product.getQuantity() * quantityIngredient);
-                        validateStock(id);
+                        int currentStock = menuIngredient.getIngredient().getStock() - (product.getQuantity() * quantityIngredient);
+                        validateStock(id,currentStock);
                     }
                 }
             }
@@ -126,13 +127,13 @@ public class IngredientService {
     private void updateStock(Integer id, Integer discount){
         ingredientRepo.updateStock(id, discount);
     }
-    private void validateStock(Integer id){
+    private void validateStock(Integer id,int currentStock){
         Ingredient ingredient = ingredientRepo.getIngredientById(id);
         if(ingredient == null){
             throw new ResourceNotFoundException("igredient","id",id);
         }
-        if(ingredient.getStock()<=5){
-            notificationService.saveNotification(ingredient,ingredient.getStock());
+        if(currentStock<=5){
+            notificationService.saveNotification(ingredient,currentStock);
         }
     }
     private List<Ingredient> getIngredientsByMenu(Menu menu){

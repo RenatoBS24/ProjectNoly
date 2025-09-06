@@ -1,7 +1,7 @@
 package com.projectnoly.Repositories;
-
 import com.projectnoly.Model.MySql.Menu;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -13,6 +13,14 @@ public interface MenuRepo extends JpaRepository<Menu,Integer> {
     @Procedure(name = "getAllMenu")
     List<Menu> getAllMenu();
 
+    @Query(""" 
+    SELECT DISTINCT m FROM Menu m
+    JOIN FETCH m.category c
+    LEFT JOIN FETCH m.menu_ingredients mi
+    LEFT JOIN FETCH mi.ingredient i
+    WHERE m.state = 'active'
+    """)
+    List<Menu> findAllMenus();
     @Procedure(name = "addMenu")
     int addMenuBy(
             @Param("p_name") String name,

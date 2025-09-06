@@ -8,6 +8,8 @@
     <link rel="stylesheet" th:href="@{/css/styleSidebar.css}">
     <link rel="stylesheet" th:href="@{/css/styleLogOut.css}">
     <link rel="shortcut icon" th:href="@{/img/logo.ico}" type="image/x-icon">
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
 </head>
 <body>
 <div th:replace="~{fragments :: sidebar}"></div>
@@ -140,6 +142,16 @@
 <script th:src="@{/js/LogOut.js}"></script>
 <script th:src="@{/js/sidebar.js}"></script>
 <script>
+    const worker = new SharedWorker('/js/webSocketNotification.js');
+    worker.port.onmessage = (event) => {
+        console.log("🔔 Notificación recibida en vista:", event.data);
+        showNotification(event.data);
+    };
+    worker.port.start();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+<script>
     document.addEventListener('DOMContentLoaded', function() {
         const paginationLinks = document.querySelectorAll('.pagination a:not(:first-child):not(:last-child)');
         const maxVisible = 10;
@@ -149,6 +161,17 @@
             }
         });
     });
+</script>
+<script>
+    console.log("Iniciando worker de notificaciones...");
+    const worker = new SharedWorker('/js/webSocketNotification.js');
+    worker.port.onmessage = (event) => {
+        console.log("🔔 Notificación recibida en vista:", event.data);
+        showNotification(event.data);
+    };
+    worker.port.start();
+    console.log("Worker de notificaciones iniciado.");
+    worker.port.postMessage("start");
 </script>
 </body>
 </html>

@@ -6,6 +6,8 @@
   <link rel="stylesheet" th:href="@{/css/styleSidebar.css}">
   <link rel="stylesheet" th:href="@{/css/styleLogOut.css}">
   <link rel="shortcut icon" th:href="@{/img/logo.ico}" type="image/x-icon">
+  <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
   <style>
     .construction-container {
       display: flex;
@@ -62,11 +64,8 @@
   <div class="construction-container">
     <div class="construction-image">
       <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 512 512">
-        <!-- Círculo de fondo -->
         <circle cx="256" cy="256" r="240" fill="#f8f9fa" stroke="#e5b322" stroke-width="16"/>
-        <!-- Engranajes -->
         <g fill="#e5b322">
-            <!-- Engranaje grande -->
             <path d="M256 152c-57.4 0-104 46.6-104 104s46.6 104 104 104 104-46.6 104-104-46.6-104-104-104zm0 168c-35.3 0-64-28.7-64-64s28.7-64 64-64 64 28.7 64 64-28.7 64-64 64z"/>
             <path d="M256 112c-5.5 0-10 4.5-10 10v30c0 5.5 4.5 10 10 10s10-4.5 10-10v-30c0-5.5-4.5-10-10-10zm0 228c-5.5 0-10 4.5-10 10v30c0 5.5 4.5 10 10 10s10-4.5 10-10v-30c0-5.5-4.5-10-10-10zm128-118c0-5.5-4.5-10-10-10h-30c-5.5 0-10 4.5-10 10s4.5 10 10 10h30c5.5 0 10-4.5 10-10zm-228 0c0-5.5-4.5-10-10-10h-30c-5.5 0-10 4.5-10 10s4.5 10 10 10h30c5.5 0 10-4.5 10-10zm194.9-59.4c3.9-3.9 3.9-10.2 0-14.1l-21.2-21.2c-3.9-3.9-10.2-3.9-14.1 0-3.9 3.9-3.9 10.2 0 14.1l21.2 21.2c3.9 3.9 10.1 3.9 14.1 0zm-161.8 161.8c3.9-3.9 3.9-10.2 0-14.1l-21.2-21.2c-3.9-3.9-10.2-3.9-14.1 0-3.9 3.9-3.9 10.2 0 14.1l21.2 21.2c3.9 3.9 10.2 3.9 14.1 0zm161.8 0c3.9 3.9 10.2 3.9 14.1 0l21.2-21.2c3.9-3.9 3.9-10.2 0-14.1-3.9-3.9-10.2-3.9-14.1 0l-21.2 21.2c-3.9 3.9-3.9 10.2 0 14.1zm-161.8-161.8c3.9 3.9 10.2 3.9 14.1 0l21.2-21.2c3.9-3.9 3.9-10.2 0-14.1-3.9-3.9-10.2-3.9-14.1 0l-21.2 21.2c-3.9 3.9-3.9 10.2 0 14.1z"/>
         </g>
@@ -86,7 +85,17 @@
 </div>
 
 <div th:replace="~{fragments :: LogOutModal}"></div>
-
+<script>
+  console.log("Iniciando worker de notificaciones...");
+  const worker = new SharedWorker('/js/webSocketNotification.js');
+  worker.port.onmessage = (event) => {
+    console.log("🔔 Notificación recibida en vista:", event.data);
+    showNotification(event.data);
+  };
+  worker.port.start();
+  console.log("Worker de notificaciones iniciado.");
+  worker.port.postMessage("start");
+</script>
 <script th:src="@{/js/LogOut.js}"></script>
 <script th:src="@{/js/sidebar.js}"></script>
 </body>

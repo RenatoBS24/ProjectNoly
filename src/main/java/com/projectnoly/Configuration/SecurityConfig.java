@@ -33,6 +33,7 @@ public class SecurityConfig {
                 .requestMatchers("/admin/**").hasAnyRole("ADMIN","SUPERADMIN")
                 .requestMatchers("/user/**").hasAnyRole("USER","ADMIN","SUPERADMIN")
                 .requestMatchers("/login","/recover-password","/recoverPassword","/add-user","/addUser","/css/**","/js/login.js","/js/recover-password.js","/js/new-user.js","/js/form-utils.js","/img/**").permitAll()
+                .requestMatchers("/ws").permitAll()
                 .anyRequest().authenticated()
         )
                 .formLogin((form) -> form

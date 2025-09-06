@@ -59,6 +59,7 @@ function viewTable(id_table){
     sessionStorage.removeItem("id_table");
     sessionStorage.setItem('id_table', id_table);
 }
+
 function addProduct(id_table){
     window.location.href = '/newSale';
     sessionStorage.removeItem("id_table_pay");
@@ -67,7 +68,13 @@ function addProduct(id_table){
 function showProductModal(button) {
     document.getElementById('productModal').classList.remove('hidden');
     console.log(button.getAttribute('data-id'));
-    document.getElementById('idTable').value = button.getAttribute('data-id');
+    let tableNumber = button.getAttribute('data-id');
+    document.getElementById('idTable').value = tableNumber;
+    document.getElementById('table-button').addEventListener('click', function() {
+        sessionStorage.removeItem("id_table");
+        sessionStorage.setItem('id_table', tableNumber);
+        location.href = `/cart/${tableNumber}`;
+    });
     loadAllProducts();
     document.getElementById('productSearchInput').focus();
 }
@@ -104,18 +111,18 @@ function renderProducts(products) {
     }
 
     productList.innerHTML = products.map(product => `
-        <div class="product-item" style="animation-delay: ${Math.random() * 0.3}s">
-            <img src="${product.image || '/img/default-product.jpg'}" 
-                 alt="${product.name}" 
-                 class="product-image">
-            <div class="product-info">
-                <div class="product-name">${product.name}</div>
-            </div>
-            <div class="product-price">S/${product.price.toFixed(2)}</div>
-            <button class="product-add-btn" data-product-id=${product.id} onclick="addProductToOrder(this)">
-                Agregar
-            </button>
+    <div class="product-item" style="animation-delay: ${Math.random() * 0.3}s">
+        <img src="${product.image || '/img/default-product.jpg'}" 
+             alt="${product.name}"
+             class="product-image">
+        <div class="product-info">
+            <div class="product-name">${product.name}</div>
         </div>
+        <div class="product-price">S/${product.price.toFixed(2)}</div>
+        ${product.available ? `<button class="product-add-btn" data-product-id=${product.id} onclick="addProductToOrder(this)">
+            Agregar
+        </button>` : `<p class="no-stock">No hay stock</p>`}
+    </div>
     `).join('');
 }
 function showNoProducts() {

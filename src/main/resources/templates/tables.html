@@ -10,6 +10,8 @@
     <link rel="shortcut icon" th:href="@{/img/logo.ico}" type="image/x-icon">
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
     <link rel="stylesheet" href="../static/css/styleSidebar.css">
     <link rel="stylesheet" href="../static/css/styleTables.css">
 </head>
@@ -94,8 +96,10 @@
                        placeholder="Buscar productos por nombre..."
                        autocomplete="off">
             </div>
+            <div>
+                <button class="product-modal-button" id="table-button" onclick="viewTable()">Ver mesa</button>
+            </div>
         </div>
-
         <div class="product-list-container">
             <input type="hidden" value id="idTable">
             <div id="productList" class="product-list">
@@ -105,10 +109,20 @@
 </div>
 <div id="toast-container"></div>
 <div th:replace="~{fragments :: LogOutModal}"></div>
+<script>
+    console.log("Iniciando worker de notificaciones...");
+    const worker = new SharedWorker('/js/webSocketNotification.js');
+    worker.port.onmessage = (event) => {
+        console.log("🔔 Notificación recibida en vista:", event.data);
+        showNotification(event.data);
+    };
+    worker.port.start();
+    console.log("Worker de notificaciones iniciado.");
+    worker.port.postMessage("start");
+</script>
 <script th:src="@{/js/LogOut.js}"></script>
 <script th:src="@{/js/tables.js}"></script>
 <script th:src="@{/js/sidebar.js}"></script>
 <script th:src="@{/js/toast.js}"></script>
-<script src="../static/js/tables.js"></script>
 </body>
 </html>

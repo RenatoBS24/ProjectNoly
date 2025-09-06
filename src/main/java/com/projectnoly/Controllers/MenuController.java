@@ -1,12 +1,9 @@
 package com.projectnoly.Controllers;
-
-
 import com.projectnoly.DTO.Menu.MenuResponseDto;
 import com.projectnoly.DTO.ProductDataDto;
 import com.projectnoly.Model.MySql.Menu;
 import com.projectnoly.Model.MySql.User;
 import com.projectnoly.Services.*;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,7 +40,7 @@ public class MenuController {
     }
 
     @GetMapping("/menu")
-    public String menu(Model model, HttpSession httpSession, Authentication authentication){
+    public String menu(Model model, Authentication authentication){
         if(authentication != null && authentication.isAuthenticated()){
             User user = userService.getUserByUsername(authentication.getName());
             List<MenuResponseDto> menuList = menuService.getAllMenuResponse();

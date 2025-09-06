@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface IngredientRepo extends JpaRepository<Ingredient,Integer> {
 
-    @Query(value = "SELECT stock FROM Ingredient where id_ingredient = ?1", nativeQuery = true)
+    @Query(value = "SELECT * FROM Ingredient where id_ingredient = ?1", nativeQuery = true)
     Ingredient getIngredientById(int id);
     @Procedure(name = "getAllIngredients")
     List<Ingredient> getAllIngredients();

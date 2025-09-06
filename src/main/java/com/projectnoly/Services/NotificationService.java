@@ -1,6 +1,7 @@
 package com.projectnoly.Services;
 
 import com.projectnoly.DTO.Ingredient.IngredientNotificationDto;
+import com.projectnoly.DTO.Notification.NotificationAlertDto;
 import com.projectnoly.DTO.Notification.NotificationResponseDto;
 import com.projectnoly.Model.MySql.Ingredient;
 import com.projectnoly.Model.MySql.Notification;
@@ -8,6 +9,7 @@ import com.projectnoly.Repositories.NotificationRepository;
 import com.projectnoly.util.FormatDates;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,9 +20,11 @@ import java.util.List;
 public class NotificationService {
 
     private final NotificationRepository notificationRepository;
+    private final SimpMessagingTemplate messagingTemplate;
     private final Logger log = LoggerFactory.getLogger(NotificationService.class);
-    public NotificationService(NotificationRepository notificationRepository) {
+    public NotificationService(NotificationRepository notificationRepository, SimpMessagingTemplate messagingTemplate) {
         this.notificationRepository = notificationRepository;
+        this.messagingTemplate = messagingTemplate;
     }
 
     public List<NotificationResponseDto> getAllNotifications(){
@@ -53,5 +57,7 @@ public class NotificationService {
         Notification notification = new Notification(null,affair,message, LocalDateTime.now(),false,isCritical,ingredient);
         notificationRepository.save(notification);
         log.info("Se creo una nueva notificacion");
+        messagingTemplate.convertAndSend("/topic/notifications", new NotificationAlertDto(message,isCritical));
+        log.info("Sen envio un mensaje por websocket");
     }
 }

@@ -23,7 +23,7 @@ import java.util.List;
 public class MenuService {
     private final MenuRepo menuRepo;
     private final Logger log = LoggerFactory.getLogger(MenuService.class);
-    private final String DEFAULT_IMAGE = "hamburguesa.jpg";
+
     @Autowired
     public MenuService(MenuRepo menuRepo){
         this.menuRepo = menuRepo;
@@ -34,7 +34,7 @@ public class MenuService {
     }
     @Transactional
     public List<MenuResponseDto> getAllMenuResponse(){
-       return menuRepo.getAllMenu().stream()
+       return menuRepo.findAllMenus().stream()
                .map(menu -> new MenuResponseDto(
                (long) menu.getId_menu(),
                menu.getName_item(),
@@ -86,16 +86,15 @@ public class MenuService {
     }
     @Transactional
     public List<MenuAddToTableDto> getAllMenuToCart(){
-        return menuRepo.getAllMenu().stream()
+        return menuRepo.findAllMenus().stream()
                 .map(menu -> new MenuAddToTableDto(
-                        (long) menu.getId_menu(),
+                        (long)menu.getId_menu(),
                         menu.getName_item(),
                         menu.getRoute_image(),
                         isAvailable(menu.getId_menu()),
                         menu.getPrice())
                 ).toList();
     }
-
     public ProductDataDto getProductDataById(int id){
         Menu menu = menuRepo.findById(id).orElseThrow(() ->  new ResourceNotFoundException("menu","id",id));
         return new ProductDataDto((long) menu.getId_menu(), menu.getName_item(), menu.getPrice(), menu.getRoute_image());
@@ -108,6 +107,7 @@ public class MenuService {
         return 0;
     }
     private String saveImage(int id,MultipartFile img){
+        String DEFAULT_IMAGE = "hamburguesa.jpg";
         if(img == null){
             return DEFAULT_IMAGE;
         }
