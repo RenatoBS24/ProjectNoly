@@ -1,7 +1,11 @@
 package com.projectnoly.Repositories;
 
 import com.projectnoly.Model.MySql.Sale;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -18,6 +22,22 @@ public interface SaleRepo extends JpaRepository<Sale,Integer> {
             @Param("p_page") int page,
             @Param("p_size") int size
     );
+
+    @Query("SELECT s.id_sale FROM Sale s WHERE s.state = 'active' ORDER BY s.date_sale DESC")
+    List<Long> salesIdList(Pageable pageable);
+
+
+    @Query("""
+    SELECT DISTINCT s FROM Sale s
+    JOIN FETCH s.employee e
+    LEFT JOIN FETCH s.salePaymentMethodList spm
+    LEFT JOIN FETCH spm.paymentMethod pm
+    WHERE s.id_sale IN :salesIdList
+    ORDER BY s.date_sale DESC
+    """
+    )
+    @NotNull
+    List<Sale> findAll(List<Long> salesIdList);
     @Procedure(name = "addSale")
     int addSale(
             @Param("p_total") double total,

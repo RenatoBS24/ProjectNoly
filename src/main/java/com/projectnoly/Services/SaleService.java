@@ -1,5 +1,7 @@
 package com.projectnoly.Services;
 
+import com.projectnoly.DTO.Sale.PaymentMethodDto;
+import com.projectnoly.DTO.Sale.SaleResponseDto;
 import com.projectnoly.Model.MySql.*;
 import com.projectnoly.Repositories.PaymentMethodRepo;
 import com.projectnoly.Repositories.SaleRepo;
@@ -35,14 +37,25 @@ public class SaleService {
     public List<Sale> getAllSales() {
         return saleRepo.getAllSales();
     }
+
     @Transactional
-    public Page<Sale> getAllSalesPage(Pageable pageable){
-        int page = pageable.getPageNumber();
-        int size = pageable.getPageSize();
-        List<Sale> saleList = saleRepo.getAllSalesPage(page*size,size);
+    public Page<SaleResponseDto> getAllSalesPage(Pageable pageable){
+        List<Long> salesIdList = saleRepo.salesIdList(pageable);
+        List<SaleResponseDto> saleList = saleRepo.findAll(salesIdList).stream().
+                map(sale -> new SaleResponseDto(
+                        (long)sale.getId_sale(),
+                        sale.getDate_sale(),
+                        sale.getTotal(),
+                        sale.getSalePaymentMethodList().stream().map(spm -> new PaymentMethodDto(
+                                spm.getPaymentMethod().getIdPaymentMethod(),
+                                spm.getPaymentMethod().getName(),
+                                spm.getTotal()
+                        )).toList(),
+                        (long)sale.getEmployee().getId_employee(),
+                        sale.getEmployee().getName()
+                )).toList();
         return new PageImpl<>(saleList,pageable,saleRepo.count());
     }
-
     public int addSale(String pay_method, int idEmployee, String valid_sale, int id_table){
         try {
             double total = tablesService.getTotal(id_table);
@@ -98,18 +111,6 @@ public class SaleService {
     public double getTotalSales(){
         return saleRepo.getTotalSales();
    }
-
-//    @Transactional
-//    public double getTotalByMethod(String method){
-//        double total = 0;
-//        List<Sale> saleList = saleRepo.getSalesNow();
-//        for(Sale sale : saleList){
-//            if(sale.getPay_method().equalsIgnoreCase(method)){
-//                total += sale.getTotal();
-//            }
-//        }
-//        return total;
-//    }
     @Transactional
     public double getTotalByMethod(String method){
         Long paymentMethodId = paymentMethodRepo.findByName(method).getIdPaymentMethod();

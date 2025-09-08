@@ -4,7 +4,6 @@ import com.projectnoly.Model.MySql.User;
 import com.projectnoly.Services.EmployeeService;
 import com.projectnoly.Services.SaleProductService;
 import com.projectnoly.Services.UserService;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,7 +21,7 @@ public class SaleDetailController {
         this.userService = userService;
     }
     @GetMapping("/sale-detail")
-    public String getSaleDetail(Model model, HttpSession httpSession, Authentication authentication, @RequestParam(value = "id_sale",required = false) Integer id_sale){
+    public String getSaleDetail(Model model, Authentication authentication, @RequestParam(value = "id_sale",required = false) Integer id_sale){
         if(authentication != null && authentication.isAuthenticated()){
             User user = userService.getUserByUsername(authentication.getName());
             model.addAttribute("sale", saleProductService.getSaleById(id_sale));

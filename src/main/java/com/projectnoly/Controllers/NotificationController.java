@@ -18,6 +18,6 @@ public class NotificationController {
     @GetMapping("")
     public String getView(Model model){
         model.addAttribute("notifications",notificationService.getAllNotifications());
-        return "notification";
+        return "construction";
     }
 }

@@ -1,5 +1,6 @@
 package com.projectnoly.Controllers;
 
+import com.projectnoly.DTO.Sale.SaleResponseDto;
 import com.projectnoly.DTO.SaleSplitMethodsDto;
 import com.projectnoly.Model.MongoDB.Product;
 import com.projectnoly.Model.MySql.Sale;
@@ -47,7 +48,7 @@ public class SaleController {
         if(authentication != null && authentication.isAuthenticated()){
             User user = userService.getUserByUsername(authentication.getName());
             Pageable pageable = PageRequest.of(page,size);
-            Page<Sale> salePage = saleService.getAllSalesPage(pageable);
+            Page<SaleResponseDto> salePage = saleService.getAllSalesPage(pageable);
             model.addAttribute("sales",salePage.getContent());
             model.addAttribute("totalPages",salePage.getTotalPages());
             model.addAttribute("currentPage",page);
